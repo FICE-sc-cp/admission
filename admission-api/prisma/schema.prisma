@@ -1,0 +1,261 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ENTRANT
+  ADMIN
+}
+
+enum TokenType {
+  OTP
+  SESSION
+}
+
+enum DocumentState {
+  PENDING
+  APPROVED
+}
+
+enum EducationProgram {
+  CSSE
+  ISSE
+  IIS
+  ISRS
+  IMST
+}
+
+enum EducationalDegree {
+  BACHELOR
+  MASTER
+  PHD
+}
+
+enum EducationalProgramType {
+  PROFESSIONAL
+  SCIENTIFIC
+}
+
+enum StudyForm {
+  FULL_TIME
+  PART_TIME
+}
+
+enum StudyType {
+  BUDGET
+  CONTRACT
+}
+
+enum PaymentType {
+  MONTHLY
+  QUARTERLY
+  SEMESTERLY
+}
+
+model User {
+  id                 String              @id @default(uuid())
+  email              String              @unique
+  firstName          String              @map("first_name")
+  middleName         String?             @map("middle_name")
+  lastName           String              @map("last_name")
+  role               Role                @default(ENTRANT)
+  benefit            Boolean             @default(false)
+  competitivePoint   Float?              @map("competitive_point")
+  createdAt          DateTime            @default(now()) @map("created_at")
+  updatedAt          DateTime            @default(now()) @updatedAt @map("updated_at")
+  contracts          Contract[]
+  entrantData        EntrantData?
+  representativeData RepresentativeData?
+  CustomerData       CustomerData?
+  entrantPriorities  EntrantPriority[]
+  queueUsers         QueueUser[]
+  tokens             Token[]
+
+  @@map("users")
+}
+
+model Token {
+  value     String    @unique
+  type      TokenType
+  userId    String    @map("user_id")
+  user      User      @relation(fields: [userId], references: [id])
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  @@map("tokens")
+}
+
+model EntrantData {
+  id                String   @id @default(uuid())
+  userId            String   @unique @map("user_id")
+  user              User     @relation(fields: [userId], references: [id])
+  passportSeries    String   @map("passport_series")
+  passportNumber    String   @map("passport_number")
+  passportInstitute String   @map("passport_institute")
+  passportDate      String   @map("passport_date")
+  phoneNumber       String   @map("phone_number")
+  idCode            String?  @map("id_code")
+  region            String
+  settlement        String
+  address           String
+  index             String
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("entrant_data")
+}
+
+model RepresentativeData {
+  id                String   @id @default(uuid())
+  userId            String   @unique @map("user_id")
+  user              User     @relation(fields: [userId], references: [id])
+  firstName         String   @map("first_name")
+  middleName        String?  @map("middle_name")
+  lastName          String   @map("last_name")
+  email             String
+  passportSeries    String   @map("passport_series")
+  passportNumber    String   @map("passport_number")
+  passportInstitute String   @map("passport_institute")
+  passportDate      String   @map("passport_date")
+  phoneNumber       String   @map("phone_number")
+  idCode            String?  @map("id_code")
+  region            String
+  settlement        String
+  address           String
+  index             String
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("representative_data")
+}
+
+model CustomerData {
+  id                String   @id @default(uuid())
+  userId            String   @unique @map("user_id")
+  user              User     @relation(fields: [userId], references: [id])
+  firstName         String   @map("first_name")
+  middleName        String?  @map("middle_name")
+  lastName          String   @map("last_name")
+  email             String
+  passportSeries    String   @map("passport_series")
+  passportNumber    String   @map("passport_number")
+  passportInstitute String   @map("passport_institute")
+  passportDate      String   @map("passport_date")
+  phoneNumber       String   @map("phone_number")
+  idCode            String?  @map("id_code")
+  region            String
+  settlement        String
+  address           String
+  index             String
+  createdAt         DateTime @default(now()) @map("created_at")
+  updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("customer_data")
+}
+
+model Contract {
+  id                 String                 @id @default(uuid())
+  state              DocumentState          @default(PENDING)
+  number             String?
+  date               String?
+  degree             EducationalDegree      @default(BACHELOR) @map("educational_degree")
+  educationalProgram String                 @map("educational_program")
+  programType        EducationalProgramType @default(PROFESSIONAL) @map("program_type")
+  paymentType        PaymentType            @map("payment_type")
+  specialty          String
+  studyForm          StudyForm              @default(FULL_TIME) @map("study_form")
+  studyType          StudyType              @map("study_type")
+  userId             String                 @map("user_id")
+  user               User                   @relation(fields: [userId], references: [id])
+  createdAt          DateTime               @default(now()) @map("created_at")
+  updatedAt          DateTime               @default(now()) @updatedAt @map("updated_at")
+
+  @@map("contracts")
+}
+
+model EntrantPriority {
+  id         String        @id @default(uuid())
+  userId     String        @map("user_id")
+  user       User          @relation(fields: [userId], references: [id])
+  state      DocumentState @default(PENDING)
+  date       String
+  specialty  String
+  createdAt  DateTime      @default(now()) @map("created_at")
+  updatedAt  DateTime      @default(now()) @updatedAt @map("updated_at")
+  priorities Priority[]
+
+  @@map("entrant_priorities")
+}
+
+model Priority {
+  priorityId      String
+  entrantPriority EntrantPriority  @relation(fields: [priorityId], references: [id])
+  state           DocumentState    @default(PENDING)
+  number          Int
+  program         EducationProgram
+  createdAt       DateTime         @default(now()) @map("created_at")
+  updatedAt       DateTime         @default(now()) @updatedAt @map("updated_at")
+
+  @@id([priorityId, number])
+  @@map("priorities")
+}
+
+model QueueUser {
+  id             Int             @id @default(autoincrement())
+  username       String?
+  userId         String?         @map("user_id")
+  user           User?           @relation(fields: [userId], references: [id])
+  firstName      String          @map("first_name")
+  middleName     String?         @map("middle_name")
+  lastName       String          @map("last_name")
+  telegramId     BigInt?         @map("telegram_id")
+  email          String?
+  phone          String?
+  specialty      String
+  isDorm         Boolean?        @map("is_dorm")
+  printedEdbo    Boolean?        @map("printed_edbo")
+  queuePositions QueuePosition[]
+  createdAt      DateTime        @default(now()) @map("created_at")
+  updatedAt      DateTime        @default(now()) @updatedAt @map("updated_at")
+
+  @@map("queue_users")
+}
+
+enum QueuePositionStatus {
+  WAITING
+  GOING
+  PROCESSING
+}
+
+model QueuePosition {
+  id                   Int                 @id @default(autoincrement())
+  user                 QueueUser           @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId               Int                 @map("user_id")
+  queue                Queue               @relation(fields: [queueId], references: [id], onDelete: Cascade)
+  queueId              Int                 @map("queue_id")
+  code                 Int
+  position             Int
+  status               QueuePositionStatus @default(WAITING)
+  lastNotifiedPosition Int                 @default(0) @map("last_notified_position")
+  createdAt            DateTime            @default(now()) @map("created_at")
+  updatedAt            DateTime            @default(now()) @updatedAt @map("updated_at")
+
+  @@map("queue_positions")
+}
+
+model Queue {
+  id        Int             @id @default(autoincrement())
+  name      String
+  active    Boolean
+  open      Boolean         @default(false)
+  positions QueuePosition[]
+  createdAt DateTime        @default(now()) @map("created_at")
+  updatedAt DateTime        @default(now()) @updatedAt @map("updated_at")
+
+  @@map("queues")
+}

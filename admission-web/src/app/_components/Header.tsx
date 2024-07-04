@@ -1,4 +1,4 @@
-import MobileNavigationTriggerAndMenu from '@/app/components/MobileNavigationTriggerAndMenu';
+import MobileNavigationTriggerAndMenu from '@/app/_components/MobileNavigationTriggerAndMenu';
 import { CircleUser, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import {

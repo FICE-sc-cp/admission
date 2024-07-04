@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { Package2 } from 'lucide-react';
-import DesktopSidebarNavigation from '@/app/components/DesktopSidebarNavigation';
-import Header from '@/app/components/Header';
+import DesktopSidebarNavigation from '@/app/_components/DesktopSidebarNavigation';
+import Header from '@/app/_components/Header';
 import { FC } from 'react';
 
 interface ApplicationLayoutProps {

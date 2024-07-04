@@ -1,39 +1,4 @@
-import Link from 'next/link';
-import {
-  Bell,
-  CircleUser,
-  Home,
-  LineChart,
-  Menu,
-  Package,
-  Package2,
-  Search,
-  ShoppingCart,
-  Users,
-  File,
-} from 'lucide-react';
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
-
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
-import DesktopSidebarNavigation from '@/app/components/DesktopSidebarNavigation';
-import MobileNavigationTriggerAndMenu from '@/app/components/MobileNavigationTriggerAndMenu';
-import Header from '@/app/components/Header';
 
 export default function Dashboard() {
   return (

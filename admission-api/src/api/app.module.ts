@@ -1,12 +1,14 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import config from './config/config';
+import { AuthModule } from './auth/auth.module';
+import config from '../configuration/configuration';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [config],
     }),
+    AuthModule,
   ],
 })
 export class AppModule {}

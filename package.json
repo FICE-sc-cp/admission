@@ -16,9 +16,11 @@
     "turbo": "^2.0.5"
   },
   "private": true,
-  "workspaces": [
-    "admission-api",
-    "admission-web",
-    "utils"
-  ]
+  "workspaces": {
+    "packages": [
+      "admission-api",
+      "admission-web",
+      "utils"
+    ]
+  }
 }

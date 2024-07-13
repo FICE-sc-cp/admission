@@ -2,7 +2,7 @@ import * as process from 'process';
 import { FastifyReply, FastifyRequest } from 'fastify';
 
 export class CookieUtils {
-  static setSessionToken (reply: FastifyReply, token: string) {
+  static setSessionToken(reply: FastifyReply, token: string) {
     const sessionTtl = process.env.SESSION_TTL;
     const expires = new Date(Date.now() + parseInt(sessionTtl));
 
@@ -11,10 +11,15 @@ export class CookieUtils {
       reply.clearCookie('session');
     }
 
-    reply.setCookie('session', token, { httpOnly: true, expires, path: '/', sameSite: 'none' });
+    reply.setCookie('session', token, {
+      httpOnly: true,
+      expires,
+      path: '/',
+      sameSite: 'lax',
+    });
   }
 
-  static getSessionToken (request: FastifyRequest) {
+  static getSessionToken(request: FastifyRequest) {
     return request.cookies['session'];
   }
 }

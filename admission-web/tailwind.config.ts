@@ -9,6 +9,13 @@ const config = {
     './src/**/*.{ts,tsx}',
   ],
   prefix: '',
+  screens: {
+    'sm': '640px',
+    'md': '768px',
+    'lg': '1024px',
+    'xl': '1280px',
+    '2xl': '1536px',
+  },
   theme: {
     container: {
       center: true,
@@ -18,6 +25,9 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: {
+        'signin-bg': 'url(/signin-bg.jpg)',
+      },
       colors: {
         border: 'hsl(var(--border))',
         input: 'hsl(var(--input))',

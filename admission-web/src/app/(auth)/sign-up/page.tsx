@@ -1,11 +1,11 @@
+import RegisterForm from '@/app/(auth)/components/register-form';
+
 const SignUpPage: React.FC = () => {
   return (
-    <div className="sign-up-page">
-      <div className="sign-up-page__content">
-        <h1>Sign Up</h1>
-      </div>
-    </div>
+    <section className='space flex w-full min-w-[300px] flex-1 -translate-y-[25px] flex-col justify-between rounded-[30px] bg-white align-middle lg:order-first lg:max-w-[840px]'>
+      <RegisterForm />
+    </section>
   );
-}
+};
 
 export default SignUpPage;

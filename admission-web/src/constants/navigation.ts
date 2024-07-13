@@ -1,14 +1,38 @@
-import { File, Home } from 'lucide-react';
+import {
+  UserRoundCheck,
+  FileText,
+  Flame,
+  BetweenHorizonalStart,
+  LogOut,
+} from 'lucide-react';
 
 export const entrantNavigationItems = [
   {
-    title: 'Домашня',
+    title: 'Профіль',
     href: '/',
-    icon: Home,
+    icon: UserRoundCheck,
   },
   {
-    title: 'Мої документи',
-    href: '/documents',
-    icon: File,
+    title: 'Договір',
+    href: '/contract',
+    icon: FileText,
+  },
+  {
+    title: 'Пріоритети',
+    href: '/priority',
+    icon: Flame,
+  },
+  {
+    title: 'Черга',
+    href: '/queue',
+    icon: BetweenHorizonalStart,
+  },
+  {
+    title: 'Вихід',
+    href: '#',
+    icon: LogOut,
+    onClick: () => {
+      console.log('exit');
+    },
   },
 ];

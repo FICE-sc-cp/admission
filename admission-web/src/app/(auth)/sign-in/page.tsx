@@ -1,11 +1,11 @@
+import LoginForm from '@/app/(auth)/components/login-form';
+
 const SignInPage: React.FC = () => {
   return (
-    <div className="sign-in-page">
-      <div className="sign-in-page__content">
-        <h1>Sign In</h1>
-      </div>
-    </div>
+    <section className='space z-20 flex w-full min-w-[300px] flex-1 -translate-y-[25px] flex-col justify-between overflow-y-hidden rounded-[30px] bg-white align-middle lg:max-w-[840px]'>
+      <LoginForm />
+    </section>
   );
-}
+};
 
 export default SignInPage;

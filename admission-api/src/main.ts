@@ -1,18 +1,22 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './api/app.module';
-import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
+import {
+  FastifyAdapter,
+  NestFastifyApplication,
+} from '@nestjs/platform-fastify';
 import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './globals/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import fastifyCookie from '@fastify/cookie';
 
-async function bootstrap () {
+async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
     {
       cors: {
+        origin: ['http://localhost:3000', 'https://admission.ficeadvisor.com'],
         credentials: true,
       },
     },

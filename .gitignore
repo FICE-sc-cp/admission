@@ -4,7 +4,8 @@
 /env/postgres-dev.env
 /env/postgres.env
 ./out
-.env
+
+**/.env**
 .serverless
 .pnp.*
 .yarn/*

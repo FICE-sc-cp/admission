@@ -1,6 +1,6 @@
 org: admission
-app: admission-backend
-service: admission
+app: admission
+service: admission-backend
 
 useDotenv: true
 
@@ -23,6 +23,8 @@ package:
     - '!admission-api/node_modules/@prisma/engines/**'
     - '!admission-api/node_modules/.cache/prisma/**'  # only required for Windows
     - 'node_modules/@css-inline/**'
+    - 'email/**'
+    - 'admission-api/email/**'
 
 provider:
   name: aws

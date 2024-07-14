@@ -13,7 +13,7 @@ export class EmailService {
     await this.mailerService.sendMail({
       to,
       subject,
-      template: path.resolve('./email/templates/template.hbs'),
+      template: 'template',
       context: { message, link },
     });
   }

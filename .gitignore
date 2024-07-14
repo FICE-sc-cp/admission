@@ -5,3 +5,4 @@
 /env/postgres.env
 ./out
 .env
+.serverless

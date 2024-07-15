@@ -1,6 +1,20 @@
-name: Deploy master branch
+name: Deploy to AWS Lambda
 
-on: ["push"]
+on:
+  push:
+    branches:
+      - 'dev'
+      - 'main'
+  workflow_dispatch:
+    inputs:
+      stage:
+        description: Deployment stage
+        required: true
+        default: 'dev'
+        type: choice
+        options:
+          - dev
+          - main
 
 jobs:
   deploy:
@@ -15,29 +29,37 @@ jobs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install -g turbo
-    - run: npx turbo prune admission-api
-    - name: Run install
-      uses: borales/actions-yarn@v4
+    - name: Install turbo
+      run: npm install -g turbo
+    - name: Prune api project with turbo
+      run: npx turbo prune admission-api
+    - name: Cache Yarn
+      uses: actions/cache@v4
       with:
-        cmd: install
-        dir: 'out'
-    - run: npx prisma generate --schema ./admission-api/prisma/schema.prisma
+        path: |
+          node_modules
+          .yarn/cache
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+    - name: Install dependencies
+      run: |
+        corepack enable
+        yarn set version stable
+        yarn workspaces focus --all
       working-directory: './out'
-    - name: Run install
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: workspace admission-api build
-        dir: 'out'
-    - name: Run install
-      uses: borales/actions-yarn@v4
-      with:
-        cmd: install --prod
-        dir: 'out'
+    - name: Generate Prisma
+      run: npx prisma generate --schema ./admission-api/prisma/schema.prisma
+      working-directory: './out'
+    - name: Build api with turbo
+      run: npx turbo run build --filter admission-api
+      working-directory: './out'
+    - name: Install production dependencies
+      run: yarn workspaces focus --all --production
     - name: serverless deploy
       uses: serverless/github-action@v3.2
       with:
-        args: -c "cp ./serverless.yaml ./out/serverless.yaml && cd ./out && serverless deploy --stage main"
+        args: -c "cp ./serverless.yaml ./out/serverless.yaml && cd ./out && serverless deploy --stage ${{ inputs.stage || github.ref_name }}"
         entrypoint: /bin/sh
       env:
         SERVERLESS_ACCESS_KEY: ${{ secrets.SERVERLESS_ACCESS_KEY }}

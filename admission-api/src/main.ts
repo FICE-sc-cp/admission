@@ -11,7 +11,11 @@ async function bootstrap () {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
-    { cors: true },
+    {
+      cors: {
+        credentials: true,
+      },
+    },
   );
   await app.register(fastifyCookie);
   app.useGlobalPipes(new ValidationPipe());

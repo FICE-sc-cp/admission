@@ -1,4 +1,7 @@
-import { Button } from '@/components/ui/button';
+import type {Metadata} from "next";
+import {profileMetadata} from "@/lib/metadata/profile";
+
+export const metadata: Metadata = profileMetadata;
 
 export default function Dashboard() {
   return (

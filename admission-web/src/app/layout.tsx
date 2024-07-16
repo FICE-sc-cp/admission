@@ -1,14 +1,11 @@
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import {mainMetadata} from "@/lib/metadata/main";
 
 const inter = Inter({ subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'ФІОТ 2024 | Подання заяв на вступ',
-  description:
-    'Сайт, створений для спрощення життя абітурієнта. На цьому сайті вступника ФІОТ КПІ зможуть подавати документи на вступ',
-};
+export const metadata: Metadata = mainMetadata;
 
 export default function RootLayout({
   children,

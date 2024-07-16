@@ -1,4 +1,8 @@
 import { FC } from 'react';
+import type {Metadata} from "next";
+import {registrationMetadata} from "@/lib/metadata/registration";
+
+export const metadata: Metadata = registrationMetadata;
 
 interface AuthLayoutProps {
   children: React.ReactNode;

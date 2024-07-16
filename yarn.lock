@@ -2519,7 +2519,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@types/express@npm:^4.17.17":
+"@types/express@npm:*, @types/express@npm:^4.17.17":
   version: 4.17.21
   resolution: "@types/express@npm:4.17.21"
   dependencies:
@@ -2623,6 +2623,15 @@ __metadata:
   dependencies:
     "@types/mjml-core": "npm:*"
   checksum: 10c0/6f4bbdf709e1f6c9b26be67146b1e4c759142fb4ddfa4c079b600835701bb2039c60cd530d016f1d2f1aef4256580e30cdc942c3acd6935e2fe56b5a665795ae
+  languageName: node
+  linkType: hard
+
+"@types/multer@npm:^1.4.11":
+  version: 1.4.11
+  resolution: "@types/multer@npm:1.4.11"
+  dependencies:
+    "@types/express": "npm:*"
+  checksum: 10c0/ace8e9f5ac7d2d7f6e0c35b790504f582a2f82a84cc06a7b90315527599b95256595bc0bb5bba60220c20a558554f0c21b96b94848b885987ab69512a3a9865e
   languageName: node
   linkType: hard
 
@@ -3115,6 +3124,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmldom/xmldom@npm:^0.8.10":
+  version: 0.8.10
+  resolution: "@xmldom/xmldom@npm:0.8.10"
+  checksum: 10c0/c7647c442502720182b0d65b17d45d2d95317c1c8c497626fe524bda79b4fb768a9aa4fae2da919f308e7abcff7d67c058b102a9d641097e9a57f0b80187851f
+  languageName: node
+  linkType: hard
+
 "@xtuc/ieee754@npm:^1.2.0":
   version: 1.2.0
   resolution: "@xtuc/ieee754@npm:1.2.0"
@@ -3227,6 +3243,7 @@ __metadata:
     "@prisma/client": "npm:^5.16.1"
     "@types/express": "npm:^4.17.17"
     "@types/jest": "npm:^29.5.2"
+    "@types/multer": "npm:^1.4.11"
     "@types/node": "npm:^20.3.1"
     "@types/nodemailer": "npm:^6.4.15"
     "@types/supertest": "npm:^6.0.0"
@@ -3234,11 +3251,13 @@ __metadata:
     "@typescript-eslint/parser": "npm:^6.0.0"
     class-transformer: "npm:^0.5.1"
     class-validator: "npm:^0.14.1"
+    docxtemplater: "npm:^3.48.0"
     eslint: "npm:^8.42.0"
     eslint-config-prettier: "npm:^9.0.0"
     eslint-plugin-prettier: "npm:^5.0.0"
     jest: "npm:^29.5.0"
     nodemailer: "npm:^6.9.14"
+    pizzip: "npm:^3.1.7"
     prettier: "npm:^3.0.0"
     prisma: "npm:^5.16.1"
     reflect-metadata: "npm:^0.2.0"
@@ -4953,6 +4972,15 @@ __metadata:
   version: 1.1.0
   resolution: "doctypes@npm:1.1.0"
   checksum: 10c0/b3f9d597ad8b9ac6aeba9d64df61f0098174f7570e3d34f7ee245ebc736c7bee122d9738a18e22010b98983fd9a340d63043d3841f02d8a7742a2d96d2c72610
+  languageName: node
+  linkType: hard
+
+"docxtemplater@npm:^3.48.0":
+  version: 3.49.1
+  resolution: "docxtemplater@npm:3.49.1"
+  dependencies:
+    "@xmldom/xmldom": "npm:^0.8.10"
+  checksum: 10c0/8090992387cd45ea5c8a904d96aad8f81366f7edf4fed8b47f23682b77c4b0201689a5112bdf4e5c3300c88bb5cbbb0eda9c08774f95dece6c86fd1e95003a2d
   languageName: node
   linkType: hard
 
@@ -9708,6 +9736,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"pako@npm:^2.1.0":
+  version: 2.1.0
+  resolution: "pako@npm:2.1.0"
+  checksum: 10c0/8e8646581410654b50eb22a5dfd71159cae98145bd5086c9a7a816ec0370b5f72b4648d08674624b3870a521e6a3daffd6c2f7bc00fdefc7063c9d8232ff5116
+  languageName: node
+  linkType: hard
+
 "param-case@npm:^2.1.1":
   version: 2.1.1
   resolution: "param-case@npm:2.1.1"
@@ -9924,6 +9959,15 @@ __metadata:
   version: 4.0.6
   resolution: "pirates@npm:4.0.6"
   checksum: 10c0/00d5fa51f8dded94d7429700fb91a0c1ead00ae2c7fd27089f0c5b63e6eca36197fe46384631872690a66f390c5e27198e99006ab77ae472692ab9c2ca903f36
+  languageName: node
+  linkType: hard
+
+"pizzip@npm:^3.1.7":
+  version: 3.1.7
+  resolution: "pizzip@npm:3.1.7"
+  dependencies:
+    pako: "npm:^2.1.0"
+  checksum: 10c0/6bfbc4d03e3f99ee2717a2471b692b2294cd060d8d1842a147e33a9acbf6251c51f1d625cfc3eaaa4b2da43a83468558bdaea84e039d7095dbc0deba81c28d59
   languageName: node
   linkType: hard
 

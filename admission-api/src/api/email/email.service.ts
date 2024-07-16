@@ -9,12 +9,17 @@ export class EmailService {
     private readonly mailerService: MailerService,
   ) {}
 
-  async sendEmail ({ to, subject, message, link }: EmailOptionsDto) {
+  async sendEmail ({ to, subject, message, link, attachments }: EmailOptionsDto) {
     await this.mailerService.sendMail({
       to,
       subject,
       template: 'template',
       context: { message, link },
+      attachments: attachments?.map(({ name, buffer, contentType }) => ({
+        filename: name,
+        content: buffer,
+        contentType,
+      })),
     });
   }
 }

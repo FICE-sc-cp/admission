@@ -11,7 +11,7 @@ export class CookieUtils {
       reply.clearCookie('session');
     }
 
-    reply.setCookie('session', token, { httpOnly: true, expires, path: '/' });
+    reply.setCookie('session', token, { httpOnly: true, expires, path: '/', sameSite: 'none' });
   }
 
   static getSessionToken (request: FastifyRequest) {

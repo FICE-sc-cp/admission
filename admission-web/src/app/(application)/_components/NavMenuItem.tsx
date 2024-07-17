@@ -18,7 +18,7 @@ export default function NavMenuItem({
 }: NavMenuItemProps) {
   const pathname = usePathname();
 
-  const className = `flex items-center gap-3 rounded-lg px-3 py-2 text-foreground transition-all hover:bg-accent hover:text-accent-foreground ${pathname === item.href ? 'bg-primary text-white hover:!bg-primary hover:!text-white/85' : ''} `;
+  const className = `flex items-center gap-3 rounded-lg px-3 py-2 text-foreground transition-all hover:bg-accent hover:text-accent-foreground ${pathname === item.href || item.href.includes(pathname.split('/')[1]) ? 'bg-primary text-white hover:!bg-primary hover:!text-white/85' : ''} `;
 
   return (
     <Link

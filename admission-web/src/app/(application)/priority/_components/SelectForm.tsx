@@ -2,6 +2,7 @@
 
 import { FC, useState } from 'react';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
 import { useForm } from 'react-hook-form';
 
 import {
@@ -20,26 +21,48 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { prioritySelectValues } from '@/constants/priority-select-values';
 import { Input } from '@/components/ui/input';
 import { getCurrentDate } from '@/lib/utils/getCurrentDate';
 import {
+  IPrioritySelect,
   priorityFormSchema,
-  priorityFormType,
+  TPriorityForm,
 } from '@/schemas-and-types/priority';
 
-const SelectForm: FC = () => {
-  const form = useForm<priorityFormType>({
+interface SelectFormProps {
+  educationalPrograms: IPrioritySelect[];
+}
+
+const SelectForm: FC<SelectFormProps> = ({ educationalPrograms }) => {
+  const form = useForm<z.infer<TPriorityForm>>({
     resolver: zodResolver(priorityFormSchema),
     defaultValues: {
       date: getCurrentDate(),
     },
   });
 
-  const [selectedValues, setSelectedValues] = useState<string[]>([]);
+  const [formData, setFormData] = useState<z.infer<TPriorityForm>>();
 
-  function onSubmit(data: priorityFormType) {
+  function onSubmit(data: z.infer<TPriorityForm>) {
     console.log(data);
+    setFormData(data);
+  }
+
+  if (form.formState.isSubmitSuccessful) {
+    const { date, ...priorityList } = formData;
+    return (
+      <div className='flex flex-col items-baseline gap-[10px]'>
+        <p className='text-md md:text-xl'>Обрані пріорітети</p>
+        <div className='flex flex-col gap-[8px]'>
+          {Object.values(priorityList).map((priority, index) => (
+            <p key={priority.id} className='text-sm md:text-[16px]'>
+              {index + 1}. {priority}
+            </p>
+          ))}
+        </div>
+        <p className='text-sm font-normal md:text-[16px]'>Дата: {date}</p>
+      </div>
+    );
   }
 
   return (
@@ -48,9 +71,9 @@ const SelectForm: FC = () => {
         onSubmit={form.handleSubmit(onSubmit)}
         className='flex flex-col items-center justify-center gap-[10px] md:items-start md:justify-start'
       >
-        {[0, 1, 2].map((_, index) => (
+        {educationalPrograms.map((priority, index) => (
           <FormField
-            key={Math.random() * 100}
+            key={priority.id}
             control={form.control}
             name={`priority_${index + 1}`}
             render={({ field }) => (
@@ -59,10 +82,7 @@ const SelectForm: FC = () => {
                   Приорітет {index + 1}
                 </FormLabel>
                 <Select
-                  onValueChange={(value) => {
-                    field.onChange(value);
-                    setSelectedValues([...selectedValues, value]);
-                  }}
+                  onValueChange={field.onChange}
                   defaultValue={field.value}
                 >
                   <FormControl>
@@ -70,14 +90,10 @@ const SelectForm: FC = () => {
                       <SelectValue placeholder='Вибери зі списку' />
                     </SelectTrigger>
                   </FormControl>
-                  <SelectContent>
-                    {prioritySelectValues.map((priority) => (
-                      <SelectItem
-                        value={priority}
-                        key={priority}
-                        disabled={selectedValues.includes(priority)}
-                      >
-                        {priority}
+                  <SelectContent className='w-[320px] md:w-auto'>
+                    {educationalPrograms.map((priority) => (
+                      <SelectItem value={priority.label} key={priority.id}>
+                        {priority.label}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -107,7 +123,7 @@ const SelectForm: FC = () => {
         <Button
           type='submit'
           className='mt-[24px] w-[320px] md:w-[116px]'
-          disabled={form.formState.isSubmitted}
+          disabled={form.formState.isSubmitSuccessful}
         >
           Схвалити
         </Button>

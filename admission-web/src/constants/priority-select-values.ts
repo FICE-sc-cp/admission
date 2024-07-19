@@ -1,4 +1,4 @@
-import { EducationProgram } from '@admission/utils';
+import { EducationProgram } from '$/utils/src';
 
 export const IPeduPrograms = [
   {

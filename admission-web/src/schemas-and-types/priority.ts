@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { EducationProgram } from '@admission/utils';
+import { EducationProgram } from '$/utils/src';
 
 export const priorityFormSchema = z.object({
   priority_1: z.string({

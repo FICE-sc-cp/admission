@@ -18,7 +18,15 @@ export default function NavMenuItem({
 }: NavMenuItemProps) {
   const pathname = usePathname();
 
-  const className = `flex items-center gap-3 rounded-lg px-3 py-2 text-foreground transition-all hover:bg-accent hover:text-accent-foreground ${pathname === item.href || item.href.includes(pathname.split('/')[1]) ? 'bg-primary text-white hover:!bg-primary hover:!text-white/85' : ''} `;
+  const notIndexPageAndPathnameMatches =
+    item.href !== '/' && pathname.includes(item.href);
+
+  const isIndexPageAndPathnameMatches = item.href === '/' && pathname === '/';
+
+  const displayCurrentItem =
+    notIndexPageAndPathnameMatches || isIndexPageAndPathnameMatches;
+
+  const className = `flex items-center gap-3 rounded-lg px-3 py-2 text-foreground transition-all hover:bg-accent hover:text-accent-foreground ${displayCurrentItem ? 'bg-primary text-white hover:!bg-primary hover:!text-white/85' : ''} `;
 
   return (
     <Link

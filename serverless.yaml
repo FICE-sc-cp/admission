@@ -1,0 +1,53 @@
+org: admission
+app: admission
+service: admission-backend
+
+useDotenv: true
+
+package:
+  include:
+    - "!admission-web/**"
+    - "node_modules/**"
+    - '!node_modules/.prisma/client/libquery_engine-*'
+    - 'node_modules/.prisma/client/libquery_engine-rhel-*'
+    - '!node_modules/prisma/libquery_engine-*'
+    - '!node_modules/@prisma/engines/**'
+    - '!node_modules/.cache/prisma/**'  # only required for Windows
+    - '!node_modules/aws-sdk/**'
+    - '!node_modules/admission-api/**'
+    - '!node_modules/*turbo*/**'
+    - '!node_modules/@nestjs/cli/**'
+    - '!admission-api/node_modules/.prisma/client/libquery_engine-*'
+    - 'admission-api/node_modules/.prisma/client/libquery_engine-rhel-*'
+    - '!admission-api/node_modules/prisma/libquery_engine-*'
+    - '!admission-api/node_modules/@prisma/engines/**'
+    - '!admission-api/node_modules/.cache/prisma/**'  # only required for Windows
+    - 'node_modules/@css-inline/**'
+    - 'admission-api/email/**'
+    - '!.yarn/**'
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  timeout: 30
+  stage: ${opt:stage, 'dev'}
+  environment:
+    DATABASE_URL: ${param:DATABASE_URL}
+    SESSSION_TTL: ${param:SESSSION_TTL}
+
+    SMTP_HOST: ${param:SMTP_HOST}
+    SMTP_USERNAME: ${param:SMTP_USERNAME}
+    SMTP_PASSWORD: ${param:SMTP_PASSWORD}
+
+    FRONTEND_URL: ${param:FRONTEND_URL}
+
+functions:
+  main:
+    handler: admission-api/dist/serverless.handler
+    events:
+      - http:
+          method: ANY
+          path: /
+      - http:
+          method: ANY
+          path: '{proxy+}'

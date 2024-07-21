@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { join } from 'path';
+import { resolve } from 'path';
 import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 import { ConfigurationModule } from '../../configuration/configuration.module';
 import { SmtpConfiguration } from '../../configuration/smtp-configuration';
@@ -24,7 +24,7 @@ import { EmailService } from './email.service';
             from: '"FICE Advisor" <noreply@ficeadvisor.com>',
           },
           template: {
-            dir: join(__dirname, 'templates'),
+            dir: resolve(process.env.LAMBDA_TASK_ROOT, 'admission-api/email/templates'),
             adapter: new HandlebarsAdapter(),
             options: {
               strict: true,

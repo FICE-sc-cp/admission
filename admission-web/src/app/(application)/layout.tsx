@@ -14,7 +14,12 @@ interface ApplicationLayoutProps {
 }
 
 const ApplicationLayout: FC<ApplicationLayoutProps> = ({ children }) => {
-  const { user } = useUser();
+  const { loading, user } = useUser();
+  const { push, refresh } = useRouter();
+
+  useEffect(() => {
+    refresh();
+  }, [user, push, refresh, loading]);
 
   return (
     <div className='grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]'>

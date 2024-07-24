@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
 import { Prisma, Role, User } from '@prisma/client';
-import { DbUser } from '../entities/db-user';
+import { UserDto } from '../../api/users/dtos/user.dto';
 
 @Injectable()
 export class UserRepo {
@@ -13,19 +13,19 @@ export class UserRepo {
     contracts: true,
     entrantData: true,
     representativeData: true,
-    CustomerData: true,
-    entrantPriorities: {
+    customerData: true,
+    userPriorities: {
       include: {
         priorities: true,
       },
     },
   };
 
-  async create (data: Prisma.UserUncheckedCreateInput): Promise<User> {
-    return this.prisma.user.create({ data });
+  async create (data: Prisma.UserUncheckedCreateInput): Promise<UserDto> {
+    return this.prisma.user.create({ data, include: this.include });
   }
 
-  async find (where: Prisma.UserWhereInput): Promise<DbUser> {
+  async find (where: Prisma.UserWhereInput): Promise<UserDto> {
     return this.prisma.user.findFirst({
       where,
       include: this.include,
@@ -39,7 +39,7 @@ export class UserRepo {
     });
   }
 
-  async getOrCreate (data: { firstName: string, middleName?: string, lastName: string, email: string, role: Role }): Promise<DbUser> {
+  async getOrCreate (data: { firstName: string, middleName?: string, lastName: string, email: string, role: Role }): Promise<UserDto> {
     let user = await this.find(data);
     if (!user) {
       user = await this.create(data);

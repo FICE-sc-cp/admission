@@ -6,6 +6,7 @@ import {
   Flame,
   BetweenHorizonalStart,
   LogOut,
+  Fingerprint,
 } from 'lucide-react';
 
 export const entrantNavigationItems = [
@@ -13,6 +14,11 @@ export const entrantNavigationItems = [
     title: 'Профіль',
     href: '/',
     icon: UserRoundCheck,
+  },
+  {
+    title: 'Особисті дані',
+    href: '/personal-data',
+    icon: Fingerprint,
   },
   {
     title: 'Договір',

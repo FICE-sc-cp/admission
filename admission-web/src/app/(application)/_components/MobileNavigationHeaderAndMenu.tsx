@@ -5,18 +5,17 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuGroup,
-  DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
-import { entrantNavigationItems } from '@/constants/navigation';
 
 import NavMenuItem from '@/app/(application)/_components/NavMenuItem';
 import useUser from '@/hooks/useUser';
+import {navigationItems} from "@/app/(application)/_components/DesktopSidebarNavigation";
 
-export default function MobileNavigationHeaderAndMenu() {
+export default function MobileNavigationHeaderAndMenu({role = 'entrant'}: {role?: 'entrant' | 'admin'}) {
   const [showX, setShowX] = useState(false);
   const { user } = useUser();
 
@@ -44,7 +43,7 @@ export default function MobileNavigationHeaderAndMenu() {
         onAuxClick={() => console.log('aux')}
       >
         <DropdownMenuGroup className='flex flex-col gap-y-1.5 p-2'>
-          {entrantNavigationItems.map((item) => (
+          {navigationItems[role].map((item) => (
             <NavMenuItem
               key={item.title}
               href={item.href}

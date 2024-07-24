@@ -16,7 +16,7 @@ const sizes = {
 
 export default function AvatarAndName({
   name,
-  avatarUrl = 'from-image.png',
+  avatarUrl = '/from-image.png',
   href = '#',
   size = 'default',
 }: AvatarAndNameProps) {

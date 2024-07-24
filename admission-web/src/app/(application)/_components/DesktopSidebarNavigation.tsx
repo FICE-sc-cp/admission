@@ -1,7 +1,12 @@
 'use client';
 import { entrantNavigationItems } from '@/constants/navigation';
-import Link from 'next/link';
 import NavMenuItem from './NavMenuItem';
+import {adminNavigationItems} from "@/constants/admin-navigation";
+
+export const navigationItems = {
+    entrant: entrantNavigationItems,
+    admin: adminNavigationItems,
+}
 
 export default function DesktopSidebarNavigation({
   role = 'entrant',
@@ -10,8 +15,7 @@ export default function DesktopSidebarNavigation({
 }) {
   return (
     <nav className='grid items-start gap-2 text-sm font-medium lg:px-4'>
-      {role === 'entrant' &&
-        entrantNavigationItems.map((item) => (
+      {navigationItems[role].map((item) => (
           <NavMenuItem
             key={item.href}
             href={item.href}

@@ -10,6 +10,6 @@ import { ConfigurationModule } from 'src/configuration/configuration.module';
   providers: [DocumentService],
   controllers: [DocumentController],
   exports: [DocumentService],
-  imports: [FileModule, EmailModule, DatabaseModule, ConfigurationModule]
+  imports: [FileModule, EmailModule, DatabaseModule, ConfigurationModule],
 })
 export class DocumentModule {}

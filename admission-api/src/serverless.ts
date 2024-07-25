@@ -7,6 +7,7 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import awsLambdaFastify, { PromiseHandler } from '@fastify/aws-lambda';
 import fastifyCookie from '@fastify/cookie';
 import * as fastify from 'fastify';
+import { ConfigService } from '@nestjs/config';
 
 let cachedNestApp;
 
@@ -20,7 +21,6 @@ async function bootstrap () {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(instance),
-    { cors: true },
   );
   await app.register(fastifyCookie);
   app.useGlobalPipes(new ValidationPipe());
@@ -32,6 +32,13 @@ async function bootstrap () {
     .setVersion('1.0')
     .addCookieAuth('session')
     .build();
+
+  const configService = app.get<ConfigService>(ConfigService);
+
+  app.enableCors({
+    origin: ['http://localhost', configService.get<string>('frontendUrl')],
+    credentials: true,
+  });
 
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);

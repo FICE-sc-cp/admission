@@ -7,7 +7,9 @@ import { UpdateQueueDto } from './dtos/update-queue.dto';
 import { UpdateQueuePositionDto } from './dtos/update-queue-position.dto';
 import { GetUsersQuery } from './queries/get-users.query';
 import { JoinQueueDto } from './dtos/join-queue.dto';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Queue')
 @Controller({
   path: 'queue',
 })

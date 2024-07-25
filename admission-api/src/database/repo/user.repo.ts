@@ -10,15 +10,14 @@ export class UserRepo {
   ) {}
 
   private include = {
-    contracts: true,
-    entrantData: true,
-    representativeData: true,
-    customerData: true,
-    userPriorities: {
+    contracts: {
       include: {
         priorities: true,
       },
     },
+    entrantData: true,
+    representativeData: true,
+    customerData: true,
   };
 
   async create (data: Prisma.UserUncheckedCreateInput): Promise<UserDto> {

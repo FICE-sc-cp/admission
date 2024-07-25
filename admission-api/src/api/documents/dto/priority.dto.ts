@@ -3,7 +3,7 @@ import { EducationProgram } from '@prisma/client';
 
 export class PriorityDto {
   @Required()
-    priorityId: string;
+    contractId: string;
 
   @Required()
     number: number;

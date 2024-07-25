@@ -79,7 +79,6 @@ model User {
   entrantData          EntrantData?
   representativeData   RepresentativeData?
   customerData         CustomerData?
-  userPriorities       UserPriority[]
   queuePositons        QueuePosition[]
   tokens               Token[]
 
@@ -177,37 +176,27 @@ model Contract {
   specialty          String
   studyForm          StudyForm               @default(FULL_TIME) @map("study_form")
   fundingSource      FundingSource           @map("funding_source")
+  priorityState      DocumentState?          @map("priority_state")
+  priorityDate       String?                 @map("priority_date")
   userId             String                  @map("user_id")
   user               User                    @relation(fields: [userId], references: [id])
   createdAt          DateTime                @default(now()) @map("created_at")
   updatedAt          DateTime                @default(now()) @updatedAt @map("updated_at")
 
+  priorities Priority[]
+
   @@map("contracts")
 }
 
-model UserPriority {
-  id         String        @id @default(uuid())
-  userId     String        @map("user_id")
-  user       User          @relation(fields: [userId], references: [id])
-  state      DocumentState @default(PENDING)
-  date       String
-  specialty  String
-  createdAt  DateTime      @default(now()) @map("created_at")
-  updatedAt  DateTime      @default(now()) @updatedAt @map("updated_at")
-  priorities Priority[]
-
-  @@map("users_priorities")
-}
-
 model Priority {
-  priorityId   String
-  userPriority UserPriority     @relation(fields: [priorityId], references: [id])
-  number       Int
-  program      EducationProgram
-  createdAt    DateTime         @default(now()) @map("created_at")
-  updatedAt    DateTime         @default(now()) @updatedAt @map("updated_at")
+  contractId String           @map("contract_id")
+  contract   Contract         @relation(fields: [contractId], references: [id])
+  number     Int
+  program    EducationProgram
+  createdAt  DateTime         @default(now()) @map("created_at")
+  updatedAt  DateTime         @default(now()) @updatedAt @map("updated_at")
 
-  @@id([priorityId, number])
+  @@id([contractId, number])
   @@map("priorities")
 }
 

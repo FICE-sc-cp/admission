@@ -1,3 +1,4 @@
+import authApi from '@/lib/api/auth-api';
 import {
   UserRoundCheck,
   FileText,
@@ -29,10 +30,10 @@ export const entrantNavigationItems = [
   },
   {
     title: 'Вихід',
-    href: '#',
+    href: '/auth/home',
     icon: LogOut,
     onClick: () => {
-      console.log('exit');
+      authApi.logout();
     },
   },
 ];

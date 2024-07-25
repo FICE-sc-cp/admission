@@ -133,6 +133,6 @@ export class AuthService {
       sameSite: false,
     });
 
-    res.status(HttpStatus.OK).json({ message: 'success' });
+    return { message: 'success' };
   }
 }

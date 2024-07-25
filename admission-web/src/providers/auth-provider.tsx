@@ -4,23 +4,22 @@ import { createContext, PropsWithChildren, useEffect, useState } from 'react';
 import { User } from '@/schemas-and-types/auth';
 import AuthApi from '@/lib/api/auth-api';
 import { Session } from '@/hooks/types';
-import { redirect, useRouter } from 'next/navigation';
-import { router } from 'next/client';
+import { useRouter } from 'next/navigation';
 
 export const AuthContext = createContext<Session | null>(null);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const { push } = useRouter();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const router = useRouter();
+
   useEffect(() => {
     AuthApi.getMe()
-      .then((res) => res.data)
-      .then(setUser)
-      .catch((_) => push('/sign-in'))
+      .then((res) => setUser(res.data))
+      .catch(() => router.replace('/auth/sign-up'))
       .finally(() => setLoading(false));
-  }, [push]);
+  }, []);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

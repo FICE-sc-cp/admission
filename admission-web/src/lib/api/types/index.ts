@@ -2,7 +2,7 @@ export interface RegisterBody {
   email: string;
   firstName: string;
   lastName: string;
-  middleName: string;
+  middleName: string | null;
 }
 
 export interface RegisterResponse {

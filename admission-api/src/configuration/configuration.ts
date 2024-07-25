@@ -12,4 +12,5 @@ export default () => ({
   },
   botToken: process.env.ADMISSION_BOT_TOKEN,
   botApi: process.env.ADMISSION_BOT_API,
+  sessionTtl: process.env.SESSION_TTL,
 });

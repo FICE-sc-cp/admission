@@ -16,10 +16,6 @@ export class AuthGuard implements CanActivate {
   ) {}
 
   async canActivate (context: ExecutionContext): Promise<boolean> {
-    const nodeEnv = this.configService.get<string>('nodeEnv');
-
-    if (nodeEnv === 'local') return true;
-
     const request = context.switchToHttp().getRequest();
     const token = request.cookies['session'];
 

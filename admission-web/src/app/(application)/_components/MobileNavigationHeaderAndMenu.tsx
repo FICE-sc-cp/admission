@@ -14,11 +14,9 @@ import { Menu, X } from 'lucide-react';
 import { entrantNavigationItems } from '@/constants/navigation';
 
 import NavMenuItem from '@/app/(application)/_components/NavMenuItem';
-import useUser from '@/hooks/useUser';
 
 export default function MobileNavigationHeaderAndMenu() {
   const [showX, setShowX] = useState(false);
-  const { user } = useUser();
 
   return (
     <DropdownMenu
@@ -28,10 +26,7 @@ export default function MobileNavigationHeaderAndMenu() {
     >
       <DropdownMenuTrigger asChild>
         <header className='pointer-events-none sticky top-2 mx-2 flex h-12 items-center justify-between gap-4 rounded border border-b border-gray-200 bg-white px-4 shadow-md md:hidden'>
-          <AvatarAndName
-            name={`${user?.firstName} ${user?.lastName}`}
-            size='small'
-          />
+          <AvatarAndName size='small' />
           <Button className='pointer-events-auto' variant='ghost' size='icon'>
             {showX ? <X className='h-5 w-5' /> : <Menu className='h-5 w-5' />}
             <span className='sr-only'>Toggle navigation menu</span>

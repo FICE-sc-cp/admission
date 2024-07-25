@@ -1,6 +1,5 @@
 'use client';
 import { entrantNavigationItems } from '@/constants/navigation';
-import Link from 'next/link';
 import NavMenuItem from './NavMenuItem';
 
 export default function DesktopSidebarNavigation({

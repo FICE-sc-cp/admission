@@ -31,6 +31,15 @@ export class UserRepo {
     });
   }
 
+  async findMany (where: Prisma.UserWhereInput, take?: number, skip?: number): Promise<UserDto[]> {
+    return this.prisma.user.findMany({
+      where,
+      include: this.include,
+      take,
+      skip,
+    });
+  }
+
   async updateById (id: string, data: Prisma.UserUncheckedUpdateInput): Promise<User> {
     return this.prisma.user.update({
       where: { id },

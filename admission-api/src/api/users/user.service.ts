@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { UserRepo } from '../../database/repo/user.repo';
 import { UpdateUserDto } from './dtos/update-user.dto';
+import { GetUsersQuery } from './queries/get-users.query';
 
 @Injectable()
 export class UserService {
@@ -31,7 +32,7 @@ export class UserService {
     return this.userRepo.find({ id });
   }
 
-  getAll () {
-    //TODO calling user repo with pagination
+  getAll (query: GetUsersQuery) {
+    return this.userRepo.findMany({}, query.take, query.skip);
   }
 }

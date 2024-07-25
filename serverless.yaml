@@ -33,13 +33,14 @@ provider:
   stage: ${opt:stage, 'dev'}
   environment:
     DATABASE_URL: ${param:DATABASE_URL}
-    SESSSION_TTL: ${param:SESSSION_TTL}
+    SESSION_TTL: ${param:SESSSION_TTL}
 
     SMTP_HOST: ${param:SMTP_HOST}
     SMTP_USERNAME: ${param:SMTP_USERNAME}
     SMTP_PASSWORD: ${param:SMTP_PASSWORD}
 
     FRONTEND_URL: ${param:FRONTEND_URL}
+    NODE_ENV: ${param:NODE_ENV}
 
 functions:
   main:

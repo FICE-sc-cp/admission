@@ -16,8 +16,8 @@ import { EmailDto } from './dto/email.dto';
 import { UserResponse } from './responses/user.response';
 import { TokenDto } from './dto/token.dto';
 import { FastifyReply } from 'fastify';
-import { CookieUtils } from '../../globals/cookie-utils';
 import { AuthGuard } from './guards/auth.guard';
+import { ConfigService } from '@nestjs/config';
 
 @ApiTags('Auth')
 @Controller({
@@ -26,6 +26,7 @@ import { AuthGuard } from './guards/auth.guard';
 export class AuthController {
   constructor (
     private readonly authService: AuthService,
+    private readonly configService: ConfigService,
     private readonly userMapper: UserMapper,
   ) {}
 
@@ -81,7 +82,20 @@ export class AuthController {
     @Res({ passthrough: true }) reply: FastifyReply,
   ): Promise<UserResponse> {
     const data = await this.authService.verify(token);
-    CookieUtils.setSessionToken(reply, data.session);
+    reply.setCookie('session', token, this.configService.get<string>('nodeEnv') !== 'local' ? {
+      httpOnly: true,
+      secure: true,
+      maxAge: 38530000,
+      partitioned: true,
+      path: '/',
+      sameSite: 'none',
+    } : {
+      httpOnly: false,
+      secure: false,
+      maxAge: 38530000,
+      path: '/',
+      sameSite: false,
+    });
     return this.userMapper.getUser(data.user);
   }
 

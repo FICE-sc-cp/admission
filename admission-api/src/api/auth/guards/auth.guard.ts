@@ -1,7 +1,6 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Roles } from '../decorators/roles.decorator';
-import { CookieUtils } from '../../../globals/cookie-utils';
 import { UserRepo } from '../../../database/repo/user.repo';
 import { Role, TokenType } from '@prisma/client';
 import { TokenRepo } from '../../../database/repo/token.repo';
@@ -19,10 +18,11 @@ export class AuthGuard implements CanActivate {
   async canActivate (context: ExecutionContext): Promise<boolean> {
     const nodeEnv = this.configService.get<string>('nodeEnv');
 
-    if (nodeEnv !== 'production') return true;
+    if (nodeEnv === 'local') return true;
 
     const request = context.switchToHttp().getRequest();
-    const token = CookieUtils.getSessionToken(request);
+    const token = request.cookies['session'];
+
     if (!token) throw new UnauthorizedException();
 
     const user = await this.userRepo.find({

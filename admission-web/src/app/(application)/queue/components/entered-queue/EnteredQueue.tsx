@@ -8,7 +8,7 @@ interface EnteredQueueProps {
   data: QueueUser;
 }
 
-export const EnteredQueue: FC<EnteredQueueProps> = ({
+export const EnteredQueue: FC<EnteredQueueProps> = async ({
   data: { position, id },
   user,
 }) => {

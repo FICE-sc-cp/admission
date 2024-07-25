@@ -2,15 +2,20 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import config from '../configuration/configuration';
-import { DocumentModule } from './documents/document.module';
+// import { DocumentModule } from './documents/document.module';
+import { QueueModule } from './queue/queue.module';
+import { UserModule } from './users/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       load: [config],
+      isGlobal: true,
     }),
     AuthModule,
-    DocumentModule,
+    // DocumentModule,
+    QueueModule,
+    UserModule,
   ],
 })
 export class AppModule {}

@@ -19,6 +19,8 @@ const TokenPage: FC<TokenPageProps> = ({ params: { token } }) => {
   const verify = async () => {
     try {
       await AuthApi.verify(token);
+      const user = await AuthApi.getMe();
+      console.log(user);
       router.push('/');
     } catch (error) {
       setIsInvalid(true);

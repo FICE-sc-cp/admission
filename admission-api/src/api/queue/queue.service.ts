@@ -4,6 +4,7 @@ import { QueuePositionStatus, User } from '@prisma/client';
 import { UpdateQueueDto } from './dtos/update-queue.dto';
 import { UpdateQueuePositionDto } from './dtos/update-queue-position.dto';
 import { GetUsersQuery } from './queries/get-users.query';
+import { JoinQueueDto } from './dtos/join-queue.dto';
 
 interface IMessageData {
   queue: string;
@@ -93,7 +94,7 @@ export class QueueService implements OnModuleInit {
     });
   }
 
-  async joinQueue (userId: string) {
+  async joinQueue (userId: string, body: JoinQueueDto) {
     if (!this.opened) {
       throw new BadRequestException('Queue is closed');
     }
@@ -109,6 +110,13 @@ export class QueueService implements OnModuleInit {
     }
 
     const code = this.generatePosition();
+
+    await this.prisma.user.update({
+      where: {
+        id: userId,
+      },
+      data: body,
+    });
 
     return {
       position: await this.prisma.queuePosition.create({

@@ -4,7 +4,6 @@ import { ContractDto } from '../../documents/dto/contract.dto';
 import { EntrantDataDto } from './entrant-data.dto';
 import { RepresentativeDataDto } from './representative-data.dto';
 import { CustomerDataDto } from './customer-data.dto';
-import { UserPriorityDto } from '../../documents/dto/user-priority.dto';
 
 export class UserDto {
   @Required()
@@ -63,12 +62,6 @@ export class UserDto {
     isArray: true,
   })
     contracts: ContractDto[];
-
-  @Required({
-    type: UserPriorityDto,
-    isArray: true,
-  })
-    userPriorities: UserPriorityDto[];
   
   @Optional({
     type: EntrantDataDto,

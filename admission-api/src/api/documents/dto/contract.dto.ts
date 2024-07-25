@@ -7,6 +7,7 @@ import {
   PaymentType,
   StudyForm,
 } from '@prisma/client';
+import { PriorityDto } from './priority.dto';
 
 export class ContractDto {
   @Required()
@@ -59,6 +60,15 @@ export class ContractDto {
     enum: FundingSource,
   })
     fundingSource: FundingSource;
+
+  @Optional({
+    type: 'enum',
+    enum: DocumentState,
+  })
+    priorityState?: DocumentState;
+
+  @Optional()
+    priorityDate?: string;
   
   @Required()
     userId: string;
@@ -68,4 +78,10 @@ export class ContractDto {
   
   @Required()
     updatedAt: Date;
+
+  @Required({
+    type: PriorityDto,
+    isArray: true,
+  })
+    priorities: PriorityDto[];
 }

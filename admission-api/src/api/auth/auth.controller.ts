@@ -82,7 +82,7 @@ export class AuthController {
     @Res({ passthrough: true }) reply: FastifyReply,
   ): Promise<UserResponse> {
     const data = await this.authService.verify(token);
-    reply.setCookie('session', token, this.configService.get<string>('nodeEnv') !== 'local' ? {
+    reply.setCookie('session', data.session, this.configService.get<string>('nodeEnv') !== 'local' ? {
       httpOnly: true,
       secure: true,
       maxAge: 38530000,

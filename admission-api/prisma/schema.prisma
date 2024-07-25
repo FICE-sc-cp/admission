@@ -89,16 +89,16 @@ model Token {
   value     String    @unique
   type      TokenType
   userId    String    @map("user_id")
-  user      User      @relation(fields: [userId], references: [id])
   createdAt DateTime  @default(now()) @map("created_at")
   updatedAt DateTime  @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("tokens")
 }
 
 model EntrantData {
   userId            String   @unique @map("user_id")
-  user              User     @relation(fields: [userId], references: [id])
   passportSeries    String   @map("passport_series")
   passportNumber    String   @map("passport_number")
   passportInstitute String   @map("passport_institute")
@@ -112,6 +112,8 @@ model EntrantData {
   index             String
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("entrant_data")
 }
@@ -119,7 +121,6 @@ model EntrantData {
 model RepresentativeData {
   id                String   @id @default(uuid())
   userId            String   @unique @map("user_id")
-  user              User     @relation(fields: [userId], references: [id])
   firstName         String   @map("first_name")
   middleName        String?  @map("middle_name")
   lastName          String   @map("last_name")
@@ -136,6 +137,8 @@ model RepresentativeData {
   index             String
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("representative_data")
 }
@@ -143,7 +146,6 @@ model RepresentativeData {
 model CustomerData {
   id                String   @id @default(uuid())
   userId            String   @unique @map("user_id")
-  user              User     @relation(fields: [userId], references: [id])
   firstName         String   @map("first_name")
   middleName        String?  @map("middle_name")
   lastName          String   @map("last_name")
@@ -160,6 +162,8 @@ model CustomerData {
   index             String
   createdAt         DateTime @default(now()) @map("created_at")
   updatedAt         DateTime @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("customer_data")
 }
@@ -179,9 +183,10 @@ model Contract {
   priorityState      DocumentState?          @map("priority_state")
   priorityDate       String?                 @map("priority_date")
   userId             String                  @map("user_id")
-  user               User                    @relation(fields: [userId], references: [id])
   createdAt          DateTime                @default(now()) @map("created_at")
   updatedAt          DateTime                @default(now()) @updatedAt @map("updated_at")
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   priorities Priority[]
 
@@ -190,11 +195,12 @@ model Contract {
 
 model Priority {
   contractId String           @map("contract_id")
-  contract   Contract         @relation(fields: [contractId], references: [id])
   number     Int
   program    EducationProgram
   createdAt  DateTime         @default(now()) @map("created_at")
   updatedAt  DateTime         @default(now()) @updatedAt @map("updated_at")
+
+  contract Contract @relation(fields: [contractId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@id([contractId, number])
   @@map("priorities")
@@ -215,7 +221,7 @@ model QueuePosition {
   createdAt            DateTime            @default(now()) @map("created_at")
   updatedAt            DateTime            @default(now()) @updatedAt @map("updated_at")
 
-  user User @relation(fields: [userId], references: [id])
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("queue_positions")
 }

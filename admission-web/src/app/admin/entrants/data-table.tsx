@@ -1,10 +1,10 @@
 "use client";
 
 import {
-    ColumnDef,
+    ColumnDef, ColumnFiltersState,
     flexRender,
-    getCoreRowModel, getSortedRowModel, SortingState,
-    useReactTable, VisibilityState,
+    getCoreRowModel, getFilteredRowModel, getPaginationRowModel,
+    useReactTable,
 } from "@tanstack/react-table";
 
 import {
@@ -15,57 +15,46 @@ import {
     TableHeader,
     TableRow,
 } from "@/components/ui/table";
-import React, {useState} from "react";
-import AdminColumnSelect from "@/app/admin/queue/components/AdminColumnSelect";
-import {Button} from "@/components/ui/button";
+import React from "react";
+import {AdminEntrantTablePagination} from "@/app/admin/entrants/components/AdminEntrantTablePagination";
+import {Input} from "@/components/ui/input";
 
-interface AdminQueueDataTableProps<TData, TValue> {
+interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[]
     data: TData[]
 }
 
-const initialColumnVisibility = {
-    number: true,
-    id: true,
-    name: true,
-    phoneNumber: true,
-    email: false,
-    printed: false,
-    specialty: false,
-    accommodation: false,
-    status: true,
-};
-
-export function AdminQueueDataTable<TData, TValue>({
-                                             columns,
-                                             data,
-                                         }: AdminQueueDataTableProps<TData, TValue>) {
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(initialColumnVisibility);
-    const [sorting, setSorting] = React.useState<SortingState>([]);
+export function AdminEntrantDataTable<TData, TValue>({
+                                                         columns,
+                                                         data,
+                                                     }: DataTableProps<TData, TValue>) {
+    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
-        onColumnVisibilityChange: setColumnVisibility,
-        onSortingChange: setSorting,
-        getSortedRowModel: getSortedRowModel(),
+        getPaginationRowModel: getPaginationRowModel(),
+        onColumnFiltersChange: setColumnFilters,
+        getFilteredRowModel: getFilteredRowModel(),
         state: {
-            columnVisibility,
-            sorting,
-        },
+            columnFilters,
+        }
     });
 
     return (
         <>
-            <div className="flex flex-col gap-3 sm:flex-row sm:gap-0 justify-between mb-5">
-                <h1 className="font-medium text-2xl">Керування чергою</h1>
-                <div className="flex items-center space-x-3">
-                    <AdminColumnSelect table={table}/>
-                    <Button>Очистити чергу</Button>
-                    <Button>Відкрити</Button>
-                </div>
+            <div className="flex flex-col gap-3 mb-3">
+                <h1 className="font-medium text-2xl">Абітурієнти</h1>
+                <Input
+                    placeholder="Пошук..."
+                    value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+                    onChange={(event) =>
+                        table.getColumn("name")?.setFilterValue(event.target.value)
+                    }
+                    className="max-w-sm sm:max-w-lg"
+                />
             </div>
-            <div className="rounded-md border min-w-[1088px] overflow-y-auto max-h-[700px]">
+            <div className="rounded-md border min-w-[1088px] h-[700px]">
                 <Table>
                     <TableHeader className='bg-gray-100'>
                         {table.getHeaderGroups().map((headerGroup) => (
@@ -85,7 +74,7 @@ export function AdminQueueDataTable<TData, TValue>({
                             </TableRow>
                         ))}
                     </TableHeader>
-                    <TableBody>
+                    <TableBody className="ml-2">
                         {table.getRowModel().rows?.length ? (
                             table.getRowModel().rows.map((row) => (
                                 <TableRow
@@ -94,7 +83,7 @@ export function AdminQueueDataTable<TData, TValue>({
                                     data-state={row.getIsSelected() && "selected"}
                                 >
                                     {row.getVisibleCells().map((cell) => (
-                                        <TableCell key={cell.id}>
+                                        <TableCell key={cell.id} className="p-[7px] pl-[20px] pr-0">
                                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                         </TableCell>
                                     ))}
@@ -103,13 +92,14 @@ export function AdminQueueDataTable<TData, TValue>({
                         ) : (
                             <TableRow className="hover:bg-white">
                                 <TableCell colSpan={columns.length} className="h-24 text-center text-xl font-light">
-                                    У черзі нікого немає
+                                    Нікого не знайдено
                                 </TableCell>
                             </TableRow>
                         )}
                     </TableBody>
                 </Table>
             </div>
+            <AdminEntrantTablePagination table={table} />
         </>
     );
 }

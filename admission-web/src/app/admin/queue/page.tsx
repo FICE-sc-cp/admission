@@ -1,8 +1,8 @@
 import { AdminQueue, columns } from "./columns"
 
-import {DataTable} from "@/app/admin/queue/data-table";
+import {AdminQueueDataTable} from "@/app/admin/queue/data-table";
 
-async function getData(): Promise<AdminQueue[]> {
+async function getQueueData(): Promise<AdminQueue[]> {
     return [
         {
             number: 1,
@@ -140,11 +140,10 @@ async function getData(): Promise<AdminQueue[]> {
 }
 
 export default async function DemoPage() {
-    const data = await getData();
-
+    const data = await getQueueData();
     return (
         <div className="container mx-auto py-10">
-            <DataTable columns={columns} data={data} />
+            <AdminQueueDataTable columns={columns} data={data} />
         </div>
     );
 };

@@ -1,13 +1,14 @@
 import { Body, Controller, ForbiddenException, Get, Param, Patch, Query, Req, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
-import { ApiBody, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { Role } from '@prisma/client';
 import { UserDto } from './dtos/user.dto';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { GetUsersQuery } from './queries/get-users.query';
 
+@ApiTags('User')
 @Controller({
   path: 'users',
 })
@@ -46,6 +47,7 @@ export class UserController {
   @ApiResponse({ type: UserDto, isArray: true })
   @Roles([Role.ADMIN])
   @UseGuards(AuthGuard)
+  @Get()
   getAll (@Query() query: GetUsersQuery) {
     return this.userService.getAll(query);
   }

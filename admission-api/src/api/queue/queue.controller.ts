@@ -6,6 +6,7 @@ import { Role } from '@prisma/client';
 import { UpdateQueueDto } from './dtos/update-queue.dto';
 import { UpdateQueuePositionDto } from './dtos/update-queue-position.dto';
 import { GetUsersQuery } from './queries/get-users.query';
+import { JoinQueueDto } from './dtos/join-queue.dto';
 
 @Controller({
   path: 'queue',
@@ -20,8 +21,8 @@ export class QueueController {
 
   @Post('users/:userId')
   @UseGuards(AuthGuard)
-  joinQueue (@Param('userId') userId: string, @Req() req: Request) {
-    return this.queueService.joinQueue(userId);
+  joinQueue (@Param('userId') userId: string, @Body() body: JoinQueueDto) {
+    return this.queueService.joinQueue(userId, body);
   }
 
   @Delete('users/:userId')

@@ -35,6 +35,9 @@ export class UpdateUserDto {
     printedEdbo?: boolean;
 
   @Optional()
+    confirmedStudyPlace?: boolean;
+
+  @Optional()
     phone?: string;
 
   @Optional({

@@ -12,4 +12,7 @@ export class JoinQueueDto {
 
   @Required()
     expectedSpecialities: string;
+
+  @Required()
+    confirmedStudyPlace: boolean;
 }

@@ -10,13 +10,20 @@ import { HttpExceptionFilter } from './globals/http-exception.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import fastifyCookie from '@fastify/cookie';
 
+(BigInt.prototype as any).toJSON = function () {
+  const int = Number.parseInt(this.toString());
+  return int ?? this.toString();
+};
+
 async function bootstrap () {
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
     new FastifyAdapter(),
   );
   await app.register(fastifyCookie);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+  }));
   app.useGlobalFilters(new HttpExceptionFilter());
 
   const config = new DocumentBuilder()

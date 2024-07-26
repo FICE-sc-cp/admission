@@ -1,13 +1,14 @@
 import { BadRequestException, Injectable, OnModuleInit } from '@nestjs/common';
 import { PrismaService } from '../../database/prisma.service';
-import { QueuePositionStatus, User } from '@prisma/client';
+import { QueuePositionStatus } from '@prisma/client';
 import { UpdateQueueDto } from './dtos/update-queue.dto';
 import { UpdateQueuePositionDto } from './dtos/update-queue-position.dto';
 import { GetUsersQuery } from './queries/get-users.query';
 import { JoinQueueDto } from './dtos/join-queue.dto';
+import { TelegramAPI } from '../../globals/telegram/telegram.api';
+import { UserRepo } from '../../database/repo/user.repo';
 
 interface IMessageData {
-  queue: string;
   position?: number;
   delta?: number;
   code?: number;
@@ -21,10 +22,10 @@ export enum MessageType {
 }
 
 const messages = {
-  [MessageType.PROCESSING]: (d: IMessageData) => `<b>${d.queue}</b>\n\nВаша заявка вже оброблюється оператором. Можете заходити до корпусу.\n\n<b>\nВаш номер: ${d.code}</b>`,
-  [MessageType.MOVED]: (d: IMessageData) => `<b>${d.queue}</b>\n\nВашу заявку посунули у черзі на ${d.delta} позицій ${d.delta > 0 ? 'назад' : 'вперед'}.`,
-  [MessageType.POSITION]: (d: IMessageData) => `<b>${d.queue}</b>\n\nВаша позиція у черзі: <b>${d.position}</b>\nНе відходьте далеко від корпусу.`,
-  [MessageType.DELETED]: (d: IMessageData) => `<b>${d.queue}</b>\n\nДякую за користування нашою електронною чергою.`,
+  [MessageType.PROCESSING]: (d: IMessageData) => `Ваша заявка вже оброблюється оператором. Можете заходити до корпусу.\n\n<b>\nВаш номер: ${d.code}</b>`,
+  [MessageType.MOVED]: (d: IMessageData) => `Вашу заявку посунули у черзі на ${d.delta} позицій ${d.delta > 0 ? 'назад' : 'вперед'}.`,
+  [MessageType.POSITION]: (d: IMessageData) => `Ваша позиція у черзі: <b>${d.position}</b>\nНе відходьте далеко від корпусу.`,
+  [MessageType.DELETED]: () => 'Дякую за користування нашою електронною чергою.\n\nПриєднуйтеся до чату вступників @abit_fice',
 };
 
 
@@ -32,6 +33,7 @@ const messages = {
 export class QueueService implements OnModuleInit {
   constructor (
     private readonly prisma: PrismaService,
+    private readonly userRepo: UserRepo,
   ) {}
 
   lastPosition: number = 0;
@@ -118,6 +120,9 @@ export class QueueService implements OnModuleInit {
       data: body,
     });
 
+    const user = await this.userRepo.find({ id: userId });
+    await TelegramAPI.sendRegistrationInQueue(user);
+
     return {
       position: await this.prisma.queuePosition.create({
         data: {
@@ -136,7 +141,7 @@ export class QueueService implements OnModuleInit {
       },
     });
 
-    //TODO message TG with deleting
+    await this.sendMessage(userId, MessageType.DELETED, {});
   }
 
   generatePosition () {
@@ -172,11 +177,16 @@ export class QueueService implements OnModuleInit {
       },
     });
 
-    // TODO notify queue if status changed or moved
+    if (data.delta) {
+      await this.sendMessage(userId, MessageType.MOVED, { delta: data.delta });
+    }
 
-    // TODO send message about moving
-
-    // TODO send message about moving to telegram chat
+    if (data.status === QueuePositionStatus.PROCESSING) {
+      await this.notifyQueue();
+      await this.sendMessage(userId, MessageType.PROCESSING, { code: position.code });
+      const user = await this.userRepo.find({ id: userId });
+      await TelegramAPI.sendGoingUser(user);
+    }
 
     return this.prisma.queuePosition.findFirst({
       where: {
@@ -215,7 +225,7 @@ export class QueueService implements OnModuleInit {
           });
         }
 
-        // TODO send position to user
+        await this.sendMessage(position.userId, MessageType.POSITION, { position: numPosition });
       }
     }
   }
@@ -230,10 +240,11 @@ export class QueueService implements OnModuleInit {
     this.lastPosition = lastPosition ? lastPosition.code : 0;
   }
 
-  async sendMessage (user: User, type: MessageType, data: IMessageData) {
+  async sendMessage (userId: string, type: MessageType, data: IMessageData) {
+    const user = await this.prisma.user.findFirst({ where: { id: userId } });
     if (!user.telegramId) return;
 
     const text = messages[type](data);
-    // TODO send text to user
+    await TelegramAPI.sendMessage(user.telegramId, text, 'HTML');
   }
 }

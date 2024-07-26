@@ -14,13 +14,13 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    AuthApi.getMe()
-      .then((res) => res.data)
-      .then(setUser)
-      .catch((_) => push('/sign-in'))
-      .finally(() => setLoading(false));
-  }, [push]);
+  // useEffect(() => {
+  //   AuthApi.getMe()
+  //     .then((res) => res.data)
+  //     .then(setUser)
+  //     .catch((_) => push('/sign-in'))
+  //     .finally(() => setLoading(false));
+  // }, [push]);
 
   return (
     <AuthContext.Provider value={{ user, loading }}>

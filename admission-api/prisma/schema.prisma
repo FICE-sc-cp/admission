@@ -71,6 +71,7 @@ model User {
   expectedSpecialities String              @default("") @map("expected_specialities")
   isDorm               Boolean             @default(false) @map("is_dorm")
   printedEdbo          Boolean             @default(false) @map("printed_edbo")
+  confirmedStudyPlace  Boolean             @default(false) @map("confirmed_study_place")
   phone                String              @default("")
   username             String              @default("")
   createdAt            DateTime            @default(now()) @map("created_at")

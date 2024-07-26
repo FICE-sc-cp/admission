@@ -46,6 +46,9 @@ export class UserDto {
     printedEdbo: boolean;
 
   @Required()
+    confirmedStudyPlace: boolean;
+
+  @Required()
     phone: string;
 
   @Required()

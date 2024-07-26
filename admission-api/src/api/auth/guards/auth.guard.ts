@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRepo } from '../../../database/repo/user.repo';
@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = request.cookies['session'];
 
-    if (!token) throw new UnauthorizedException();
+    if (!token) return false;
 
     const user = await this.userRepo.find({
       tokens: {
@@ -34,25 +34,20 @@ export class AuthGuard implements CanActivate {
       },
     });
 
-    if (!user) throw new UnauthorizedException();
-    await this.checkToken(token);
+    if (!user) return false;
+    if (!(await this.checkToken(token))) return false;
 
     request.user = user;
 
     const roles = this.reflector.get(Roles, context.getHandler());
     if (!roles) return true;
 
-    const isCorrectRole = roles.some((role: Role) => role === user.role);
-    if (!isCorrectRole) throw new ForbiddenException();
-
-    return true;
+    return roles.some((role: Role) => role === user.role);
   }
 
   private async checkToken (token: string) {
     const { createdAt } = await this.tokenRepo.findByValue(token);
     const sessionTtl = this.configService.get<number>('sessionTtl');
-    if (Date.now() - createdAt.getTime() > sessionTtl) {
-      throw new UnauthorizedException();
-    }
+    return Date.now() - createdAt.getTime() <= sessionTtl;
   }
 }

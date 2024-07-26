@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from '@nestjs/common';
 import { QueueService } from './queue.service';
 import { AuthGuard } from '../auth/guards/auth.guard';
 import { Roles } from '../auth/decorators/roles.decorator';
@@ -8,6 +8,10 @@ import { UpdateQueuePositionDto } from './dtos/update-queue-position.dto';
 import { GetUsersQuery } from './queries/get-users.query';
 import { JoinQueueDto } from './dtos/join-queue.dto';
 import { ApiTags } from '@nestjs/swagger';
+import { MultipleAccesses } from '../auth/decorators/multiple-accesses.decorator';
+import { TelegramGuard } from '../auth/guards/telegram.guard';
+import { MultipleAccessGuard } from '../auth/guards/multiple-access.guard';
+import { AdminOrMeGuard } from '../auth/guards/admin-or-me.guard';
 
 @ApiTags('Queue')
 @Controller({
@@ -22,14 +26,16 @@ export class QueueController {
   }
 
   @Post('users/:userId')
-  @UseGuards(AuthGuard)
+  @MultipleAccesses(TelegramGuard, [AuthGuard, AdminOrMeGuard])
+  @UseGuards(MultipleAccessGuard)
   joinQueue (@Param('userId') userId: string, @Body() body: JoinQueueDto) {
     return this.queueService.joinQueue(userId, body);
   }
 
   @Delete('users/:userId')
-  @UseGuards(AuthGuard)
-  quitQueue (@Param('userId') userId: string, @Req() req: Request) {
+  @MultipleAccesses(TelegramGuard, [AuthGuard, AdminOrMeGuard])
+  @UseGuards(MultipleAccessGuard)
+  quitQueue (@Param('userId') userId: string) {
     return this.queueService.quitQueue(userId);
   }
 

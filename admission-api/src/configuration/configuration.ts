@@ -10,4 +10,6 @@ export default () => ({
     username: process.env.SMTP_USERNAME,
     password: process.env.SMTP_PASSWORD,
   },
+  botToken: process.env.ADMISSION_BOT_TOKEN,
+  botApi: process.env.ADMISSION_BOT_API,
 });

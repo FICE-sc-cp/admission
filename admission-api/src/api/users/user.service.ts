@@ -13,18 +13,18 @@ export class UserService {
     const { entrantData, representativeData, customerData, ...data } = user;
     return this.userRepo.updateById(id, {
       ...data,
-      entrantData: {
+      entrantData: entrantData ? {
         delete: true,
         create: entrantData,
-      },
-      representativeData: {
+      } : undefined,
+      representativeData: representativeData ? {
         delete: true,
         create: representativeData,
-      },
-      customerData: {
+      } : undefined,
+      customerData: customerData ? {
         delete: true,
         create: customerData,
-      },
+      } : undefined,
     });
   }
 
@@ -34,5 +34,9 @@ export class UserService {
 
   getAll (query: GetUsersQuery) {
     return this.userRepo.findMany({}, query.take, query.skip);
+  }
+
+  deleteById (id: string) {
+    return this.userRepo.deleteById(id);
   }
 }

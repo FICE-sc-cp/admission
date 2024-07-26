@@ -20,7 +20,7 @@ const Step: FC<StepProps> = ({
   return (
     <div className='flex flex-col items-center gap-[12px]'>
       <div
-        className={`relative w-fit rounded-[50%] border-2 ${activeStep === stepNumber || isCompleted ? 'border-violet-600' : 'border-slate-300'} ${isCompleted ? 'bg-violet-600' : ''} bg-white p-1.5`}
+        className={`relative w-fit rounded-[50%] border-2 ${activeStep === stepNumber || isCompleted ? 'border-violet-600' : 'border-slate-300'} ${isCompleted ? 'bg-violet-600' : 'bg-white'} p-1.5`}
       >
         <div
           className={`flex w-[30px] flex-col items-center text-center text-xl ${activeStep === stepNumber ? 'text-violet-600' : 'text-slate-700'} `}

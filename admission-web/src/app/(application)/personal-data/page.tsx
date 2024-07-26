@@ -7,11 +7,12 @@ import {
   PersonalDataContextProvider,
   usePersonalDataContext,
 } from '$/admission-web/contexts/PersonalDataContext';
+import SubmitPage from '@/app/(application)/personal-data/_components/SubmitPage';
+import RepresentativePage from '@/app/(application)/personal-data/_components/RepresentativePage';
+import CustomerPage from '@/app/(application)/personal-data/_components/CustomerPage';
 
 const PersonalDataPage = () => {
-  const [activeStep, setActiveStep] = useState(1);
-
-  const { isAdult, isAnotherPayer } = usePersonalDataContext();
+  const { isAdult, isAnotherPayer, activeStep } = usePersonalDataContext();
 
   const [steps, setSteps] = useState<string[]>([]);
 
@@ -35,6 +36,11 @@ const PersonalDataPage = () => {
       {/*<DataAlreadyExist />*/}
       <ProgressStepper activeStep={activeStep} steps={steps} />
       {activeStep === 1 && <EntrantForm />}
+      {steps[activeStep - 1] === 'Законний представник' && (
+        <RepresentativePage />
+      )}
+      {steps[activeStep - 1] === 'Інформація про платника' && <CustomerPage />}
+      {activeStep === steps.length && <SubmitPage />}
     </main>
   );
 };

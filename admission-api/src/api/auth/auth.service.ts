@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
 import { RegistrationDto } from './dto/registration.dto';
 import { UserRepo } from '../../database/repo/user.repo';
 import {
@@ -14,6 +14,7 @@ import { TokenType } from '@prisma/client';
 import { TokenRepo } from '../../database/repo/token.repo';
 import { MessageResponse } from '../../globals/responses/message.response';
 import { EmailDto } from './dto/email.dto';
+import { Request, Response } from 'express';
 
 const SESSIONS = 5;
 
@@ -111,5 +112,27 @@ export class AuthService {
     const token = await this.generateToken(user.id);
     await this.sendAuthLink(email, token);
     return { message: AUTH_LINK_IS_SENT_MSG };
+  }
+
+  async logout (req: Request, res: Response) {
+    const token = req.cookies['session'];
+    await this.tokenRepo.deleteByValue(token);
+
+    res.clearCookie('auth', this.configService.get<string>('nodeEnv') !== 'local' ? {
+      httpOnly: true,
+      secure: true,
+      maxAge: 38530000,
+      partitioned: true,
+      path: '/',
+      sameSite: 'none',
+    } : {
+      httpOnly: false,
+      secure: false,
+      maxAge: 38530000,
+      path: '/',
+      sameSite: false,
+    });
+
+    res.status(HttpStatus.OK).json({ message: 'success' });
   }
 }

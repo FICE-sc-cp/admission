@@ -18,6 +18,7 @@ import { TokenDto } from './dto/token.dto';
 import { FastifyReply } from 'fastify';
 import { AuthGuard } from './guards/auth.guard';
 import { ConfigService } from '@nestjs/config';
+import { Request, Response } from 'express';
 
 @ApiTags('Auth')
 @Controller({
@@ -62,6 +63,18 @@ export class AuthController {
     @Body() data: EmailDto,
   ): Promise<MessageResponse> {
     return this.authService.login(data);
+  }
+
+  @Post('logout')
+  @ApiOperation({
+    summary: 'Log out from the user account',
+  })
+  @ApiOkResponse()
+  async logout (
+    @Req() request: Request,
+    @Res() response: Response,
+  ): Promise<any> {
+    return this.authService.logout(request, response);
   }
 
   @Post('/verify')

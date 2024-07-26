@@ -2,17 +2,22 @@
 
 import ProgressStepper from '@/app/(application)/personal-data/_components/progress-stepper/ProgressStepper';
 import { useEffect, useState } from 'react';
+import EntrantForm from '@/app/(application)/personal-data/_components/EntrantForm';
+import {
+  PersonalDataContextProvider,
+  usePersonalDataContext,
+} from '$/admission-web/contexts/PersonalDataContext';
 
 const PersonalDataPage = () => {
   const [activeStep, setActiveStep] = useState(1);
-  const [steps, setSteps] = useState<string[]>([]);
 
-  const [isChild, setIsChild] = useState(true);
-  const [isAnotherPayer, setIsAnotherPayer] = useState(false);
+  const { isAdult, isAnotherPayer } = usePersonalDataContext();
+
+  const [steps, setSteps] = useState<string[]>([]);
 
   useEffect(() => {
     const stepsArr = ['Інформація про вступника', 'Підтвердження даних'];
-    if (isChild) {
+    if (!isAdult) {
       stepsArr.splice(1, 0, 'Законний представник');
     }
     if (isAnotherPayer) {
@@ -23,17 +28,13 @@ const PersonalDataPage = () => {
       }
     }
     setSteps(stepsArr);
-  }, [isChild, isAnotherPayer]);
+  }, [isAdult, isAnotherPayer]);
 
   return (
-    <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
+    <main className='flex flex-1 flex-col items-center gap-4 p-4 lg:gap-6 lg:p-6'>
       {/*<DataAlreadyExist />*/}
-      <ProgressStepper
-        isChild={isChild}
-        isAnotherPayer={isAnotherPayer}
-        activeStep={activeStep}
-        steps={steps}
-      />
+      <ProgressStepper activeStep={activeStep} steps={steps} />
+      {activeStep === 1 && <EntrantForm />}
     </main>
   );
 };

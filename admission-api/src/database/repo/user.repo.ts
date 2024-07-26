@@ -54,4 +54,8 @@ export class UserRepo {
     }
     return user;
   }
+
+  deleteById (id: string) {
+    return this.prisma.user.delete({ where: { id } });
+  }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -41,5 +41,13 @@ export class UserController {
   @Get()
   getAll (@Query() query: GetUsersQuery) {
     return this.userService.getAll(query);
+  }
+
+  @ApiOperation({ summary: 'Delete user by id' })
+  @Roles([Role.ADMIN])
+  @UseGuards(AuthGuard)
+  @Delete(':userId')
+  deleteById (@Param('userId') id: string) {
+    return this.userService.deleteById(id);
   }
 }

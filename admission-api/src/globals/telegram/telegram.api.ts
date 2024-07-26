@@ -13,24 +13,40 @@ const client = axios.create({
 
 export class TelegramAPI {
   static async sendMessage (id: bigint, text: string, parseMode: 'HTML' | 'Markdown' = undefined) {
-    await client.post('/sendMessage', {}, {
-      params: {
-        uid: id,
-        text,
-        parse_mode: parseMode,
-      },
-    });
+    try {
+      await client.post('/sendMessage', {}, {
+        params: {
+          uid: id,
+          text,
+          parse_mode: parseMode,
+        },
+      });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   static async sendContract (entrant: UserDto) {
-    await client.post('/sendContract', entrant);
+    try {
+      await client.post('/sendContract', entrant);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   static async sendGoingUser (entrant: UserDto) {
-    await client.post('/sendGoingUser', entrant);
+    try {
+      await client.post('/sendGoingUser', entrant);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   static async sendRegistrationInQueue (entrant: UserDto) {
-    await client.post('/sendRegistrationInQueue', entrant);
+    try {
+      await client.post('/sendRegistrationInQueue', entrant);
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, ForbiddenException, Get, Param, Patch, Query, Req, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Param, Patch, Query, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
@@ -7,6 +7,7 @@ import { Role } from '@prisma/client';
 import { UserDto } from './dtos/user.dto';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { GetUsersQuery } from './queries/get-users.query';
+import { AdminOrMeGuard } from '../auth/guards/admin-or-me.guard';
 
 @ApiTags('User')
 @Controller({
@@ -19,28 +20,18 @@ export class UserController {
 
   @ApiOperation({ summary: 'Update user personal data' })
   @ApiBody({ type: UpdateUserDto })
-  @UseGuards(AuthGuard)
-  @Patch(':id')
-  update (@Param('id') id: string, @Body() body: UpdateUserDto, @Req() req: any) {
-    const requester = req.user;
-    if (requester.role === Role.ADMIN || requester.id === id) {
-      return this.userService.updateById(id, body);
-    } else {
-      throw new ForbiddenException('No access');
-    }
+  @UseGuards(AuthGuard, AdminOrMeGuard)
+  @Patch(':userId')
+  update (@Param('userId') id: string, @Body() body: UpdateUserDto) {
+    return this.userService.updateById(id, body);
   }
 
   @ApiOperation({ summary: 'Get user info, personal data, contracts and priorities' })
   @ApiResponse({ type: UserDto })
-  @UseGuards(AuthGuard)
-  @Get(':id')
-  getProfile (@Param('id') id: string, @Req() req: any) {
-    const requester = req.user;
-    if (requester.role === Role.ADMIN || requester.id === id) {
-      return this.userService.getProfile(id);
-    } else {
-      throw new ForbiddenException('No access');
-    }
+  @UseGuards(AuthGuard, AdminOrMeGuard)
+  @Get(':userId')
+  getProfile (@Param('userId') id: string) {
+    return this.userService.getProfile(id);
   }
 
   @ApiOperation({ summary: 'Get all users' })

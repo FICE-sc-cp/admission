@@ -1,41 +1,58 @@
 "use client";
 
-import {ColumnDef} from "@tanstack/react-table"
-import AdminAlertDialogs from "@/app/admin/queue/components/AdminAlertDialogs";
+import {ColumnDef} from "@tanstack/react-table";
+import AdminAlertDialog from "@/app/admin/_components/AdminAlertDialog";
+import {User} from "@/constants/admin-entrants-table";
+import {Button} from "@/components/ui/button";
+import {Trash2Icon} from "lucide-react";
+import {deleteEntrant} from "@/app/admin/entrants/page";
 
-export type AdminEntrants = {
-    name: string,
-    degree: string,
-    specialty: string,
-    status: string,
-}
-
-export const columns: ColumnDef<AdminEntrants>[] = [
+export const columns: ColumnDef<User>[] = [
     {
-        accessorKey: "name",
+        accessorKey: "lastName",
         header: "ПІБ",
     },
     {
-        accessorKey: "degree",
-        header: "Освітній ступінь"
+        accessorKey: "firstName",
+        header: "",
     },
     {
-        accessorKey: "specialty",
+        accessorKey: "middleName",
+        header: "",
+    },
+    {
+        accessorKey: "contracts",
+        header: "Освітній ступінь",
+        cell: ({row}) => {
+            const contracts = row.original.contracts;
+            return contracts.map(contract => contract.degree);
+        }
+    },
+    {
+        accessorKey: "expectedSpecialities",
         header: "Спеціальність",
     },
     {
-        accessorKey: "status",
+        accessorKey: "contracts",
         header: "Статус",
+        cell: ({row}) => {
+            const contracts = row.original.contracts;
+            return contracts.some(contract => contract.state === 'APPROVED') ? 'ПОДАНО' : 'НЕ ПОДАНО';
+        }
     },
     {
-        accessorKey: "button",
+        accessorKey: "id",
         header: "",
-        cell: () => {
+        cell: ({row}) => {
             return (
-                <AdminAlertDialogs
-                    type="delete"
+                <AdminAlertDialog
+                    button={<Button variant="outline" className="w-[50px] h-[50px] rounded-full"><Trash2Icon/></Button>}
                     title="Видалення вступника з черги"
-                    description="Ви впевнені, що хочете видалити вступика? Вспупник буде видалений разом із всіма його документами, цю дію неможливо буде відмінити!"/>
+                    description="Ви впевнені, що хочете видалити вступика? Вспупник буде видалений разом із всіма його документами, цю дію неможливо буде відмінити!"
+                    action={() => {
+                        const id = row.original.id;
+                        deleteEntrant(id);
+                    }}/>
             );
         },
     },

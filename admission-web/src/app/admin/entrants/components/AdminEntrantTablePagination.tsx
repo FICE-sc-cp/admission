@@ -19,7 +19,7 @@ interface AdminEntrantTablePaginationProps<TData> {
 export function AdminEntrantTablePagination<TData>({
                                                table,
                                            }: AdminEntrantTablePaginationProps<TData>) {
-    const currentPageIndex = table.getState().pagination.pageIndex + 1;
+    const currentPageIndex = table.getState().pagination.pageIndex;
     return (
         <Pagination className="mt-3 flex justify-start sm:justify-between">
             <Button
@@ -32,13 +32,15 @@ export function AdminEntrantTablePagination<TData>({
             </Button>
             <PaginationContent>
                 <PaginationItem>
-                    <PaginationLink isActive>{currentPageIndex}</PaginationLink>
+                    {currentPageIndex === 0 ?
+                        <PaginationLink className="hover:bg-white"><span></span></PaginationLink> :
+                        <PaginationLink className="cursor-pointer" onClick={() => table.previousPage()}>{currentPageIndex}</PaginationLink>}
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink>{currentPageIndex + 1}</PaginationLink>
+                    <PaginationLink isActive className="cursor-pointer">{currentPageIndex + 1}</PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
-                    <PaginationLink>{currentPageIndex + 2}</PaginationLink>
+                    <PaginationLink className="cursor-pointer" onClick={() => table.nextPage()}>{currentPageIndex + 2}</PaginationLink>
                 </PaginationItem>
                 <PaginationItem>
                     <PaginationEllipsis/>

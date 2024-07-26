@@ -5,24 +5,19 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger
 } from "@/components/ui/alert-dialog";
-import {Button} from "@/components/ui/button";
-import {Trash2Icon} from "lucide-react";
+import {ReactElement} from "react";
 
 interface AdminTableHeaderButtonProps {
-    type: 'movedown' | 'delete',
-    btnText?: string,
+    button: ReactElement,
     title?: string,
     description?: string,
+    action: () => void,
 }
 
-export default function AdminAlertDialogs({type, btnText, title, description }: AdminTableHeaderButtonProps) {
+export default function AdminAlertDialog({button, title, description, action }: AdminTableHeaderButtonProps) {
     return (
         <AlertDialog>
-            <AlertDialogTrigger asChild>
-                {type === 'delete' ?
-                    <Button variant="outline" className="w-[50px] h-[50px] rounded-full"><Trash2Icon /></Button> :
-                    <Button>{btnText}</Button>}
-            </AlertDialogTrigger>
+            <AlertDialogTrigger asChild>{button}</AlertDialogTrigger>
             <AlertDialogContent className="flex flex-col items-center rounded-xl">
                 <AlertDialogHeader className="flex items-center">
                     <AlertDialogTitle className="text-xl font-medium">{title}</AlertDialogTitle>
@@ -30,7 +25,7 @@ export default function AdminAlertDialogs({type, btnText, title, description }: 
                 </AlertDialogHeader>
                 <AlertDialogFooter className="flex flex-row items-center space-x-2">
                     <AlertDialogCancel>Скасувати</AlertDialogCancel>
-                    <AlertDialogAction>Підтвердити</AlertDialogAction>
+                    <AlertDialogAction onClick={action}>Підтвердити</AlertDialogAction>
                 </AlertDialogFooter>
             </AlertDialogContent>
         </AlertDialog>

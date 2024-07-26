@@ -47,9 +47,9 @@ export function AdminEntrantDataTable<TData, TValue>({
                 <h1 className="font-medium text-2xl">Абітурієнти</h1>
                 <Input
                     placeholder="Пошук..."
-                    value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+                    value={(table.getColumn("lastName")?.getFilterValue() as string) ?? ""}
                     onChange={(event) =>
-                        table.getColumn("name")?.setFilterValue(event.target.value)
+                        table.getColumn("lastName")?.setFilterValue(event.target.value)
                     }
                     className="max-w-sm sm:max-w-lg"
                 />

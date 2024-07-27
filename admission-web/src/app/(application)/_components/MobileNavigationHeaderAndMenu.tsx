@@ -1,5 +1,5 @@
 'use client';
-import AvatarAndName from './AvatarAndName';
+import { AvatarAndName } from './AvatarAndName';
 import { useState } from 'react';
 import {
   DropdownMenu,

@@ -1,6 +1,6 @@
 'use client';
 
-import DesktopSidebarNavigation from '@/app/(application)/_components/DesktopSidebarNavigation';
+import { DesktopSidebarNavigation } from '@/app/(application)/_components/DesktopSidebarNavigation';
 import MobileNavigationHeaderAndMenu from '@/app/(application)/_components/MobileNavigationHeaderAndMenu';
 import { FC } from 'react';
 import { Separator } from '@/components/ui/separator';

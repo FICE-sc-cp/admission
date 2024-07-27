@@ -15,7 +15,7 @@ import { entrantNavigationItems } from '@/lib/constants/navigation';
 
 import NavMenuItem from '@/app/(application)/_components/NavMenuItem';
 import useAuth from '@/hooks/useAuth';
-import { adminNavigationItems } from '@/constants/admin-navigation';
+import { adminNavigationItems } from '@/lib/constants/admin-navigation';
 
 export default function MobileNavigationHeaderAndMenu() {
   const { user } = useAuth();

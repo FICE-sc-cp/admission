@@ -2,7 +2,7 @@
 import { entrantNavigationItems } from '@/lib/constants/navigation';
 import NavMenuItem from './NavMenuItem';
 import useAuth from '@/hooks/useAuth';
-import { adminNavigationItems } from '@/constants/admin-navigation';
+import { adminNavigationItems } from '@/lib/constants/admin-navigation';
 
 export const DesktopSidebarNavigation = () => {
   const { user } = useAuth();

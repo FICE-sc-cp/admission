@@ -21,7 +21,7 @@ export const AvatarAndName: FC<AvatarAndNameProps> = ({ size = 'default' }) => {
     <Link href='/' className='flex items-center gap-3'>
       <Avatar className={cn(sizes[size], 'border-2 border-gray-200')}>
         <AvatarImage
-          src='from-image.png'
+          src='/from-image.png'
           className='rounded-full object-cover'
         />
         <AvatarFallback>{user?.firstName}</AvatarFallback>

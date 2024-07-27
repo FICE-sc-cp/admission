@@ -31,6 +31,7 @@ import {
 } from '@/components/ui/select';
 import { regions } from '@/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
+import useAuth from '@/hooks/useAuth';
 
 const EntrantForm: FC = () => {
   const [isContract, setIsContract] = useState(true);
@@ -45,10 +46,19 @@ const EntrantForm: FC = () => {
   } = usePersonalDataContext();
 
   const [adminCode, setAdminCode] = useState('');
-  const form = useForm<z.infer<TEntrantSchema>>({
+  const form = useForm<TEntrantSchema>({
     resolver: zodResolver(EntrantSchema),
     defaultValues: entrantData !== null ? entrantData : {},
   });
+
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      form.setValue('userId', user.id);
+      form.setValue('email', user.email);
+    }
+  }, [user]);
 
   const onSubmit = (data: z.infer<TEntrantSchema>) => {
     console.log(data);

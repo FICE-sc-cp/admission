@@ -28,16 +28,25 @@ import {
 } from '@/components/ui/select';
 import { regions } from '@/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
+import useAuth from '@/hooks/useAuth';
 
 const CustomerPage: FC = () => {
   const { customerData, setCustomerData, activeStep, setActiveStep } =
     usePersonalDataContext();
-  const form = useForm<z.infer<TRepresentativeSchema>>({
+  const form = useForm<TRepresentativeSchema>({
     resolver: zodResolver(RepresentativeSchema),
     defaultValues: customerData !== null ? customerData : {},
   });
   const [adminCode, setAdminCode] = useState('');
+
+  const { user } = useAuth();
+
+  useEffect(() => {
+    if (user) {
+      form.setValue('userId', user.id);
+    }
+  }, [user]);
 
   const onSubmit = (data: z.infer<TRepresentativeSchema>) => {
     setCustomerData(data);
@@ -53,6 +62,23 @@ const CustomerPage: FC = () => {
       >
         <div className='flex flex-col gap-4'>
           <div className='flex flex-col gap-2'>
+            <FormField
+              control={form.control}
+              name='email'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Пошта</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='example@example.com'
+                      className='w-[320px] md:w-[360px]'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name='firstName'

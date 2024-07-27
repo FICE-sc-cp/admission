@@ -1,7 +1,13 @@
-import React, { FC } from 'react';
+'use client';
+
+import React, { FC, useState } from 'react';
 import { usePersonalDataContext } from '$/admission-web/contexts/PersonalDataContext';
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
+import SubmitPopup from '@/app/(application)/personal-data/_components/SubmitPopup';
+import PersonalDataApi from '@/lib/api/personal-data';
+import AuthApi from '@/lib/api/auth-api';
+import useAuth from '@/hooks/useAuth';
 
 const SubmitPage: FC = () => {
   const {
@@ -11,8 +17,43 @@ const SubmitPage: FC = () => {
     setActiveStep,
     activeStep,
   } = usePersonalDataContext();
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [adminCode, setAdminCode] = useState('');
+  const { user } = useAuth();
+
+  const onSubmit = async () => {
+    if (entrantData?.submission_in_corpus) {
+      setShowPopup(true);
+    }
+    await PersonalDataApi.updatePersonalData(
+      {
+        email: user.email,
+        firstName: user.firstName,
+        middleName: user.middleName,
+        role: user.role,
+        expectedSpecialities: '',
+        isDorm: true,
+        printedEdbo: true,
+        confirmedStudyPlace: true,
+        phone: '',
+        entrantData: entrantData,
+        customerData: customerData,
+        representativeData: representativeData,
+      },
+      user.id
+    );
+  };
   return (
     <div className='flex flex-col gap-8'>
+      {showPopup && (
+        <SubmitPopup
+          onSubmit={onSubmit}
+          popupController={setShowPopup}
+          adminCode={adminCode}
+          adminCodeController={setAdminCode}
+        />
+      )}
       {entrantData && (
         <div className='mx-auto flex w-full max-w-[360px] flex-col items-start gap-3'>
           <div className='flex flex-row items-center gap-3'>
@@ -99,9 +140,7 @@ const SubmitPage: FC = () => {
       {customerData && (
         <div className='mx-auto flex w-full max-w-[360px] flex-col items-start gap-3'>
           <div className='flex flex-row items-center gap-3'>
-            <p className='text-sm text-violet-500'>
-              Інформація про законного представника
-            </p>
+            <p className='text-sm text-violet-500'>Інформація про платника</p>
             <Separator
               orientation='horizontal'
               className='w-[160px] bg-violet-500'
@@ -140,7 +179,9 @@ const SubmitPage: FC = () => {
         </div>
       )}
       <div className='flex flex-row gap-4'>
-        <Button className='w-[200px]'>Схвалити</Button>
+        <Button className='w-[200px]' onClick={onSubmit}>
+          Схвалити
+        </Button>
         <Button
           onClick={() => setActiveStep((prevState) => activeStep - 1)}
           variant='outline'

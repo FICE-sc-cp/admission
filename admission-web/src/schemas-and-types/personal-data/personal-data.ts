@@ -12,6 +12,7 @@ export const EntrantSchema = z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukNumberRegex, 'Номер має містити 9 цифр'),
     passportNumber: z.string({ required_error: "Обов'язкове поле" }),
+    email: z.string().email(),
     passportDate: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(dateRegex, 'Має бути формату dd.mm.yyyy'),
@@ -19,13 +20,14 @@ export const EntrantSchema = z
       .string({ required_error: "Обов'язкове поле" })
       .min(4, 'Орган видачі має містити 4 цифри'),
     passportSeries: z
-      .string({ required_error: "Обов'язкове поле" })
+      .string()
       .max(2, 'Серія паспорту має містити 2 символи')
       .regex(
         kirillicRegex,
         'Серія паспорту має містити кириличні літери верхнього регістру'
       )
-      .optional(),
+      .nullable()
+      .default('ТТ'),
     idCode: z
       .string({ required_error: "Обов'язкове поле" })
       .max(10, 'ІПН має містити 10 цифр')
@@ -38,6 +40,7 @@ export const EntrantSchema = z
     address: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
+    userId: z.string({ required_error: "Обов'язкове поле" }),
     index: z
       .string({ required_error: "Обов'язкове поле" })
       .max(5, 'Має містити 5 цифр'),
@@ -91,6 +94,7 @@ export const RepresentativeSchema = z
       .max(40, 'Не довше 40 символів')
       .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
       .nullable(),
+    email: z.string().email(),
     phoneNumber: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukNumberRegex, 'Номер має містити 9 цифр'),
@@ -108,7 +112,10 @@ export const RepresentativeSchema = z
         kirillicRegex,
         'Серія паспорту має містити кириличні літери верхнього регістру'
       )
-      .optional(),
+      .optional()
+      .nullable()
+      .default('ТТ'),
+    userId: z.string({ required_error: "Обов'язкове поле" }),
     idCode: z
       .string({ required_error: "Обов'язкове поле" })
       .max(10, 'ІПН має містити 10 цифр')
@@ -154,5 +161,5 @@ export const RepresentativeSchema = z
     return ctx;
   });
 
-export const TEntrantSchema = typeof EntrantSchema;
-export const TRepresentativeSchema = typeof RepresentativeSchema;
+export type TEntrantSchema = z.infer<typeof EntrantSchema>;
+export type TRepresentativeSchema = z.infer<typeof RepresentativeSchema>;

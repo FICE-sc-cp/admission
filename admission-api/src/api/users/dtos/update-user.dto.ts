@@ -1,10 +1,10 @@
 import { Optional } from '../../../globals/decorators';
 import { Role } from '@prisma/client';
-import { EntrantDataDto } from './entrant-data.dto';
-import { RepresentativeDataDto } from './representative-data.dto';
-import { CustomerDataDto } from './customer-data.dto';
 import { ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
+import { UpdateCustomerDataDto } from './update-customer-data.dto';
+import { UpdateRepresentativeDataDto } from './update-representative-data.dto';
+import { UpdateEntrantDataDto } from './update-entrant-data.dto';
 
 export class UpdateUserDto {
   @Optional()
@@ -41,23 +41,23 @@ export class UpdateUserDto {
     phone?: string;
 
   @Optional({
-    type: EntrantDataDto,
+    type: UpdateEntrantDataDto,
   })
-  @Type(() => EntrantDataDto)
+  @Type(() => UpdateEntrantDataDto)
   @ValidateNested()
-    entrantData?: EntrantDataDto;
+    entrantData?: UpdateEntrantDataDto;
 
   @Optional({
-    type: RepresentativeDataDto,
+    type: UpdateRepresentativeDataDto,
   })
-  @Type(() => RepresentativeDataDto)
+  @Type(() => UpdateRepresentativeDataDto)
   @ValidateNested()
-    representativeData?: RepresentativeDataDto;
+    representativeData?: UpdateRepresentativeDataDto;
 
   @Optional({
-    type: CustomerDataDto,
+    type: UpdateCustomerDataDto,
   })
-  @Type(() => CustomerDataDto)
+  @Type(() => UpdateCustomerDataDto)
   @ValidateNested()
-    customerData?: CustomerDataDto;
+    customerData?: UpdateCustomerDataDto;
 }

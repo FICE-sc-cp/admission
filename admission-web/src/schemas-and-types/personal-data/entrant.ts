@@ -14,3 +14,21 @@ export interface Entrant {
   submission_in_corpus?: boolean;
   oldPassportTemplate?: boolean;
 }
+
+export interface Representative {
+  firstName: string;
+  lastName: string;
+  middleName?: string;
+  passportSeries?: string;
+  passportNumber: string;
+  passportInstitute: string;
+  passportDate: string;
+  phoneNumber: string;
+  idCode: string;
+  email: string;
+  region: string;
+  settlement: string;
+  address: string;
+  index: string;
+  oldPassportTemplate?: boolean;
+}

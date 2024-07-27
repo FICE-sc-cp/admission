@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import SubmitPopup from '@/app/(application)/personal-data/_components/SubmitPopup';
 import PersonalDataApi from '@/lib/api/personal-data';
-import AuthApi from '@/lib/api/auth-api';
 import useAuth from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 const SubmitPage: FC = () => {
   const {
@@ -21,6 +21,7 @@ const SubmitPage: FC = () => {
   const [showPopup, setShowPopup] = useState(false);
   const [adminCode, setAdminCode] = useState('');
   const { user } = useAuth();
+  const { push } = useRouter();
 
   const onSubmit = async () => {
     if (entrantData?.submission_in_corpus) {
@@ -28,21 +29,64 @@ const SubmitPage: FC = () => {
     }
     await PersonalDataApi.updatePersonalData(
       {
-        email: user.email,
-        firstName: user.firstName,
-        middleName: user.middleName,
-        role: user.role,
+        email: user?.email,
+        firstName: user?.firstName,
+        middleName: user?.middleName,
+        role: user?.role,
         expectedSpecialities: '',
         isDorm: true,
         printedEdbo: true,
         confirmedStudyPlace: true,
         phone: '',
-        entrantData: entrantData,
-        customerData: customerData,
-        representativeData: representativeData,
+        entrantData: {
+          passportDate: entrantData?.passportDate,
+          passportInstitute: entrantData?.passportInstitute,
+          email: entrantData?.email,
+          idCode: entrantData?.idCode,
+          address: entrantData?.address,
+          passportNumber: entrantData?.passportNumber,
+          index: entrantData?.index,
+          passportSeries: entrantData?.passportSeries,
+          phoneNumber: entrantData?.phoneNumber,
+          region: entrantData?.region,
+          settlement: entrantData?.settlement,
+        },
+        customerData: {
+          passportDate: customerData?.passportDate,
+          passportInstitute: customerData?.passportInstitute,
+          email: customerData?.email,
+          idCode: customerData?.idCode,
+          address: customerData?.address,
+          passportNumber: customerData?.passportNumber,
+          index: customerData?.index,
+          passportSeries: customerData?.passportSeries,
+          phoneNumber: customerData?.phoneNumber,
+          region: customerData?.region,
+          settlement: customerData?.settlement,
+          firstName: customerData?.firstName,
+          middleName: customerData?.middleName,
+          lastName: customerData?.lastName,
+        },
+        representativeData: {
+          passportDate: representativeData?.passportDate,
+          passportInstitute: representativeData?.passportInstitute,
+          email: representativeData?.email,
+          idCode: representativeData?.idCode,
+          address: representativeData?.address,
+          passportNumber: representativeData?.passportNumber,
+          index: representativeData?.index,
+          passportSeries: representativeData?.passportSeries,
+          phoneNumber: representativeData?.phoneNumber,
+          region: representativeData?.region,
+          settlement: representativeData?.settlement,
+          firstName: representativeData?.firstName,
+          middleName: representativeData?.middleName,
+          lastName: representativeData?.lastName,
+        },
       },
-      user.id
+      user?.id
     );
+    push('/');
   };
   return (
     <div className='flex flex-col gap-8'>

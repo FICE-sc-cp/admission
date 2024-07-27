@@ -13,7 +13,7 @@ interface ProgressStepperProps {
 const ProgressStepper: FC<ProgressStepperProps> = ({ activeStep, steps }) => {
   return (
     <>
-      <div className='flex items-center justify-center gap-[58px]'>
+      <div className='mt-7 flex items-center justify-center gap-10 md:mt-0 md:gap-[58px]'>
         {steps?.map((step, index) => (
           <Step
             key={step}
@@ -25,6 +25,9 @@ const ProgressStepper: FC<ProgressStepperProps> = ({ activeStep, steps }) => {
           />
         ))}
       </div>
+      <p className='mt-4 block uppercase text-violet-800 md:hidden'>
+        {steps[activeStep - 1]}
+      </p>
       <Separator orientation='horizontal' className='bg-gray-300' />
     </>
   );

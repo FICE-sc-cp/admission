@@ -18,7 +18,7 @@ const Step: FC<StepProps> = ({
   isLast,
 }) => {
   return (
-    <div className='flex flex-col items-center gap-[12px]'>
+    <div className='flex flex-col items-center gap-3'>
       <div
         className={`relative w-fit rounded-[50%] border-2 ${activeStep === stepNumber || isCompleted ? 'border-violet-600' : 'border-slate-300'} ${isCompleted ? 'bg-violet-600' : 'bg-white'} p-1.5`}
       >
@@ -30,11 +30,11 @@ const Step: FC<StepProps> = ({
         {!isLast && (
           <Separator
             orientation='horizontal'
-            className={`${isCompleted ? 'bg-violet-500' : 'bg-slate-300'} absolute left-[40px] top-[20px] z-[-1] h-[2px] w-[195px]`}
+            className={`${isCompleted ? 'bg-violet-500' : 'bg-slate-300'} absolute left-[40px] top-[20px] z-[-1] h-[2px] w-[62px] md:w-[195px]`}
           />
         )}
       </div>
-      <p className='text-sm'>{text}</p>
+      <p className='hidden text-sm md:block'>{text}</p>
     </div>
   );
 };

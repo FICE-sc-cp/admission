@@ -55,7 +55,6 @@ const EntrantForm: FC = () => {
 
   useEffect(() => {
     if (user) {
-      form.setValue('userId', user.id);
       form.setValue('email', user.email);
     }
   }, [user]);
@@ -70,9 +69,9 @@ const EntrantForm: FC = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='mx-auto flex w-full max-w-[360px] flex-col items-start'
+        className='mx-auto flex w-full max-w-[360px] flex-col items-center md:items-start'
       >
-        <div className='flex flex-col gap-[24px]'>
+        <div className='flex flex-col items-start gap-[24px]'>
           <FormField
             control={form.control}
             name='study_form'
@@ -162,7 +161,7 @@ const EntrantForm: FC = () => {
           />
         </div>
 
-        <div className='mt-6 flex flex-col gap-4'>
+        <div className='mt-6 flex flex-col items-center gap-4 md:items-start'>
           <FormField
             control={form.control}
             name='phoneNumber'
@@ -384,19 +383,19 @@ const EntrantForm: FC = () => {
               </FormItem>
             )}
           />
-          <FormItem>
-            <FormLabel>Код адміністратора</FormLabel>
+          <FormItem className='flex flex-col items-center md:items-start'>
+            <FormLabel className='text-start'>Код адміністратора</FormLabel>
             <Input
               placeholder=''
               className='w-[320px] md:w-[360px]'
               value={adminCode}
               onChange={(e) => setAdminCode(e.target.value)}
             />
-            <FormDescription className='text-xs'>
+            <FormDescription className='text-center text-xs md:text-start'>
               Якщо ви ввели всі дані правильно, але система видає помилку,
               підійдіть до волонтера для перевірки
             </FormDescription>
-            <FormMessage />
+            <FormMessage className='text-center' />
           </FormItem>
         </div>
         <Button

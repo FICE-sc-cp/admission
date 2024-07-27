@@ -46,12 +46,6 @@ const RepresentativePage: FC = () => {
 
   const { user } = useAuth();
 
-  useEffect(() => {
-    if (user) {
-      form.setValue('userId', user.id);
-    }
-  }, [user]);
-
   const onSubmit = (data: z.infer<TRepresentativeSchema>) => {
     setRepresentativeData(data);
     setActiveStep((prevState) => prevState + 1);
@@ -62,9 +56,9 @@ const RepresentativePage: FC = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='mx-auto flex w-full max-w-[360px] flex-col items-start gap-6'
+        className='mx-auto flex w-full max-w-[360px] flex-col items-center gap-6 md:items-start'
       >
-        <div className='flex flex-col gap-4'>
+        <div className='flex flex-col items-center gap-4 md:items-start'>
           <div className='flex flex-col gap-2'>
             <FormField
               control={form.control}
@@ -371,7 +365,7 @@ const RepresentativePage: FC = () => {
               </FormItem>
             )}
           />
-          <FormItem>
+          <FormItem className='flex flex-col items-center md:items-start'>
             <FormLabel>Код адміністратора</FormLabel>
             <Input
               placeholder=''
@@ -379,7 +373,7 @@ const RepresentativePage: FC = () => {
               value={adminCode}
               onChange={(e) => setAdminCode(e.target.value)}
             />
-            <FormDescription className='text-xs'>
+            <FormDescription className='text-center text-xs md:text-start'>
               Якщо ви ввели всі дані правильно, але система видає помилку,
               підійдіть до волонтера для перевірки
             </FormDescription>
@@ -388,7 +382,7 @@ const RepresentativePage: FC = () => {
         </div>
         <div className='flex gap-4'>
           <Button
-            className='w-[180px]'
+            className='w-[160px] md:w-[180px]'
             onClick={() => {
               if (adminCode === '000') {
                 onSubmit(form.getValues());
@@ -400,7 +394,7 @@ const RepresentativePage: FC = () => {
             Далі
           </Button>
           <Button
-            className='w-[180px]'
+            className='w-[160px] md:w-[180px]'
             onClick={() => {
               setActiveStep((prevState) => activeStep - 1);
             }}

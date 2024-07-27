@@ -12,7 +12,9 @@ export const EntrantSchema = z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukNumberRegex, 'Номер має містити 9 цифр'),
     passportNumber: z.string({ required_error: "Обов'язкове поле" }),
-    email: z.string().email(),
+    email: z
+      .string({ required_error: `Обов'язкове поле` })
+      .email('Введіть емейл'),
     passportDate: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(dateRegex, 'Має бути формату dd.mm.yyyy'),
@@ -40,7 +42,6 @@ export const EntrantSchema = z
     address: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
-    userId: z.string({ required_error: "Обов'язкове поле" }),
     index: z
       .string({ required_error: "Обов'язкове поле" })
       .max(5, 'Має містити 5 цифр'),
@@ -94,7 +95,9 @@ export const RepresentativeSchema = z
       .max(40, 'Не довше 40 символів')
       .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
       .nullable(),
-    email: z.string().email(),
+    email: z
+      .string({ required_error: `Обов'язкове поле` })
+      .email('Введіть емейл'),
     phoneNumber: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukNumberRegex, 'Номер має містити 9 цифр'),
@@ -115,7 +118,6 @@ export const RepresentativeSchema = z
       .optional()
       .nullable()
       .default('ТТ'),
-    userId: z.string({ required_error: "Обов'язкове поле" }),
     idCode: z
       .string({ required_error: "Обов'язкове поле" })
       .max(10, 'ІПН має містити 10 цифр')

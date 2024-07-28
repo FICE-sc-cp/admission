@@ -15,7 +15,7 @@ export default function Page() {
 
   useEffect(() => {
     async function fetchPersonalData() {
-      const data = await PersonalData.getPersonalData(user?.id);
+      const data = await PersonalData.getPersonalData(user?.id as string);
       setPersonalData(data.data);
     }
     fetchPersonalData();

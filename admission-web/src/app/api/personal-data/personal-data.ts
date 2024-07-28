@@ -6,7 +6,7 @@ class PersonalDataApi {
     return await instance.patch(`/users/${userId}`, body);
   }
 
-  async getPersonalData(userId) {
+  async getPersonalData(userId: string) {
     const personalData = await instance.get<GetPersonalData>(
       `/users/${userId}`
     );

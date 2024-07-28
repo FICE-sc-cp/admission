@@ -40,11 +40,11 @@ export class DocumentService {
     const { priorities, ...contract } = data;
     return this.documentRepo.create({
       ...contract,
-      priorities: {
+      priorities: priorities ? {
         createMany: {
           data: priorities,
         },
-      },
+      } : undefined,
     });
   }
 
@@ -129,12 +129,12 @@ export class DocumentService {
     const { priorities, ...contract } = data;
     return this.documentRepo.updateById(id, {
       ...contract,
-      priorities: {
+      priorities: priorities ? {
         deleteMany: {},
         createMany: {
           data: priorities,
         },
-      },
+      } : undefined,
     });
   }
 

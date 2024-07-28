@@ -23,6 +23,11 @@ export default function Page() {
         setData(data);
       } catch (error) {
         toastError(error);
+        if (isAxiosError(error) && error.response?.status === 400) {
+          setData(null);
+        } else {
+          toastError(error);
+        }
       } finally {
         setIsLoading(false);
       }

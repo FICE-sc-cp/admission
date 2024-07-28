@@ -8,7 +8,6 @@ interface NavMenuItemProps {
   title: string;
   icon: ReactNode;
   href: string;
-  onClick?: () => void;
   withNavElem?: boolean;
 }
 
@@ -25,22 +24,16 @@ export default function NavMenuItem({
 
   const displayCurrentItem =
     notIndexPageAndPathnameMatches || isIndexPageAndPathnameMatches;
-
   const className = `flex items-center gap-3 rounded-lg px-3 py-2 text-foreground transition-all hover:bg-accent hover:text-accent-foreground ${displayCurrentItem ? 'bg-primary text-white hover:!bg-primary hover:!text-white/85' : ''} `;
 
   return (
     <Link
-      onClick={item?.onClick}
       key={item.title}
       href={item.href}
       className={!withNavElem ? className : ''}
     >
       {withNavElem ? (
-        <DropdownMenuItem
-          key={item.title}
-          onClick={item.onClick}
-          className={className}
-        >
+        <DropdownMenuItem key={item.title} className={className}>
           {item.icon}
           <span>{item.title}</span>
         </DropdownMenuItem>

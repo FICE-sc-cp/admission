@@ -3,6 +3,7 @@ import { entrantNavigationItems } from '@/lib/constants/navigation';
 import NavMenuItem from './NavMenuItem';
 import useAuth from '@/hooks/useAuth';
 import { adminNavigationItems } from '@/lib/constants/admin-navigation';
+import { LogoutNavMenuItem } from './LogoutNavMenuItem';
 
 export const DesktopSidebarNavigation = () => {
   const { user } = useAuth();
@@ -15,7 +16,6 @@ export const DesktopSidebarNavigation = () => {
               href={item.href}
               icon={<item.icon className={'h-5 w-5'} />}
               title={item.title}
-              onClick={item?.onClick}
             />
           ))
         : adminNavigationItems.map((item) => (
@@ -24,9 +24,9 @@ export const DesktopSidebarNavigation = () => {
               href={item.href}
               icon={<item.icon className={'h-5 w-5'} />}
               title={item.title}
-              onClick={item?.onClick}
             />
           ))}
+      <LogoutNavMenuItem />
     </nav>
   );
 };

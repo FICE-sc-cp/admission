@@ -16,6 +16,7 @@ import { entrantNavigationItems } from '@/lib/constants/navigation';
 import NavMenuItem from '@/app/(application)/_components/NavMenuItem';
 import useAuth from '@/hooks/useAuth';
 import { adminNavigationItems } from '@/lib/constants/admin-navigation';
+import { LogoutNavMenuItem } from './LogoutNavMenuItem';
 
 export default function MobileNavigationHeaderAndMenu() {
   const { user } = useAuth();
@@ -50,7 +51,6 @@ export default function MobileNavigationHeaderAndMenu() {
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}
                   title={item.title}
-                  onClick={item?.onClick}
                 />
               ))
             : adminNavigationItems.map((item) => (
@@ -59,9 +59,9 @@ export default function MobileNavigationHeaderAndMenu() {
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}
                   title={item.title}
-                  onClick={item?.onClick}
                 />
               ))}
+          <LogoutNavMenuItem />
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

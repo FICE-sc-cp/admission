@@ -129,15 +129,13 @@ export class QueueService implements OnModuleInit {
     const user = await this.userRepo.find({ id: userId });
     await TelegramAPI.sendRegistrationInQueue(user);
 
-    return {
-      position: await this.prisma.queuePosition.create({
-        data: {
-          userId,
-          code,
-          position: code,
-        },
-      }),
-    };
+    return this.prisma.queuePosition.create({
+      data: {
+        userId,
+        code,
+        position: code,
+      },
+    });
   }
 
   async quitQueue (userId: string) {
@@ -252,5 +250,13 @@ export class QueueService implements OnModuleInit {
 
     const text = messages[type](data);
     await TelegramAPI.sendMessage(user.telegramId, text, 'HTML');
+  }
+
+  async getUser (userId: string) {
+    return this.prisma.queuePosition.findFirst({
+      where: {
+        userId,
+      },
+    });
   }
 }

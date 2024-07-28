@@ -177,7 +177,7 @@ model Contract {
   degree             EducationalDegree       @default(BACHELOR) @map("educational_degree")
   educationalProgram String?                 @map("educational_program")
   programType        EducationalProgramType? @default(PROFESSIONAL) @map("program_type")
-  paymentType        PaymentType             @map("payment_type")
+  paymentType        PaymentType?            @map("payment_type")
   specialty          String
   studyForm          StudyForm               @default(FULL_TIME) @map("study_form")
   fundingSource      FundingSource           @map("funding_source")

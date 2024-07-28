@@ -1,4 +1,4 @@
-import { Optional } from '@nestjs/common';
+import { Optional } from '../../../globals/decorators';
 
 export class UpdateQueueDto {
   @Optional()

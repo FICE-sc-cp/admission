@@ -31,11 +31,11 @@ export class CreateContractDto {
   })
     programType: EducationalProgramType;
   
-  @Required({
+  @Optional({
     type: 'enum',
     enum: PaymentType,
   })
-    paymentType: PaymentType;
+    paymentType?: PaymentType;
   
   @Required()
     specialty: string;
@@ -64,9 +64,9 @@ export class CreateContractDto {
   @Required()
     userId: string;
 
-  @Required({
+  @Optional({
     type: CreatePriorityDto,
     isArray: true,
   })
-    priorities: CreatePriorityDto[];
+    priorities?: CreatePriorityDto[];
 }

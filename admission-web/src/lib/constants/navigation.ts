@@ -1,5 +1,3 @@
-import { authApi } from '@/app/api/auth/auth-api';
-
 import {
   UserRoundCheck,
   FileText,
@@ -34,13 +32,5 @@ export const entrantNavigationItems = [
     title: 'Черга',
     href: '/queue',
     icon: BetweenHorizonalStart,
-  },
-  {
-    title: 'Вихід',
-    href: '/auth/home',
-    icon: LogOut,
-    onClick: () => {
-      authApi.logout();
-    },
   },
 ];

@@ -1,0 +1,42 @@
+export interface DocumentsApiBody {
+  degree: Degree;
+  educationalProgram: string;
+  programType: ProgramType;
+  paymentType: PaymentType;
+  specialty: string;
+  studyForm: StudyForm;
+  fundingSource: FundingSource;
+  priorityDate: string;
+  userId: string;
+  priorities: Priorities;
+}
+
+interface Priorities {
+  number: number;
+  program: string;
+}
+
+enum Degree {
+  BACHELOR = 'BACHELOR',
+  MASTER = 'MASTER',
+}
+enum ProgramType {
+  PROFESSIONAL = 'PROFESSIONAL',
+  SCIENTIFIC = 'SCIENTIFIC',
+}
+
+enum PaymentType {
+  QUARTERLY = 'QUARTERLY',
+  SEMESTERLY = 'SEMESTERLY',
+  MONTHLY = 'MONTHLY',
+}
+
+enum StudyForm {
+  FULL_TIME = 'FULL_TIME',
+  PART_TIME = 'PART_TIME',
+}
+
+enum FundingSource {
+  BUDGET = 'BUDGET',
+  CONTRACT = 'CONTRACT',
+}

@@ -20,13 +20,8 @@ export const entrantNavigationItems = [
   },
   {
     title: 'Договір',
-    href: '/contract',
+    href: '/documents',
     icon: FileText,
-  },
-  {
-    title: 'Пріоритети',
-    href: '/priority',
-    icon: Flame,
   },
   {
     title: 'Черга',

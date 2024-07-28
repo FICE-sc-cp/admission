@@ -23,19 +23,14 @@ export default function MobileNavigationHeaderAndMenu() {
 
   const [showX, setShowX] = useState(false);
 
-  const handleMenuItemClick = () => {
-    setShowX(false);
-  };
-
   return (
     <DropdownMenu
-      open={showX}
       onOpenChange={(open) => {
         setShowX(open);
       }}
     >
       <DropdownMenuTrigger asChild>
-        <header className='pointer-events-none sticky top-2 z-40 mx-2 flex h-12 items-center justify-between gap-4 rounded border border-b border-gray-200 bg-white px-4 shadow-md md:hidden'>
+        <header className='pointer-events-none sticky top-2 mx-2 flex h-12 items-center justify-between gap-4 rounded border border-b border-gray-200 bg-white px-4 shadow-md md:hidden'>
           <AvatarAndName size='small' />
           <Button className='pointer-events-auto' variant='ghost' size='icon'>
             {showX ? <X className='h-5 w-5' /> : <Menu className='h-5 w-5' />}
@@ -44,7 +39,10 @@ export default function MobileNavigationHeaderAndMenu() {
         </header>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent className='w-[var(--radix-popper-anchor-width)]'>
+      <DropdownMenuContent
+        className='w-[var(--radix-popper-anchor-width)]'
+        onAuxClick={() => console.log('aux')}
+      >
         <DropdownMenuGroup className='flex flex-col gap-y-1.5 p-2'>
           {user && user?.role === 'ENTRANT'
             ? entrantNavigationItems.map((item) => (
@@ -53,7 +51,6 @@ export default function MobileNavigationHeaderAndMenu() {
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}
                   title={item.title}
-                  onClick={handleMenuItemClick}
                 />
               ))
             : adminNavigationItems.map((item) => (
@@ -62,7 +59,6 @@ export default function MobileNavigationHeaderAndMenu() {
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}
                   title={item.title}
-                  onClick={handleMenuItemClick}
                 />
               ))}
           <LogoutNavMenuItem />

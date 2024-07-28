@@ -26,7 +26,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { regions } from '@/constants/personal-data-select';
+import { regions } from '@/lib/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
 import { FC, useEffect, useState } from 'react';
 import useAuth from '@/hooks/useAuth';

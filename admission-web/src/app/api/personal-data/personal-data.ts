@@ -1,5 +1,5 @@
-import instance from '@/lib/api/instance';
-import { PersonalDataBody } from '@/lib/api/types/personal-data-type';
+import { PersonalDataBody } from './personal-data-type';
+import { instance } from '@/app/api/instance';
 
 class PersonalDataApi {
   async updatePersonalData(body: PersonalDataBody, userId: string) {

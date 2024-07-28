@@ -3,10 +3,7 @@
 import ProgressStepper from '@/app/(application)/personal-data/_components/progress-stepper/ProgressStepper';
 import { useEffect, useState } from 'react';
 import EntrantForm from '@/app/(application)/personal-data/_components/EntrantForm';
-import {
-  PersonalDataContextProvider,
-  usePersonalDataContext,
-} from '$/admission-web/contexts/PersonalDataContext';
+import { usePersonalDataContext } from '$/admission-web/contexts/PersonalDataContext';
 import SubmitPage from '@/app/(application)/personal-data/_components/SubmitPage';
 import RepresentativePage from '@/app/(application)/personal-data/_components/RepresentativePage';
 import CustomerPage from '@/app/(application)/personal-data/_components/CustomerPage';

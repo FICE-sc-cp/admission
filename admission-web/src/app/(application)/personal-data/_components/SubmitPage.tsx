@@ -5,7 +5,7 @@ import { usePersonalDataContext } from '$/admission-web/contexts/PersonalDataCon
 import { Button } from '@/components/ui/button';
 import { Separator } from '@/components/ui/separator';
 import SubmitPopup from '@/app/(application)/personal-data/_components/SubmitPopup';
-import PersonalDataApi from '@/lib/api/personal-data';
+import PersonalDataApi from '@/app/api/personal-data/personal-data';
 import useAuth from '@/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 

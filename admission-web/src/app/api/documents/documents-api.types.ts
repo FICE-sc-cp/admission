@@ -1,5 +1,4 @@
 export interface DocumentsApiBody {
-  id?: string;
   degree: Degree;
   educationalProgram: string;
   programType: ProgramType;

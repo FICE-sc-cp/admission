@@ -13,16 +13,13 @@ export default function Page() {
     null
   );
 
-  async function fetchPersonalData() {
-    const data = await PersonalData.getPersonalData(user?.id as string);
-    setPersonalData(data.data);
-  }
-
   useEffect(() => {
-    if (user?.id) {
-      fetchPersonalData();
+    async function fetchPersonalData() {
+      const data = await PersonalData.getPersonalData(user?.id as string);
+      setPersonalData(data.data);
     }
-  }, [user?.id]);
+    fetchPersonalData();
+  }, []);
   return (
     <main className='flex flex-1 flex-col gap-2 p-4 lg:gap-3 lg:p-6'>
       {!personalData?.entrantData ? (

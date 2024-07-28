@@ -44,7 +44,6 @@ export const DocumentsForm = () => {
   const onSubmit = async (data: TDocumentsSchema) => {
     //@ts-ignore
     await DocumentsApi.createDocument({ ...data, userId: user?.id });
-    console.log(data, 'submit');
   };
 
   useEffect(() => {
@@ -72,8 +71,6 @@ export const DocumentsForm = () => {
       form.setValue('programType', null);
     }
   }, [form.getValues()]);
-
-  console.log(form.getValues());
 
   return (
     <Form {...form}>

@@ -3,7 +3,7 @@ import { instance } from '@/app/api/instance';
 
 class DocumentsApi {
   async createDocument(body: DocumentsApiBody) {
-    return await instance.post('/documents', body);
+    await instance.post('/documents', body);
   }
 }
 

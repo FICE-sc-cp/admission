@@ -4,7 +4,7 @@ import { UserRepo } from 'src/database/repo/user.repo';
 import { ENTRANT_WITH_SUCH_ID_DOES_NOT_EXIST_MSG, USER_WITH_SUCH_ID_DOES_NOT_EXIST_MSG } from '../constants';
 
 @Injectable()
-export class EntrantByIdPipe implements PipeTransform<string, Promise<string>> {
+export class UserByIdPipe implements PipeTransform<string, Promise<string>> {
   constructor (
     private readonly userRepo: UserRepo,
   ) {}

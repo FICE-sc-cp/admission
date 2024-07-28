@@ -15,6 +15,7 @@ import { AdminOrMeGuard } from '../auth/guards/admin-or-me.guard';
 import { QueuePositionDto } from './dtos/queue-position.dto';
 import { QueueDto } from './responses/queue.dto';
 import { RelativePositionsDto } from './responses/relative-positions.dto';
+import { UserByIdPipe } from '../users/pipes/user-by-id.pipe';
 
 @ApiTags('Queue')
 @Controller({
@@ -35,7 +36,7 @@ export class QueueController {
   @MultipleAccesses(TelegramGuard, [AuthGuard, AdminOrMeGuard])
   @UseGuards(MultipleAccessGuard)
   @ApiResponse({ type: QueuePositionDto })
-  joinQueue (@Param('userId') userId: string, @Body() body: JoinQueueDto) {
+  joinQueue (@Param('userId', UserByIdPipe) userId: string, @Body() body: JoinQueueDto) {
     return this.queueService.joinQueue(userId, body);
   }
 
@@ -44,7 +45,7 @@ export class QueueController {
   @MultipleAccesses(TelegramGuard, [AuthGuard, AdminOrMeGuard])
   @UseGuards(MultipleAccessGuard)
   @ApiOkResponse()
-  quitQueue (@Param('userId') userId: string) {
+  quitQueue (@Param('userId', UserByIdPipe) userId: string) {
     return this.queueService.quitQueue(userId);
   }
 
@@ -71,7 +72,7 @@ export class QueueController {
   @Roles([Role.ADMIN])
   @UseGuards(AuthGuard)
   @ApiResponse({ type: QueuePositionDto })
-  updateUser (@Param('userId') userId: string, @Body() body: UpdateQueuePositionDto) {
+  updateUser (@Param('userId', UserByIdPipe) userId: string, @Body() body: UpdateQueuePositionDto) {
     return this.queueService.updatePosition(userId, body);
   }
 
@@ -79,7 +80,7 @@ export class QueueController {
   @Get('users/:userId')
   @UseGuards(AuthGuard, AdminOrMeGuard)
   @ApiResponse({ type: QueuePositionDto })
-  getUser (@Param('userId') userId: string) {
+  getUser (@Param('userId', UserByIdPipe) userId: string) {
     return this.queueService.getUser(userId);
   }
 }

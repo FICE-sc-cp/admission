@@ -48,6 +48,7 @@ const EntrantForm: FC = () => {
   const [adminCode, setAdminCode] = useState('');
   const form = useForm<TEntrantSchema>({
     resolver: zodResolver(EntrantSchema),
+    //@ts-ignore
     defaultValues: entrantData !== null ? entrantData : {},
   });
 
@@ -61,7 +62,7 @@ const EntrantForm: FC = () => {
 
   const onSubmit = (data: TEntrantSchema) => {
     setEntrantData(data);
-    setActiveStep(2);
+    setActiveStep((prevState) => 2);
   };
 
   return (
@@ -191,7 +192,8 @@ const EntrantForm: FC = () => {
                         <Input
                           placeholder='Серія'
                           className={'w-[120px]'}
-                          {...field}
+                          value={field.value as string}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -341,7 +343,8 @@ const EntrantForm: FC = () => {
                   <Input
                     placeholder='м. Київ'
                     className='w-[320px] md:w-[360px]'
-                    {...field}
+                    value={field.value as string}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />

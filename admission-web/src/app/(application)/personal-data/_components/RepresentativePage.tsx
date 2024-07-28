@@ -40,13 +40,14 @@ const RepresentativePage: FC = () => {
   } = usePersonalDataContext();
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
+    //@ts-ignore
     defaultValues: representativeData !== null ? representativeData : {},
   });
   const [adminCode, setAdminCode] = useState('');
 
   const { user } = useAuth();
 
-  const onSubmit = (data: z.infer<TPersonalDataSchema>) => {
+  const onSubmit = (data: TPersonalDataSchema) => {
     setRepresentativeData(data);
     setActiveStep((prevState) => prevState + 1);
     setAdminCode('');
@@ -174,7 +175,8 @@ const RepresentativePage: FC = () => {
                         <Input
                           placeholder='Серія'
                           className={'w-[120px]'}
-                          {...field}
+                          value={field.value as string}
+                          onChange={field.onChange}
                         />
                       </FormControl>
                       <FormMessage />
@@ -324,7 +326,8 @@ const RepresentativePage: FC = () => {
                   <Input
                     placeholder='м. Київ'
                     className='w-[320px] md:w-[360px]'
-                    {...field}
+                    value={field.value as string}
+                    onChange={field.onChange}
                   />
                 </FormControl>
                 <FormMessage />

@@ -109,7 +109,6 @@ export const PersonalDataSchema = z
         kirillicRegex,
         'Серія паспорту має містити кириличні літери верхнього регістру'
       )
-      .optional()
       .nullable()
       .default('ТТ'),
     idCode: z
@@ -119,8 +118,7 @@ export const PersonalDataSchema = z
     region: z.string({ required_error: 'Будь ласка оберіть регіон' }),
     settlement: z
       .string({ required_error: "Обов'язкове поле" })
-      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-      .nullable(),
+      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
     address: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),

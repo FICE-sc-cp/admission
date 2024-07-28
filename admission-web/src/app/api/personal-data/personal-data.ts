@@ -1,4 +1,5 @@
 import { GetPersonalData, PersonalDataBody } from './personal-data-type';
+
 import { instance } from '@/app/api/instance';
 
 class PersonalDataApi {

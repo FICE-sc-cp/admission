@@ -41,7 +41,6 @@ interface Entrant {
   address: string;
   index: string;
 }
-
 export interface GetPersonalData {
   id: string;
   email: string;

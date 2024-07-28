@@ -1,7 +1,9 @@
+'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
 import { cn } from '@/lib/cn';
 import useAuth from '@/hooks/useAuth';
+import { FC } from 'react';
 
 interface AvatarAndNameProps {
   size?: 'small' | 'default';
@@ -12,16 +14,14 @@ const sizes = {
   default: 'h-12 w-12',
 };
 
-export default function AvatarAndName({
-  size = 'default',
-}: AvatarAndNameProps) {
+export const AvatarAndName: FC<AvatarAndNameProps> = ({ size = 'default' }) => {
   const { user } = useAuth();
 
   return (
     <Link href='/' className='flex items-center gap-3'>
       <Avatar className={cn(sizes[size], 'border-2 border-gray-200')}>
         <AvatarImage
-          src='from-image.png'
+          src='/from-image.png'
           className='rounded-full object-cover'
         />
         <AvatarFallback>{user?.firstName}</AvatarFallback>
@@ -29,4 +29,4 @@ export default function AvatarAndName({
       <span className='font-medium'>{user?.firstName}</span>
     </Link>
   );
-}
+};

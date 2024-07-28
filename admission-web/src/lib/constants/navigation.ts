@@ -3,8 +3,6 @@ import {
   FileText,
   Flame,
   BetweenHorizonalStart,
-  LogOut,
-  Fingerprint,
 } from 'lucide-react';
 
 export const entrantNavigationItems = [
@@ -14,14 +12,14 @@ export const entrantNavigationItems = [
     icon: UserRoundCheck,
   },
   {
-    title: 'Особисті дані',
-    href: '/personal-data',
-    icon: Fingerprint,
+    title: 'Договір',
+    href: '/contract',
+    icon: FileText,
   },
   {
-    title: 'Договір',
-    href: '/documents',
-    icon: FileText,
+    title: 'Пріоритети',
+    href: '/priority',
+    icon: Flame,
   },
   {
     title: 'Черга',

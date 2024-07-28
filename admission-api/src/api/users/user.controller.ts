@@ -8,6 +8,7 @@ import { UserDto } from './dtos/user.dto';
 import { Roles } from '../auth/decorators/roles.decorator';
 import { GetUsersQuery } from './queries/get-users.query';
 import { AdminOrMeGuard } from '../auth/guards/admin-or-me.guard';
+import { UserByIdPipe } from './pipes/user-by-id.pipe';
 
 @ApiTags('User')
 @Controller({
@@ -22,7 +23,7 @@ export class UserController {
   @ApiBody({ type: UpdateUserDto })
   @UseGuards(AuthGuard, AdminOrMeGuard)
   @Patch(':userId')
-  update (@Param('userId') id: string, @Body() body: UpdateUserDto) {
+  update (@Param('userId', UserByIdPipe) id: string, @Body() body: UpdateUserDto) {
     return this.userService.updateById(id, body);
   }
 
@@ -30,7 +31,7 @@ export class UserController {
   @ApiResponse({ type: UserDto })
   @UseGuards(AuthGuard, AdminOrMeGuard)
   @Get(':userId')
-  getProfile (@Param('userId') id: string) {
+  getProfile (@Param('userId', UserByIdPipe) id: string) {
     return this.userService.getProfile(id);
   }
 
@@ -47,7 +48,7 @@ export class UserController {
   @Roles([Role.ADMIN])
   @UseGuards(AuthGuard)
   @Delete(':userId')
-  deleteById (@Param('userId') id: string) {
+  deleteById (@Param('userId', UserByIdPipe) id: string) {
     return this.userService.deleteById(id);
   }
 }

@@ -119,7 +119,7 @@ export class QueueService implements OnModuleInit {
 
     const code = this.generatePosition();
 
-    await this.prisma.user.update({
+    await this.prisma.user.updateMany({
       where: {
         id: userId,
       },
@@ -253,10 +253,13 @@ export class QueueService implements OnModuleInit {
   }
 
   async getUser (userId: string) {
-    return this.prisma.queuePosition.findFirst({
-      where: {
-        userId,
-      },
+    const position = await this.prisma.queuePosition.findFirst({
+      where: { userId },
     });
+    const relativePosition = await this.getRelativePositions(position.position);
+    return {
+      ...position,
+      relativePosition,
+    };
   }
 }

@@ -1,8 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { RegistrationDto } from './dto/registration.dto';
 import { UserRepo } from '../../database/repo/user.repo';
 import {
@@ -24,24 +20,23 @@ const SESSIONS = 5;
 
 @Injectable()
 export class AuthService {
-  constructor(
+  constructor (
     private readonly userRepo: UserRepo,
     private readonly tokenRepo: TokenRepo,
     private readonly emailService: EmailService,
     private readonly configService: ConfigService,
   ) {}
 
-  async register(data: RegistrationDto): Promise<MessageResponse> {
+  async register (data: RegistrationDto): Promise<MessageResponse> {
     const user = await this.userRepo.find({ email: data.email });
-    if (user)
-      throw new BadRequestException(USER_WITH_SUCH_EMAIL_ALREADY_EXISTS_MSG);
+    if (user) throw new BadRequestException(USER_WITH_SUCH_EMAIL_ALREADY_EXISTS_MSG);
     const { id } = await this.userRepo.create(data);
     const token = await this.generateToken(id);
     await this.sendAuthLink(data.email, token);
     return { message: AUTH_LINK_IS_SENT_MSG };
   }
 
-  private async generateToken(userId: string): Promise<string> {
+  private async generateToken (userId: string): Promise<string> {
     const token = v4();
     await this.tokenRepo.deleteMany({ userId, type: TokenType.OTP });
     await this.userRepo.updateById(userId, {
@@ -55,18 +50,17 @@ export class AuthService {
     return token;
   }
 
-  private async sendAuthLink(email: string, token: string): Promise<void> {
+  private async sendAuthLink (email: string, token: string): Promise<void> {
     const frontendUrl = this.configService.get<string>('frontendUrl');
     await this.emailService.sendEmail({
       to: email,
       subject: 'Кабінет вступника | Вхід',
-      message:
-        'Для входу до кабінету вступника використовуйте посилання нижче:',
+      message: 'Для входу до кабінету вступника використовуйте посилання нижче:',
       link: `${frontendUrl}/auth/${token}`,
     });
   }
 
-  async verify(token: string) {
+  async verify (token: string) {
     const user = await this.userRepo.find({
       tokens: {
         some: {
@@ -80,7 +74,7 @@ export class AuthService {
     return { user, session };
   }
 
-  private async createAuthSession(userId: string): Promise<string> {
+  private async createAuthSession (userId: string): Promise<string> {
     const token = v4();
     await this.decrementSessions(userId);
     await this.userRepo.updateById(userId, {
@@ -95,7 +89,7 @@ export class AuthService {
     return token;
   }
 
-  private async decrementSessions(userId: string) {
+  private async decrementSessions (userId: string) {
     const tokens = await this.tokenRepo.findMany({
       where: {
         userId,
@@ -112,36 +106,29 @@ export class AuthService {
     }
   }
 
-  async login({ email }: EmailDto) {
+  async login ({ email }: EmailDto) {
     const user = await this.userRepo.find({ email });
-    if (!user)
-      throw new NotFoundException(USER_WITH_SUCH_EMAIL_DOES_NOT_EXIST_MSG);
+    if (!user) throw new NotFoundException(USER_WITH_SUCH_EMAIL_DOES_NOT_EXIST_MSG);
     const token = await this.generateToken(user.id);
     await this.sendAuthLink(email, token);
     return { message: AUTH_LINK_IS_SENT_MSG };
   }
 
-  async logout(req: Request, res: Response) {
+  async logout (req: Request, res: Response) {
     const token = req.cookies['session'];
     await this.tokenRepo.deleteByValue(token);
 
-    res.clearCookie(
-      'session',
-      this.configService.get<string>('nodeEnv') !== 'local'
-        ? {
-            httpOnly: true,
-            secure: true,
-            maxAge: 38530000,
-            path: '/',
-            sameSite: 'none',
-          }
-        : {
-            httpOnly: false,
-            secure: false,
-            path: '/',
-            sameSite: false,
-          },
-    );
+    res.clearCookie('session', this.configService.get<string>('nodeEnv') !== 'local' ? {
+      httpOnly: true,
+      secure: true,
+      path: '/',
+      sameSite: 'none',
+    } : {
+      httpOnly: false,
+      secure: false,
+      path: '/',
+      sameSite: false,
+    });
 
     return { message: 'success' };
   }

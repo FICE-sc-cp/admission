@@ -30,7 +30,7 @@ export default function MobileNavigationHeaderAndMenu() {
       }}
     >
       <DropdownMenuTrigger asChild>
-        <header className='pointer-events-none sticky top-2 mx-2 flex h-12 items-center justify-between gap-4 rounded border border-b border-gray-200 bg-white px-4 shadow-md md:hidden'>
+        <header className='pointer-events-none sticky top-2 z-40 mx-2 flex h-12 items-center justify-between gap-4 rounded border border-b border-gray-200 bg-white px-4 shadow-md md:hidden'>
           <AvatarAndName size='small' />
           <Button className='pointer-events-auto' variant='ghost' size='icon'>
             {showX ? <X className='h-5 w-5' /> : <Menu className='h-5 w-5' />}

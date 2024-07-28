@@ -1,7 +1,7 @@
 'use client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { SignInSchema, TSignIn } from '@/schemas-and-types/auth';
+import { SignInSchema, TSignIn } from '@/lib/schemas-and-types/auth';
 
 import {
   Form,
@@ -12,7 +12,8 @@ import {
 } from '@/components/ui/form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import AuthApi from '@/lib/api/auth-api';
+import { authApi } from '@/app/api/auth/auth-api';
+
 import { useRouter } from 'next/navigation';
 import { isAxiosError } from 'axios';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
@@ -29,7 +30,7 @@ export const LoginForm = () => {
 
   async function onSubmit(values: TSignIn) {
     try {
-      await AuthApi.login(values);
+      await authApi.login(values);
       push('/auth/email');
     } catch (error) {
       if (isAxiosError(error) && error.response?.status === 404) {

@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { ukRegex } from '../constants/regex';
 
 export interface User {
   id: string;
@@ -8,8 +9,6 @@ export interface User {
   lastName: string;
   role: string;
 }
-
-const ukRegex = /^[ҐЄІЇЬА-ЩЮЯґєіїьа-щюя\-`ʼ' ]+$/;
 
 export const SignUpSchema = z.object({
   email: z

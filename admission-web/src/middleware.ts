@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import instance from './lib/api/instance';
+import { getServerUser } from './app/api/actions/getServerUser';
 
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/auth')) {
@@ -14,14 +14,9 @@ export async function middleware(request: NextRequest) {
 
   if (request.nextUrl.pathname.startsWith('/admin')) {
     try {
-      const { data: user } = await instance.get('/auth/me', {
-        withCredentials: true,
-        headers: {
-          Cookie: `session=${sessionToken.value}`,
-        },
-      });
+      const user = await getServerUser();
 
-      if (user.role !== 'ADMIN') {
+      if (user!.role !== 'ADMIN') {
         return NextResponse.redirect(new URL('/', request.url));
       }
     } catch (error) {

@@ -1,9 +1,10 @@
 'use client';
-import AuthApi from '@/lib/api/auth-api';
+import { authApi } from '@/app/api/auth/auth-api';
+
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { SignUpSchema, TSignUp } from '@/schemas-and-types/auth';
+import { SignUpSchema, TSignUp } from '@/lib/schemas-and-types/auth';
 
 import {
   Form,
@@ -28,7 +29,7 @@ export const RegisterForm = () => {
     },
   });
   async function onSubmit(values: TSignUp) {
-    await AuthApi.register(values);
+    await authApi.register(values);
     router.push('/auth/email');
   }
   return (

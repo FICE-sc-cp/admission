@@ -11,7 +11,7 @@ import {
 
 import { Button } from '@/components/ui/button';
 import { Menu, X } from 'lucide-react';
-import { entrantNavigationItems } from '@/constants/navigation';
+import { entrantNavigationItems } from '@/lib/constants/navigation';
 
 import NavMenuItem from '@/app/(application)/_components/NavMenuItem';
 

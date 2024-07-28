@@ -1,4 +1,5 @@
-import authApi from '@/lib/api/auth-api';
+import { authApi } from '@/app/api/auth/auth-api';
+
 import {
   UserRoundCheck,
   FileText,

@@ -14,7 +14,7 @@ export interface UpdateQueueBody {
 }
 
 export interface AddUserToQueueBody {
-  phoneNumber: string;
+  phone: string;
   isDorm: boolean;
   printedEdbo: boolean;
   expectedSpecialities: string;

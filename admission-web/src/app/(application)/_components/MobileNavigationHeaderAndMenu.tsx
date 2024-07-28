@@ -16,6 +16,7 @@ import { entrantNavigationItems } from '@/lib/constants/navigation';
 import NavMenuItem from '@/app/(application)/_components/NavMenuItem';
 import useAuth from '@/hooks/useAuth';
 import { adminNavigationItems } from '@/lib/constants/admin-navigation';
+import { LogoutNavMenuItem } from './LogoutNavMenuItem';
 
 export default function MobileNavigationHeaderAndMenu() {
   const { user } = useAuth();
@@ -29,7 +30,7 @@ export default function MobileNavigationHeaderAndMenu() {
       }}
     >
       <DropdownMenuTrigger asChild>
-        <header className='pointer-events-none sticky top-2 mx-2 flex h-12 items-center justify-between gap-4 rounded border border-b border-gray-200 bg-white px-4 shadow-md md:hidden'>
+        <header className='pointer-events-none sticky top-2 z-40 mx-2 flex h-12 items-center justify-between gap-4 rounded border border-b border-gray-200 bg-white px-4 shadow-md md:hidden'>
           <AvatarAndName size='small' />
           <Button className='pointer-events-auto' variant='ghost' size='icon'>
             {showX ? <X className='h-5 w-5' /> : <Menu className='h-5 w-5' />}
@@ -50,7 +51,6 @@ export default function MobileNavigationHeaderAndMenu() {
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}
                   title={item.title}
-                  onClick={item?.onClick}
                 />
               ))
             : adminNavigationItems.map((item) => (
@@ -59,9 +59,9 @@ export default function MobileNavigationHeaderAndMenu() {
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}
                   title={item.title}
-                  onClick={item?.onClick}
                 />
               ))}
+          <LogoutNavMenuItem />
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

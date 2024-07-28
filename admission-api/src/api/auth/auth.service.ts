@@ -1,4 +1,4 @@
-import { BadRequestException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import { RegistrationDto } from './dto/registration.dto';
 import { UserRepo } from '../../database/repo/user.repo';
 import {
@@ -118,17 +118,14 @@ export class AuthService {
     const token = req.cookies['session'];
     await this.tokenRepo.deleteByValue(token);
 
-    res.clearCookie('auth', this.configService.get<string>('nodeEnv') !== 'local' ? {
+    res.clearCookie('session', this.configService.get<string>('nodeEnv') !== 'local' ? {
       httpOnly: true,
       secure: true,
-      maxAge: 38530000,
-      partitioned: true,
       path: '/',
       sameSite: 'none',
     } : {
       httpOnly: false,
       secure: false,
-      maxAge: 38530000,
       path: '/',
       sameSite: false,
     });

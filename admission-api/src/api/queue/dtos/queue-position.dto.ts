@@ -1,4 +1,4 @@
-import { Required } from '../../../globals/decorators';
+import { Optional, Required } from '../../../globals/decorators';
 import { QueuePositionStatus } from '@prisma/client';
 
 export class QueuePositionDto {
@@ -28,4 +28,7 @@ export class QueuePositionDto {
 
   @Required()
     updatedAt: Date;
+
+  @Optional()
+    relativePosition?: number;
 }

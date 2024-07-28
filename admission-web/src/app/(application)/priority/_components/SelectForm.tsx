@@ -27,7 +27,7 @@ import {
   IPrioritySelect,
   priorityFormSchema,
   TPriorityForm,
-} from '@/schemas-and-types/priority';
+} from '@/lib/schemas-and-types/priority';
 
 interface SelectFormProps {
   educationalPrograms: IPrioritySelect[];

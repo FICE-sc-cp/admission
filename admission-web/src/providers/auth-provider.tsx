@@ -1,8 +1,9 @@
 'use client';
 
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import { User } from '@/schemas-and-types/auth';
-import AuthApi from '@/lib/api/auth-api';
+import { User } from '@/lib/schemas-and-types/auth';
+import { authApi } from '@/app/api/auth/auth-api';
+
 import { Session } from '@/hooks/types';
 import { useRouter } from 'next/navigation';
 
@@ -15,7 +16,8 @@ const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
   const router = useRouter();
 
   useEffect(() => {
-    AuthApi.getMe()
+    authApi
+      .getMe()
       .then((res) => setUser(res.data))
       .catch(() => router.replace('/auth/sign-up'))
       .finally(() => setLoading(false));

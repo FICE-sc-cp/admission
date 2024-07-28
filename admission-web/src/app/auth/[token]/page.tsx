@@ -1,5 +1,6 @@
 'use client';
-import AuthApi from '@/lib/api/auth-api';
+import { authApi } from '@/app/api/auth/auth-api';
+
 import { ClockIcon, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
@@ -22,7 +23,7 @@ export default function TokenPage({ params: { token } }: TokenPageProps) {
 
   const verify = async () => {
     try {
-      await AuthApi.verify(token);
+      await authApi.verify(token);
       setIsInvalid(false);
     } catch (error) {
       if (isAxiosError(error)) {

@@ -22,7 +22,7 @@ interface ContextProps {
   customerData: Representative | null;
   setCustomerData: (value: Representative) => void;
   activeStep: number;
-  setActiveStep: (value: (prevState) => number) => void;
+  setActiveStep: (value: (prevState: number) => number) => void;
 }
 
 const PersonalDataContext = createContext<ContextProps | undefined>(undefined);

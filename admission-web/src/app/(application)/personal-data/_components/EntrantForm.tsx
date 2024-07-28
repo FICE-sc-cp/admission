@@ -59,7 +59,7 @@ const EntrantForm: FC = () => {
     }
   }, [user]);
 
-  const onSubmit = (data: z.infer<TEntrantSchema>) => {
+  const onSubmit = (data: TEntrantSchema) => {
     console.log(data);
     setEntrantData(data);
     setActiveStep(2);

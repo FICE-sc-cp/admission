@@ -52,11 +52,17 @@ export class QueueService implements OnModuleInit {
     return {
       queueSize,
       lastPosition: this.lastPosition,
+      opened: this.opened,
     };
   }
 
   updateQueue ({ opened }: UpdateQueueDto) {
     this.opened = opened;
+
+    return {
+      lastPosition: this.lastPosition,
+      opened: this.opened,
+    };
   }
 
   async getUsers (query: GetUsersQuery) {

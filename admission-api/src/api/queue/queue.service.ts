@@ -65,11 +65,8 @@ export class QueueService implements OnModuleInit {
     };
   }
 
-  async getUsers ({ skip = 0, take = 5000, status }: GetUsersQuery) {
+  async getUsers (query: GetUsersQuery) {
     const positions = await this.prisma.queuePosition.findMany({
-      where: {
-        status,
-      },
       include: this.include,
       orderBy: [{
         position: 'asc',
@@ -90,7 +87,7 @@ export class QueueService implements OnModuleInit {
     newPositions.sort((a, b) => a.relativePosition - b.relativePosition);
 
     return {
-      positions: newPositions.splice(skip, take),
+      positions: newPositions.splice(query.skip, query.take),
     };
   }
 
@@ -130,18 +127,7 @@ export class QueueService implements OnModuleInit {
     });
 
     const user = await this.userRepo.find({ id: userId });
-    await TelegramAPI.sendRegistrationInQueue({
-      lastName: user.lastName,
-      is_dorm: user.isDorm,
-      email: user.email,
-      expectedSpecialities: user.expectedSpecialities,
-      telegramId: user.telegramId ? String(user.telegramId) : null,
-      firstName: user.firstName,
-      middleName: user.middleName,
-      phone: user.phone,
-      printedEdbo: user.printedEdbo,
-      id: user.id,
-    });
+    await TelegramAPI.sendRegistrationInQueue(user);
 
     return this.prisma.queuePosition.create({
       data: {
@@ -203,18 +189,7 @@ export class QueueService implements OnModuleInit {
       await this.notifyQueue();
       await this.sendMessage(userId, MessageType.PROCESSING, { code: position.code });
       const user = await this.userRepo.find({ id: userId });
-      await TelegramAPI.sendGoingUser({
-        is_dorm: user.isDorm,
-        email: user.email,
-        expectedSpecialities: user.expectedSpecialities,
-        firstName: user.firstName,
-        telegramId: user.telegramId ? String(user.telegramId) : null,
-        lastName: user.lastName,
-        middleName: user.middleName,
-        phone: user.phone,
-        printedEdbo: user.printedEdbo,
-        id: user.id,
-      });
+      await TelegramAPI.sendGoingUser(user);
     }
 
     return this.prisma.queuePosition.findFirst({
@@ -281,15 +256,10 @@ export class QueueService implements OnModuleInit {
     const position = await this.prisma.queuePosition.findFirst({
       where: { userId },
     });
-    if (!position) return null;
     const relativePosition = await this.getRelativePositions(position.position);
     return {
       ...position,
       relativePosition,
     };
-  }
-
-  removeUsers () {
-    return this.prisma.queuePosition.deleteMany();
   }
 }

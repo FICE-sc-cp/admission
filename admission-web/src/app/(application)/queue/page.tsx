@@ -8,6 +8,7 @@ import { QueueUser } from '@/lib/schemas-and-types/queue';
 import { instance } from '@/app/api/instance';
 import { queueApi } from '@/app/api/queue/queue-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { isAxiosError } from 'axios';
 
 export default function Page() {
   const [data, setData] = useState<QueueUser | null>(null);

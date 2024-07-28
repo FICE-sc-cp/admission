@@ -8,7 +8,4 @@ export class RelativePositionDto extends QueuePositionDto {
     type: OmitType(UserDto, ['customerData', 'representativeData', 'contracts', 'entrantData']),
   })
     user: Omit<UserDto, 'customerData' | 'representativeData' | 'entrantData' | 'contracts'>;
-
-  @Required()
-    relativePosition: number;
 }

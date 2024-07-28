@@ -7,7 +7,9 @@ export default function page() {
       {/*If no personal data*/}
       {/*<NoPersonalData />*/}
 
-      <p className='text-2xl font-semibold'>Створення договору про навчання</p>
+      <p className='text-xl font-medium md:text-2xl md:font-semibold'>
+        Створення договору про навчання
+      </p>
       <Separator orientation='horizontal' className='w-full bg-violet-600' />
       <DocumentsForm />
     </main>

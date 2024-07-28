@@ -1,56 +1,88 @@
 import { z } from 'zod';
+import { EducationProgram } from '$/utils/src';
+import {
+  PROFESSIONAL,
+  SCIENTIFIC,
+} from '@/lib/constants/documents-educational-programs';
 
-const educationalPrograms = {
-  Наукова: [
-    '121 Інженерія програмного забезпечення інформаційних систем',
-    '121 Інженерія програмного забезпечення комп’ютерних систем',
-    '123 Комп’ютерні системи та мережі',
-    '126 Інформаційні управляючі системи та технології',
-  ],
-  Професійна: [
-    '121 Інженерія програмного забезпечення інформаційних систем',
-    '121 Інженерія програмного забезпечення комп’ютерних систем',
-    '123 Комп’ютерні системи та мережі',
-    '126 Інформаційні управляючі системи та технології',
-    '126 Інтегровані інформаційні системи',
-    '126 Інформаційне забезпечення робототехнічних систем',
-  ],
-};
+export interface IPrioritySelect {
+  label: string;
+  id: EducationProgram;
+}
 
-export const DocumentsSchema = z.object({
-  degree: z.enum(['Bachelor', 'Master'], {
-    required_error: "Обов'язкове поле",
-  }),
-  fundingSource: z.enum(['Budget', 'Contract'], {
-    required_error: "Обов'язкове поле",
-  }),
-  studyForm: z.enum(['Full_time', 'Part_time'], {
-    required_error: "Обов'язкове поле",
-  }),
-  specialty: z
-    .enum(
-      [
-        '121 Інженерія програмного забезпечення',
-        '123 Комп’ютерна інженерія',
-        '126 Інформаційні системи та технології',
-      ],
-      {
-        required_error: "Обов'язкове поле",
-      }
-    )
-    .nullable()
-    .default(null),
-  paymentType: z
-    .enum(['Щоквартально', 'Щосеместрово', 'Щомісячно'], {
+const prioritySchema = z.object(
+  {
+    number: z.number({
       required_error: "Обов'язкове поле",
-    })
-    .optional()
-    .nullable()
-    .default(null),
-  // programType: z.enum(['Професійна', 'Наукова'], {
-  //   required_error: "Обов'язкове поле",
-  // }),
-  // educationalProgram: z.enum(['']).optional(),
-});
+    }),
+    program: z.string({
+      required_error: "Обов'язкове поле",
+    }),
+  },
+  {
+    required_error: "Обов'язкове поле",
+  }
+);
+
+export const DocumentsSchema = z
+  .object({
+    degree: z.enum(['BACHELOR', 'MASTER'], {
+      required_error: "Обов'язкове поле",
+    }),
+    fundingSource: z.enum(['BUDGET', 'CONTRACT'], {
+      required_error: "Обов'язкове поле",
+    }),
+    studyForm: z.enum(['FULL_TIME', 'PART_TIME'], {
+      required_error: "Обов'язкове поле",
+    }),
+    specialty: z
+      .enum(
+        [
+          '121 Інженерія програмного забезпечення',
+          '123 Комп’ютерна інженерія',
+          '126 Інформаційні системи та технології',
+        ],
+        {
+          required_error: "Обов'язкове поле",
+        }
+      )
+      .nullable(),
+    paymentType: z
+      .enum(['QUARTERLY', 'SEMESTERLY', 'MONTHLY'], {
+        required_error: "Обов'язкове поле",
+      })
+      .nullable(),
+    priorities: z
+      .array(prioritySchema, {
+        required_error: "Обов'язкове поле",
+      })
+      .max(3, "Обов'язкове поле")
+      .nullable(),
+    priorityDate: z.string().readonly(),
+    programType: z
+      .enum(['PROFESSIONAL', 'SCIENTIFIC'], {
+        required_error: "Обов'язкове поле",
+      })
+      .nullable(),
+    educationalProgram: z
+      .enum([...PROFESSIONAL, ...SCIENTIFIC], {
+        required_error: "Обов'язкове поле",
+      })
+      .nullable(),
+  })
+  .superRefine((data, ctx) => {
+    if (!data.priorities) return true;
+    const programs = data.priorities.map((priority) => priority.program);
+    const uniquePrograms = new Set(programs);
+    if (uniquePrograms.size !== programs.length) {
+      return ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: 'Приорітети повинні бути унікальними',
+        path: ['priorities'],
+      });
+    }
+
+    return ctx;
+  });
 
 export type TDocumentsSchema = z.infer<typeof DocumentsSchema>;

@@ -40,11 +40,11 @@ export class ContractDto {
   })
     programType: EducationalProgramType;
   
-  @Required({
+  @Optional({
     type: 'enum',
     enum: PaymentType,
   })
-    paymentType: PaymentType;
+    paymentType?: PaymentType;
   
   @Required()
     specialty: string;
@@ -79,9 +79,9 @@ export class ContractDto {
   @Required()
     updatedAt: Date;
 
-  @Required({
+  @Optional({
     type: PriorityDto,
     isArray: true,
   })
-    priorities: PriorityDto[];
+    priorities?: PriorityDto[];
 }

@@ -65,7 +65,7 @@ export class QueueService implements OnModuleInit {
     };
   }
 
-  async getUsers (query: GetUsersQuery) {
+  async getUsers ({ skip = 0, take = 5000 }: GetUsersQuery) {
     const positions = await this.prisma.queuePosition.findMany({
       include: this.include,
       orderBy: [{
@@ -87,7 +87,7 @@ export class QueueService implements OnModuleInit {
     newPositions.sort((a, b) => a.relativePosition - b.relativePosition);
 
     return {
-      positions: newPositions.splice(query.skip, query.take),
+      positions: newPositions.splice(skip, take),
     };
   }
 

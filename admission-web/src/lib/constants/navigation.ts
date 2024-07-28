@@ -31,7 +31,7 @@ export const entrantNavigationItems = [
   },
   {
     title: 'Вихід',
-    href: '/auth/home',
+    href: '/auth/sign-in',
     icon: LogOut,
     onClick: () => {
       authApi.logout();

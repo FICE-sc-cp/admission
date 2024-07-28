@@ -122,7 +122,6 @@ export class AuthService {
       httpOnly: true,
       secure: true,
       maxAge: 38530000,
-      partitioned: true,
       path: '/',
       sameSite: 'none',
     } : {

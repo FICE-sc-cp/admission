@@ -42,6 +42,7 @@ export const RegisterForm = () => {
       }
     }
   }
+
   return (
     <Form {...form}>
       <form

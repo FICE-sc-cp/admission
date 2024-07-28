@@ -1,12 +1,13 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { getServerUser } from './app/api/actions/getServerUser';
+import { cookies } from 'next/headers';
 
 export async function middleware(request: NextRequest) {
   if (request.nextUrl.pathname.startsWith('/auth')) {
     return NextResponse.next();
   }
-  const sessionToken = request.cookies.get('session');
+  const sessionToken = cookies().get('session');
 
   if (!sessionToken) {
     return NextResponse.redirect(new URL('/auth/sign-up', request.url));

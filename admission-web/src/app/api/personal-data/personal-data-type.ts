@@ -1,8 +1,5 @@
-<<<<<<< HEAD
 import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
 
-=======
->>>>>>> d0eb6d3 (feature/personal-data-page (#42))
 export interface PersonalDataBody {
   email: string;
   firstName: string;
@@ -44,8 +41,6 @@ interface Entrant {
   address: string;
   index: string;
 }
-<<<<<<< HEAD
-
 export interface GetPersonalData {
   id: string;
   email: string;
@@ -67,5 +62,3 @@ export interface GetPersonalData {
   representativeData: Representative;
   customerData: Representative;
 }
-=======
->>>>>>> d0eb6d3 (feature/personal-data-page (#42))

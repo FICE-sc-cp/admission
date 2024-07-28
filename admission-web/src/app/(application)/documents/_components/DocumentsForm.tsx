@@ -30,6 +30,7 @@ import {
 } from '@/lib/constants/documents-educational-programs';
 import DocumentsApi from '@/app/api/documents/documents-api';
 import useAuth from '@/hooks/useAuth';
+import { useRouter } from 'next/navigation';
 
 export const DocumentsForm = () => {
   const form = useForm<TDocumentsSchema>({
@@ -39,11 +40,14 @@ export const DocumentsForm = () => {
     },
   });
 
+  const { push } = useRouter();
+
   const { user } = useAuth();
 
   const onSubmit = async (data: TDocumentsSchema) => {
     //@ts-ignore
     await DocumentsApi.createDocument({ ...data, userId: user?.id });
+    push('/');
   };
 
   useEffect(() => {

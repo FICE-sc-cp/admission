@@ -28,4 +28,12 @@ export const entrantNavigationItems = [
     href: '/queue',
     icon: BetweenHorizonalStart,
   },
+  {
+    title: 'Вихід',
+    href: '/auth/sign-in',
+    icon: LogOut,
+    onClick: () => {
+      authApi.logout();
+    },
+  },
 ];

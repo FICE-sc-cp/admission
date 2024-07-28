@@ -7,8 +7,8 @@ import React, {
 } from 'react';
 import {
   Entrant,
-  Representative,
-} from '@/schemas-and-types/personal-data/entrant';
+  PersonalData,
+} from '@/lib/schemas-and-types/personal-data/entrant';
 
 interface ContextProps {
   isAdult: boolean;
@@ -17,15 +17,15 @@ interface ContextProps {
   setIsAnotherPayer: (value: boolean) => void;
   entrantData: Entrant | null;
   setEntrantData: (value: Entrant) => void;
-  representativeData: Representative | null;
-  setRepresentativeData: (value: Representative) => void;
-  customerData: Representative | null;
-  setCustomerData: (value: Representative) => void;
+  representativeData: PersonalData | null;
+  setRepresentativeData: (value: PersonalData) => void;
+  customerData: PersonalData | null;
+  setCustomerData: (value: PersonalData) => void;
   activeStep: number;
   setActiveStep: (value: (prevState: number) => number) => void;
 }
 
-const PersonalDataContext = createContext<ContextProps | undefined>(undefined);
+const PersonalDataContext = createContext<ContextProps | null>(null);
 
 const PersonalDataContextProvider: FC<{ children: ReactNode }> = ({
   children,
@@ -36,9 +36,9 @@ const PersonalDataContextProvider: FC<{ children: ReactNode }> = ({
 
   const [entrantData, setEntrantData] = useState<Entrant | null>(null);
   const [representativeData, setRepresentativeData] =
-    useState<Representative | null>(null);
+    useState<PersonalData | null>(null);
 
-  const [customerData, setCustomerData] = useState<Representative | null>(null);
+  const [customerData, setCustomerData] = useState<PersonalData | null>(null);
 
   return (
     <PersonalDataContext.Provider

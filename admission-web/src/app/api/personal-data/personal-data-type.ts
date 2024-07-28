@@ -4,11 +4,6 @@ export interface PersonalDataBody {
   middleName: string;
   lastName: string;
   role: string;
-  expectedSpecialities: string;
-  isDorm: boolean;
-  printedEdbo: boolean;
-  confirmedStudyPlace: boolean;
-  phone: string;
   entrantData: Entrant | null;
   representativeData: Representative | null;
   customerData: Representative | null;

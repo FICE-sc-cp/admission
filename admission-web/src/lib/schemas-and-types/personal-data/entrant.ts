@@ -15,7 +15,7 @@ export interface Entrant {
   oldPassportTemplate?: boolean;
 }
 
-export interface Representative {
+export interface PersonalData {
   firstName: string;
   lastName: string;
   middleName?: string;

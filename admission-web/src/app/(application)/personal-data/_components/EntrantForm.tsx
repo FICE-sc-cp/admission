@@ -6,7 +6,7 @@ import { z } from 'zod';
 import {
   EntrantSchema,
   TEntrantSchema,
-} from '@/schemas-and-types/personal-data/personal-data';
+} from '@/lib/schemas-and-types/personal-data/personal-data';
 import {
   Form,
   FormControl,
@@ -60,7 +60,6 @@ const EntrantForm: FC = () => {
   }, [user]);
 
   const onSubmit = (data: TEntrantSchema) => {
-    console.log(data);
     setEntrantData(data);
     setActiveStep(2);
   };

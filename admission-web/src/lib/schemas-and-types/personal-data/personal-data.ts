@@ -1,10 +1,10 @@
 import { z } from 'zod';
-
-const ukNumberRegex = /^\+380\d{9}$/;
-const kirillicRegex = /^[А-Я]{2}$/;
-const ukRegex = /^[ҐЄІЇЬА-ЩЮЯґєіїьа-щюя0-9\-`'’‘“”*,. ]+$/;
-const dateRegex =
-  /^\s*((?:3[01]|[12][0-9]|0[1-9])\.(1[012]|0[1-9])\.((?:19|20)\d{2}))\s*$/;
+import {
+  dateRegex,
+  kirillicRegex,
+  ukNumberRegex,
+  ukRegex,
+} from '@/lib/constants/regex';
 
 export const EntrantSchema = z
   .object({
@@ -54,12 +54,6 @@ export const EntrantSchema = z
     const oldPassportTemplate = data.oldPassportTemplate;
     const length = passportNumber.length;
 
-    // if (data.region !== 'м. Київ' && !data.settlement) {
-    //   return false;
-    // } else {
-    //   return true;
-    // }
-
     if (oldPassportTemplate && length !== 6) {
       return ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -77,7 +71,7 @@ export const EntrantSchema = z
     return ctx;
   });
 
-export const RepresentativeSchema = z
+export const PersonalDataSchema = z
   .object({
     lastName: z
       .string({ required_error: `Обов'язкове поле` })
@@ -140,12 +134,6 @@ export const RepresentativeSchema = z
     const oldPassportTemplate = data.oldPassportTemplate;
     const length = passportNumber.length;
 
-    // if (data.region !== 'м. Київ' && !data.settlement) {
-    //   return false;
-    // } else {
-    //   return true;
-    // }
-
     if (oldPassportTemplate && length !== 6) {
       return ctx.addIssue({
         code: z.ZodIssueCode.custom,
@@ -164,4 +152,4 @@ export const RepresentativeSchema = z
   });
 
 export type TEntrantSchema = z.infer<typeof EntrantSchema>;
-export type TRepresentativeSchema = z.infer<typeof RepresentativeSchema>;
+export type TPersonalDataSchema = z.infer<typeof PersonalDataSchema>;

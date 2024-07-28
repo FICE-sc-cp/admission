@@ -3,9 +3,9 @@
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import {
-  RepresentativeSchema,
-  TRepresentativeSchema,
-} from '@/schemas-and-types/personal-data/personal-data';
+  PersonalDataSchema,
+  TPersonalDataSchema,
+} from '@/lib/schemas-and-types/personal-data/personal-data';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePersonalDataContext } from '$/admission-web/contexts/PersonalDataContext';
 import {
@@ -38,15 +38,15 @@ const RepresentativePage: FC = () => {
     activeStep,
     setActiveStep,
   } = usePersonalDataContext();
-  const form = useForm<TRepresentativeSchema>({
-    resolver: zodResolver(RepresentativeSchema),
+  const form = useForm<TPersonalDataSchema>({
+    resolver: zodResolver(PersonalDataSchema),
     defaultValues: representativeData !== null ? representativeData : {},
   });
   const [adminCode, setAdminCode] = useState('');
 
   const { user } = useAuth();
 
-  const onSubmit = (data: z.infer<TRepresentativeSchema>) => {
+  const onSubmit = (data: z.infer<TPersonalDataSchema>) => {
     setRepresentativeData(data);
     setActiveStep((prevState) => prevState + 1);
     setAdminCode('');

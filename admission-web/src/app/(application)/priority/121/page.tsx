@@ -1,6 +1,6 @@
 import React from 'react';
 import SelectForm from '@/app/(application)/priority/_components/SelectForm';
-import { IPeduPrograms } from '@/constants/priority-select-values';
+import { IPeduPrograms } from '@/lib/constants/priority-select-values';
 import { Separator } from '@/components/ui/separator';
 
 const PriorityPage126 = () => {

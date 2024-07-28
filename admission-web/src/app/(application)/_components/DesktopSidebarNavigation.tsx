@@ -1,5 +1,5 @@
 'use client';
-import { entrantNavigationItems } from '@/constants/navigation';
+import { entrantNavigationItems } from '@/lib/constants/navigation';
 import NavMenuItem from './NavMenuItem';
 
 export default function DesktopSidebarNavigation({

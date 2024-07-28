@@ -1,4 +1,4 @@
-export default function page() {
+export default async function page() {
   return (
     <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
       Черга єбана

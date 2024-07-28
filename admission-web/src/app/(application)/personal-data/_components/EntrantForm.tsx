@@ -57,7 +57,6 @@ const EntrantForm: FC = () => {
   useEffect(() => {
     if (user) {
       form.setValue('email', user.email);
-      form.setValue('userId', user.id);
     }
   }, [user]);
 
@@ -193,7 +192,7 @@ const EntrantForm: FC = () => {
                         <Input
                           placeholder='Серія'
                           className={'w-[120px]'}
-                          value={field.value ?? ''}
+                          value={field.value as string}
                           onChange={field.onChange}
                         />
                       </FormControl>
@@ -230,9 +229,7 @@ const EntrantForm: FC = () => {
                   <FormControl>
                     <Checkbox
                       checked={field.value}
-                      onCheckedChange={(e) => {
-                        form.setValue('oldPassportTemplate', !!e);
-                      }}
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
                   <FormLabel>Старий зразок паспорту</FormLabel>
@@ -285,7 +282,7 @@ const EntrantForm: FC = () => {
                   <FormControl>
                     <Input
                       disabled={field.value === null}
-                      placeholder='РНОКПП'
+                      placeholder='Індифікаційний код'
                       className='w-[320px] md:w-[360px]'
                       value={field.value === null ? '' : field.value}
                       onChange={field.onChange}

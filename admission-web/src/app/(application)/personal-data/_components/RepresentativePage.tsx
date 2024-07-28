@@ -53,12 +53,6 @@ const RepresentativePage: FC = () => {
     setAdminCode('');
   };
 
-  useEffect(() => {
-    if (user) {
-      form.setValue('userId', user.id);
-    }
-  }, [user]);
-
   return (
     <Form {...form}>
       <form
@@ -271,7 +265,7 @@ const RepresentativePage: FC = () => {
                   <FormControl>
                     <Input
                       disabled={field.value === null}
-                      placeholder='РНОКПП'
+                      placeholder='Індифікаційний код'
                       className='w-[320px] md:w-[360px]'
                       value={field.value === null ? '' : field.value}
                       onChange={field.onChange}

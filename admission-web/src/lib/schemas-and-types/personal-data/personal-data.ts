@@ -1,18 +1,16 @@
-import { string, z } from 'zod';
+import { z } from 'zod';
 import {
   dateRegex,
   kirillicRegex,
-  phoneRegex,
+  ukNumberRegex,
   ukRegex,
 } from '@/lib/constants/regex';
-import { transformApostrophe } from '@/lib/utils/transformApostrophe';
 
 export const EntrantSchema = z
   .object({
-    userId: string(),
     phoneNumber: z
       .string({ required_error: "Обов'язкове поле" })
-      .regex(phoneRegex, 'Номер має містити 9 цифр'),
+      .regex(ukNumberRegex, 'Номер має містити 9 цифр'),
     passportNumber: z.string({ required_error: "Обов'язкове поле" }),
     email: z
       .string({ required_error: `Обов'язкове поле` })
@@ -22,42 +20,34 @@ export const EntrantSchema = z
       .regex(dateRegex, 'Має бути формату dd.mm.yyyy'),
     passportInstitute: z
       .string({ required_error: "Обов'язкове поле" })
-      .regex(/^\d{4}$/, 'Орган видачі має містити 4 цифри'),
+      .min(4, 'Орган видачі має містити 4 цифри'),
     passportSeries: z
-      .string({ required_error: "Обов'язкове поле" })
+      .string()
       .max(2, 'Серія паспорту має містити 2 символи')
       .regex(
         kirillicRegex,
         'Серія паспорту має містити кириличні літери верхнього регістру'
       )
       .nullable()
-      .default(null),
+      .default('ТТ'),
     idCode: z
       .string({ required_error: "Обов'язкове поле" })
-      .nullable()
-      .refine((value) => value === null || /^[0-9]{10}$/.test(value), {
-        message: 'РНОКПП має містити 10 цифр',
-      }),
-    region: z
-      .string({ required_error: 'Будь ласка оберіть регіон' })
-      .transform(transformApostrophe),
+      .max(10, 'ІПН має містити 10 цифр')
+      .nullable(),
+    region: z.string({ required_error: 'Будь ласка оберіть регіон' }),
     settlement: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-      .transform(transformApostrophe)
       .nullable(),
     address: z
       .string({ required_error: "Обов'язкове поле" })
-      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-      .transform(transformApostrophe),
+      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
     index: z
       .string({ required_error: "Обов'язкове поле" })
-      .refine((value) => /^[0-9]{5}$/.test(value), {
-        message: 'Має містити 5 цифр',
-      }),
+      .max(5, 'Має містити 5 цифр'),
     study_form: z.enum(['Бюджет', 'Контракт']).default('Контракт'),
     submission_in_corpus: z.boolean().default(false).optional(),
-    oldPassportTemplate: z.boolean().default(false),
+    oldPassportTemplate: z.boolean().default(false).optional(),
   })
   .superRefine((data, ctx) => {
     const passportNumber = data.passportNumber;
@@ -83,32 +73,28 @@ export const EntrantSchema = z
 
 export const PersonalDataSchema = z
   .object({
-    userId: string(),
     lastName: z
       .string({ required_error: `Обов'язкове поле` })
       .min(2, 'Не коротше 2 символів')
       .max(40, 'Не довше 40 символів')
-      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-      .transform(transformApostrophe),
+      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
     firstName: z
       .string({ required_error: `Обов'язкове поле` })
       .min(2, 'Не коротше 2 символів')
       .max(40, 'Не довше 40 символів')
-      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-      .transform(transformApostrophe),
+      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
     middleName: z
       .string({ required_error: `Обов'язкове поле` })
       .min(2, 'Не коротше 2 символів')
       .max(40, 'Не довше 40 символів')
       .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-      .transform(transformApostrophe)
       .nullable(),
     email: z
       .string({ required_error: `Обов'язкове поле` })
       .email('Введіть емейл'),
     phoneNumber: z
       .string({ required_error: "Обов'язкове поле" })
-      .regex(phoneRegex, 'Номер має містити 9 цифр'),
+      .regex(ukNumberRegex, 'Номер має містити 9 цифр'),
     passportNumber: z.string({ required_error: "Обов'язкове поле" }),
     passportDate: z
       .string({ required_error: "Обов'язкове поле" })
@@ -123,30 +109,23 @@ export const PersonalDataSchema = z
         kirillicRegex,
         'Серія паспорту має містити кириличні літери верхнього регістру'
       )
-
       .nullable()
-      .default(null),
+      .default('ТТ'),
     idCode: z
       .string({ required_error: "Обов'язкове поле" })
-      .nullable()
-      .refine((value) => value === null || /^[0-9]{10}$/.test(value), {
-        message: 'РНОКПП має містити 10 цифр',
-      }),
+      .max(10, 'ІПН має містити 10 цифр')
+      .nullable(),
     region: z.string({ required_error: 'Будь ласка оберіть регіон' }),
     settlement: z
       .string({ required_error: "Обов'язкове поле" })
-      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-      .transform(transformApostrophe),
+      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
     address: z
       .string({ required_error: "Обов'язкове поле" })
-      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-      .transform(transformApostrophe),
+      .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
     index: z
       .string({ required_error: "Обов'язкове поле" })
-      .refine((value) => /^[0-9]{5}$/.test(value), {
-        message: 'Має містити 5 цифр',
-      }),
-    oldPassportTemplate: z.boolean().default(false),
+      .max(5, 'Має містити 5 цифр'),
+    oldPassportTemplate: z.boolean().default(false).optional(),
   })
   .superRefine((data, ctx) => {
     const passportNumber = data.passportNumber;

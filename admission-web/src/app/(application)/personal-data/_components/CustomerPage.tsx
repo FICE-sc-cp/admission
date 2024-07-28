@@ -28,8 +28,7 @@ import {
 } from '@/components/ui/select';
 import { regions } from '@/lib/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
-import { FC, useEffect, useState } from 'react';
-import useAuth from '@/hooks/useAuth';
+import { FC, useState } from 'react';
 
 const CustomerPage: FC = () => {
   const { customerData, setCustomerData, activeStep, setActiveStep } =
@@ -40,19 +39,12 @@ const CustomerPage: FC = () => {
     defaultValues: customerData !== null ? customerData : {},
   });
   const [adminCode, setAdminCode] = useState('');
-  const { user } = useAuth();
 
   const onSubmit = (data: TPersonalDataSchema) => {
     setCustomerData(data);
     setActiveStep((prevState) => prevState + 1);
     setAdminCode('');
   };
-
-  useEffect(() => {
-    if (user) {
-      form.setValue('userId', user.id);
-    }
-  }, [user]);
 
   return (
     <Form {...form}>
@@ -213,11 +205,7 @@ const CustomerPage: FC = () => {
                   <FormControl>
                     <Checkbox
                       checked={field.value}
-                      onCheckedChange={() =>
-                        field.onChange({
-                          target: { value: !field.value },
-                        })
-                      }
+                      onCheckedChange={field.onChange}
                     />
                   </FormControl>
                   <FormLabel>Старий зразок паспорту</FormLabel>
@@ -270,7 +258,7 @@ const CustomerPage: FC = () => {
                   <FormControl>
                     <Input
                       disabled={field.value === null}
-                      placeholder='РНОКПП'
+                      placeholder='Індифікаційний код'
                       className='w-[320px] md:w-[360px]'
                       value={field.value === null ? '' : field.value}
                       onChange={field.onChange}

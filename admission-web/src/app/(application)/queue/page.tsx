@@ -5,11 +5,12 @@ import { useEffect, useState } from 'react';
 import useAuth from '@/hooks/useAuth';
 import { Loader2 } from 'lucide-react';
 import { QueueUser } from '@/lib/schemas-and-types/queue';
+import { instance } from '@/app/api/instance';
 import { queueApi } from '@/app/api/queue/queue-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { isAxiosError } from 'axios';
 
-export default function page() {
+export default function Page() {
   const [data, setData] = useState<QueueUser | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -22,6 +23,7 @@ export default function page() {
         const { data } = await queueApi.getUser(user.id);
         setData(data);
       } catch (error) {
+        toastError(error);
         if (isAxiosError(error) && error.response?.status === 400) {
           setData(null);
         } else {

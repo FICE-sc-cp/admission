@@ -1,5 +1,4 @@
 export interface Entrant {
-  userId: string;
   passportSeries?: string | null;
   passportNumber: string;
   passportInstitute: string;
@@ -13,14 +12,13 @@ export interface Entrant {
   index: string;
   study_form?: string | null;
   submission_in_corpus?: boolean | null;
-  oldPassportTemplate: boolean | null;
+  oldPassportTemplate?: boolean | null;
 }
 
 export interface PersonalData {
-  userId: string;
   firstName: string;
   lastName: string;
-  middleName: string | null;
+  middleName?: string | null;
   passportSeries?: string | null;
   passportNumber: string;
   passportInstitute: string;
@@ -32,5 +30,5 @@ export interface PersonalData {
   settlement: string | null;
   address: string;
   index: string;
-  oldPassportTemplate: boolean | null;
+  oldPassportTemplate?: boolean;
 }

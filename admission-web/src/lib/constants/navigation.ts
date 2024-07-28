@@ -1,8 +1,11 @@
+import { authApi } from '@/app/api/auth/auth-api';
+
 import {
   UserRoundCheck,
   FileText,
   Flame,
   BetweenHorizonalStart,
+  LogOut,
 } from 'lucide-react';
 
 export const entrantNavigationItems = [
@@ -25,5 +28,13 @@ export const entrantNavigationItems = [
     title: 'Черга',
     href: '/queue',
     icon: BetweenHorizonalStart,
+  },
+  {
+    title: 'Вихід',
+    href: '/auth/sign-in',
+    icon: LogOut,
+    onClick: () => {
+      authApi.logout();
+    },
   },
 ];

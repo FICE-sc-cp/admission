@@ -2,7 +2,7 @@ import { Required } from '../../../globals/decorators';
 
 export class JoinQueueDto {
   @Required()
-    phoneNumber: string;
+    phone: string;
 
   @Required()
     isDorm: boolean;

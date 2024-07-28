@@ -25,12 +25,4 @@ export const adminNavigationItems = [
     href: BASE_URL + '/number',
     icon: ListOrderedIcon,
   },
-  {
-    title: 'Вихід',
-    href: '#',
-    icon: LogOut,
-    onClick: () => {
-      authApi.logout();
-    },
-  },
 ];

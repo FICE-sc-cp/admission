@@ -24,15 +24,18 @@ import {
 import { queueApi } from '@/app/api/queue/queue-api';
 import { isAxiosError } from 'axios';
 import { QueueErorr } from '../../../types/QueueTypes';
+import { QueueUser } from '@/lib/schemas-and-types/queue';
 
 interface EnterQueueProps {
   userId: string;
   setIsUserAllowed: (value: boolean) => void;
+  setData: (data: QueueUser | null) => void;
 }
 
 export const EnterQueueForm: FC<EnterQueueProps> = ({
   userId,
   setIsUserAllowed,
+  setData,
 }) => {
   const { refresh, push, replace } = useRouter();
   const form = useForm<TEnterQueueForm>({
@@ -49,6 +52,7 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
   const onSubmit = async (data: TEnterQueueForm) => {
     try {
       await queueApi.addUser(userId, data);
+      setData((await queueApi.getUser(userId)).data);
       refresh();
     } catch (error) {
       if (isAxiosError(error)) {

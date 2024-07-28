@@ -23,7 +23,6 @@ export default function Page() {
       fetchPersonalData();
     }
   }, [user?.id]);
-
   return (
     <main className='flex flex-1 flex-col gap-2 p-4 lg:gap-3 lg:p-6'>
       {!personalData?.entrantData ? (

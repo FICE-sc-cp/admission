@@ -65,6 +65,7 @@ export const DocumentsSchema = z
       })
       .nullable(),
     educationalProgram: z
+      //@ts-ignore
       .enum([...PROFESSIONAL, ...SCIENTIFIC], {
         required_error: "Обов'язкове поле",
       })

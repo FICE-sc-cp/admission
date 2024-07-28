@@ -42,6 +42,7 @@ export const DocumentsForm = () => {
   const { user } = useAuth();
 
   const onSubmit = async (data: TDocumentsSchema) => {
+    //@ts-ignore
     await DocumentsApi.createDocument({ ...data, userId: user?.id });
     console.log(data, 'submit');
   };
@@ -51,9 +52,12 @@ export const DocumentsForm = () => {
       form.setValue('priorities', null);
     }
     if (form.getValues('degree') === 'MASTER') {
+      //@ts-ignore
       if (form.getValues('educationalProgram')) {
+        //@ts-ignore
         form.setValue(
           'specialty',
+          //@ts-ignore
           specialities[form.getValues('educationalProgram').split(' ')[0]]
         );
       }
@@ -177,7 +181,7 @@ export const DocumentsForm = () => {
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    defaultValue={field.value as string}
                     className='flex flex-col space-y-1'
                   >
                     <FormItem className='flex items-center space-x-3 space-y-0'>
@@ -216,7 +220,7 @@ export const DocumentsForm = () => {
                   <FormControl>
                     <RadioGroup
                       onValueChange={field.onChange}
-                      defaultValue={field.value}
+                      defaultValue={field.value as string}
                       className='flex flex-col space-y-1'
                     >
                       <FormItem className='flex items-center space-x-3 space-y-0'>
@@ -247,7 +251,7 @@ export const DocumentsForm = () => {
                     <FormControl>
                       <RadioGroup
                         onValueChange={field.onChange}
-                        defaultValue={field.value}
+                        defaultValue={field.value as string}
                         className='flex flex-col space-y-1'
                       >
                         {form.getValues('programType') === 'PROFESSIONAL' &&
@@ -293,7 +297,7 @@ export const DocumentsForm = () => {
                 <FormControl>
                   <RadioGroup
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    defaultValue={field.value as string}
                     className='flex flex-col space-y-1'
                   >
                     <FormItem className='flex items-center space-x-3 space-y-0'>

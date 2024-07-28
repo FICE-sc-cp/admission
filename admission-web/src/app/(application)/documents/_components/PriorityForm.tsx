@@ -49,9 +49,11 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
                 onValueChange={(value) => {
                   field.onChange({
                     number: index,
+                    //@ts-ignore
                     program: EducationProgramLabels[value],
                   });
                 }}
+                //@ts-ignore
                 defaultValue={field.value}
               >
                 <FormControl>

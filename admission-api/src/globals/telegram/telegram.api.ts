@@ -1,7 +1,7 @@
 import axios from 'axios';
+import { UserDto } from '../../api/users/dtos/user.dto';
 import { GoingUserDto } from '../../api/queue/dtos/going-user.dto';
 import { RegistrationInQueueDto } from '../../api/queue/dtos/registration-in-queue.dto';
-import { SendContractTelegramDto } from 'src/api/documents/dto/send-contract-telegram.dto';
 
 const ADMISSION_BOT_API = process.env.ADMISSION_BOT_API;
 const ADMISSION_BOT_TOKEN = process.env.ADMISSION_BOT_TOKEN;
@@ -28,9 +28,9 @@ export class TelegramAPI {
     }
   }
 
-  static async sendContract (data: SendContractTelegramDto) {
+  static async sendContract (entrant: UserDto) {
     try {
-      await client.post('/sendContract', data);
+      await client.post('/sendContract', entrant);
     } catch (err) {
       console.log(err);
     }

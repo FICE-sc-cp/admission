@@ -82,7 +82,7 @@ export class QueueService implements OnModuleInit {
     for (const position of positions) {
       newPositions.push({
         ...position,
-        relativePosition: position.status === QueuePositionStatus.WAITING ? 0 : await this.getRelativePositions(position.position),
+        relativePosition: position.status === QueuePositionStatus.PROCESSING ? 0 : await this.getRelativePositions(position.position),
       });
     }
 

@@ -1,5 +1,7 @@
 import axios from 'axios';
 import { UserDto } from '../../api/users/dtos/user.dto';
+import { GoingUserDto } from '../../api/queue/dtos/going-user.dto';
+import { RegistrationInQueueDto } from '../../api/queue/dtos/registration-in-queue.dto';
 
 const ADMISSION_BOT_API = process.env.ADMISSION_BOT_API;
 const ADMISSION_BOT_TOKEN = process.env.ADMISSION_BOT_TOKEN;
@@ -34,7 +36,7 @@ export class TelegramAPI {
     }
   }
 
-  static async sendGoingUser (entrant: UserDto) {
+  static async sendGoingUser (entrant: GoingUserDto) {
     try {
       await client.post('/sendGoingUser', entrant);
     } catch (err) {
@@ -42,7 +44,7 @@ export class TelegramAPI {
     }
   }
 
-  static async sendRegistrationInQueue (entrant: UserDto) {
+  static async sendRegistrationInQueue (entrant: RegistrationInQueueDto) {
     try {
       await client.post('/sendRegistrationInQueue', entrant);
     } catch (err) {

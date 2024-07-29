@@ -22,19 +22,16 @@ export enum MessageType {
 }
 
 const messages = {
-  [MessageType.PROCESSING]: (d: IMessageData) =>
-    `Ваша заявка вже оброблюється оператором. Можете заходити до корпусу.\n\n<b>\nВаш номер: ${d.code}</b>`,
-  [MessageType.MOVED]: (d: IMessageData) =>
-    `Вашу заявку посунули у черзі на ${d.delta} позицій ${d.delta > 0 ? 'назад' : 'вперед'}.`,
-  [MessageType.POSITION]: (d: IMessageData) =>
-    `Ваша позиція у черзі: <b>${d.position}</b>\nНе відходьте далеко від корпусу.`,
-  [MessageType.DELETED]: () =>
-    'Дякую за користування нашою електронною чергою.\n\nПриєднуйтеся до чату вступників @abit_fice',
+  [MessageType.PROCESSING]: (d: IMessageData) => `Ваша заявка вже оброблюється оператором. Можете заходити до корпусу.\n\n<b>\nВаш номер: ${d.code}</b>`,
+  [MessageType.MOVED]: (d: IMessageData) => `Вашу заявку посунули у черзі на ${d.delta} позицій ${d.delta > 0 ? 'назад' : 'вперед'}.`,
+  [MessageType.POSITION]: (d: IMessageData) => `Ваша позиція у черзі: <b>${d.position}</b>\nНе відходьте далеко від корпусу.`,
+  [MessageType.DELETED]: () => 'Дякую за користування нашою електронною чергою.\n\nПриєднуйтеся до чату вступників @abit_fice',
 };
+
 
 @Injectable()
 export class QueueService implements OnModuleInit {
-  constructor(
+  constructor (
     private readonly prisma: PrismaService,
     private readonly userRepo: UserRepo,
   ) {}
@@ -45,7 +42,7 @@ export class QueueService implements OnModuleInit {
     user: true,
   };
 
-  async getQueue() {
+  async getQueue () {
     const queueSize = await this.prisma.queuePosition.count({
       where: {
         status: QueuePositionStatus.WAITING,
@@ -59,7 +56,7 @@ export class QueueService implements OnModuleInit {
     };
   }
 
-  updateQueue({ opened }: UpdateQueueDto) {
+  updateQueue ({ opened }: UpdateQueueDto) {
     this.opened = opened;
 
     return {
@@ -68,20 +65,17 @@ export class QueueService implements OnModuleInit {
     };
   }
 
-  async getUsers({ skip = 0, take = 5000 }: GetUsersQuery) {
+  async getUsers ({ skip = 0, take = 5000, status }: GetUsersQuery) {
     const positions = await this.prisma.queuePosition.findMany({
       where: {
         status,
       },
       include: this.include,
-      orderBy: [
-        {
-          position: 'asc',
-        },
-        {
-          updatedAt: 'asc',
-        },
-      ],
+      orderBy: [{
+        position: 'asc',
+      }, {
+        updatedAt: 'asc',
+      }],
     });
 
     const newPositions = [];
@@ -89,10 +83,7 @@ export class QueueService implements OnModuleInit {
     for (const position of positions) {
       newPositions.push({
         ...position,
-        relativePosition:
-          position.status === QueuePositionStatus.PROCESSING
-            ? 0
-            : await this.getRelativePositions(position.position),
+        relativePosition: await this.getRelativePositions(position.position),
       });
     }
 
@@ -103,7 +94,7 @@ export class QueueService implements OnModuleInit {
     };
   }
 
-  async getRelativePositions(positions: number) {
+  async getRelativePositions (positions: number) {
     return this.prisma.queuePosition.count({
       where: {
         status: QueuePositionStatus.WAITING,
@@ -114,7 +105,7 @@ export class QueueService implements OnModuleInit {
     });
   }
 
-  async joinQueue(userId: string, body: JoinQueueDto) {
+  async joinQueue (userId: string, body: JoinQueueDto) {
     if (!this.opened) {
       throw new BadRequestException('Queue is closed');
     }
@@ -161,7 +152,7 @@ export class QueueService implements OnModuleInit {
     });
   }
 
-  async quitQueue(userId: string) {
+  async quitQueue (userId: string) {
     await this.prisma.queuePosition.deleteMany({
       where: {
         userId,
@@ -171,11 +162,11 @@ export class QueueService implements OnModuleInit {
     await this.sendMessage(userId, MessageType.DELETED, {});
   }
 
-  generatePosition() {
+  generatePosition () {
     return ++this.lastPosition;
   }
 
-  async updatePosition(userId: string, data: UpdateQueuePositionDto) {
+  async updatePosition (userId: string, data: UpdateQueuePositionDto) {
     const position = await this.prisma.queuePosition.findFirst({
       where: {
         userId,
@@ -185,9 +176,7 @@ export class QueueService implements OnModuleInit {
     let newPosition = undefined;
 
     if (data.delta) {
-      const relativePositions = await this.getRelativePositions(
-        position.position,
-      );
+      const relativePositions = await this.getRelativePositions(position.position);
       const after = await this.prisma.queuePosition.findMany({
         skip: relativePositions,
         take: data.delta,
@@ -212,9 +201,7 @@ export class QueueService implements OnModuleInit {
 
     if (data.status === QueuePositionStatus.PROCESSING) {
       await this.notifyQueue();
-      await this.sendMessage(userId, MessageType.PROCESSING, {
-        code: position.code,
-      });
+      await this.sendMessage(userId, MessageType.PROCESSING, { code: position.code });
       const user = await this.userRepo.find({ id: userId });
       await TelegramAPI.sendGoingUser({
         is_dorm: user.isDorm,
@@ -237,20 +224,17 @@ export class QueueService implements OnModuleInit {
     });
   }
 
-  async notifyQueue() {
+  async notifyQueue () {
     const positions = await this.prisma.queuePosition.findMany({
       where: {
         status: QueuePositionStatus.WAITING,
       },
       include: this.include,
-      orderBy: [
-        {
-          position: 'asc',
-        },
-        {
-          updatedAt: 'asc',
-        },
-      ],
+      orderBy: [{
+        position: 'asc',
+      }, {
+        updatedAt: 'asc',
+      }],
       take: 20,
     });
 
@@ -270,14 +254,12 @@ export class QueueService implements OnModuleInit {
           });
         }
 
-        await this.sendMessage(position.userId, MessageType.POSITION, {
-          position: numPosition,
-        });
+        await this.sendMessage(position.userId, MessageType.POSITION, { position: numPosition });
       }
     }
   }
 
-  async onModuleInit() {
+  async onModuleInit () {
     const lastPosition = await this.prisma.queuePosition.findFirst({
       orderBy: {
         code: 'desc',
@@ -287,7 +269,7 @@ export class QueueService implements OnModuleInit {
     this.lastPosition = lastPosition ? lastPosition.code : 0;
   }
 
-  async sendMessage(userId: string, type: MessageType, data: IMessageData) {
+  async sendMessage (userId: string, type: MessageType, data: IMessageData) {
     const user = await this.prisma.user.findFirst({ where: { id: userId } });
     if (!user.telegramId) return;
 
@@ -295,7 +277,7 @@ export class QueueService implements OnModuleInit {
     await TelegramAPI.sendMessage(user.telegramId, text, 'HTML');
   }
 
-  async getUser(userId: string) {
+  async getUser (userId: string) {
     const position = await this.prisma.queuePosition.findFirst({
       where: { userId },
     });

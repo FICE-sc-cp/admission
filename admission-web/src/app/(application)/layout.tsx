@@ -16,8 +16,8 @@ const ApplicationLayout: FC<ApplicationLayoutProps> = ({ children }) => {
   return (
     <AuthProvider>
       <div className='grid min-h-screen w-full md:grid-cols-[220px_1fr] lg:grid-cols-[280px_1fr]'>
-        <div className='sticky top-0 hidden h-screen border-r bg-muted/10 px-2 md:block'>
-          <div className='flex h-full max-h-screen flex-col'>
+        <div className='sticky top-0 hidden max-h-[97vh] md:block'>
+          <div className='m-[10px] flex h-full flex-col rounded-md border border-[#CBD5E1] bg-muted/10 px-2 shadow-md shadow-[#00000040]'>
             <div className='px-4 py-3'>
               <AvatarAndName size='default' />
             </div>
@@ -32,7 +32,7 @@ const ApplicationLayout: FC<ApplicationLayoutProps> = ({ children }) => {
           </div>
         </div>
 
-        <div className='relative flex flex-col'>
+        <div>
           <MobileNavigationHeaderAndMenu />
           {children}
           <Toaster />

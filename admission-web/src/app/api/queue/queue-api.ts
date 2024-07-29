@@ -6,7 +6,7 @@ import {
   UpdateQueueUserBody,
 } from './queue-api.types';
 import { instance } from '../instance';
-import { QueueUser } from '@/lib/schemas-and-types/queue';
+import { QueuePositionStatus, QueueUser } from '@/lib/schemas-and-types/queue';
 
 class QueueApi {
   async get() {
@@ -17,11 +17,12 @@ class QueueApi {
     return await instance.patch('/queue', body);
   }
 
-  async getUsers(limit: number, skip: number) {
+  async getUsers(status: QueuePositionStatus, limit: number, skip: number) {
     return await instance.get<GetQueueUsersRes>('/queue/users', {
       params: {
         limit,
         skip,
+        status,
       },
     });
   }

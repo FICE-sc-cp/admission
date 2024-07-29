@@ -1,8 +1,8 @@
 import { Optional, Required } from '../../../globals/decorators';
 
 export class UpdateEntrantDataDto {
-  @Required()
-    passportSeries: string;
+  @Optional()
+    passportSeries?: string;
 
   @Required()
     passportNumber: string;

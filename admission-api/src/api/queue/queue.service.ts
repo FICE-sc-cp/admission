@@ -280,6 +280,7 @@ export class QueueService implements OnModuleInit {
     const position = await this.prisma.queuePosition.findFirst({
       where: { userId },
     });
+    if (!position) return null;
     const relativePosition = await this.getRelativePositions(position.position);
     return {
       ...position,

@@ -15,7 +15,7 @@ interface AdminTableHeaderButtonProps {
   button: ReactElement;
   title?: string;
   description?: string;
-  action: () => void;
+  action: (...args: any[]) => any;
 }
 
 export default function AdminAlertDialog({

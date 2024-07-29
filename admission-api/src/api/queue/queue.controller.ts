@@ -83,4 +83,12 @@ export class QueueController {
   getUser (@Param('userId', UserByIdPipe) userId: string) {
     return this.queueService.getUser(userId);
   }
+
+  @ApiOperation({ summary: 'Remove users from queue' })
+  @Delete('queue/users')
+  @Roles([Role.ADMIN])
+  @UseGuards(AuthGuard)
+  deleteUsers () {
+    return this.queueService.removeUsers();
+  }
 }

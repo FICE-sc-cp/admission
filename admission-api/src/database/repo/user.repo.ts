@@ -58,4 +58,8 @@ export class UserRepo {
   deleteById (id: string) {
     return this.prisma.user.delete({ where: { id } });
   }
+
+  deleteMany (where: Prisma.UserWhereInput) {
+    return this.prisma.user.deleteMany({ where });
+  }
 }

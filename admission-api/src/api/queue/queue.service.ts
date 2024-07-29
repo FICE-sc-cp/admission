@@ -286,4 +286,8 @@ export class QueueService implements OnModuleInit {
       relativePosition,
     };
   }
+
+  removeUsers () {
+    return this.prisma.queuePosition.deleteMany();
+  }
 }

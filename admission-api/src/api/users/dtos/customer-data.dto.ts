@@ -19,8 +19,8 @@ export class CustomerDataDto {
   @Required()
     email: string;
 
-  @Required()
-    passportSeries: string;
+  @Optional()
+    passportSeries?: string;
 
   @Required()
     passportNumber: string;

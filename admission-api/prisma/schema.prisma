@@ -100,7 +100,7 @@ model Token {
 
 model EntrantData {
   userId            String   @unique @map("user_id")
-  passportSeries    String   @map("passport_series")
+  passportSeries    String?  @map("passport_series")
   passportNumber    String   @map("passport_number")
   passportInstitute String   @map("passport_institute")
   passportDate      String   @map("passport_date")
@@ -126,7 +126,7 @@ model RepresentativeData {
   middleName        String?  @map("middle_name")
   lastName          String   @map("last_name")
   email             String
-  passportSeries    String   @map("passport_series")
+  passportSeries    String?  @map("passport_series")
   passportNumber    String   @map("passport_number")
   passportInstitute String   @map("passport_institute")
   passportDate      String   @map("passport_date")
@@ -151,7 +151,7 @@ model CustomerData {
   middleName        String?  @map("middle_name")
   lastName          String   @map("last_name")
   email             String
-  passportSeries    String   @map("passport_series")
+  passportSeries    String?  @map("passport_series")
   passportNumber    String   @map("passport_number")
   passportInstitute String   @map("passport_institute")
   passportDate      String   @map("passport_date")

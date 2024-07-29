@@ -4,8 +4,8 @@ export class EntrantDataDto {
   @Required()
     userId: string;
 
-  @Required()
-    passportSeries: string;
+  @Optional()
+    passportSeries?: string;
 
   @Required()
     passportNumber: string;

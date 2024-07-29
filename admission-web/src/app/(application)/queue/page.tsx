@@ -23,7 +23,6 @@ export default function Page() {
         const { data } = await queueApi.getUser(user.id);
         setData(data);
       } catch (error) {
-        toastError(error);
         if (isAxiosError(error) && error.response?.status === 400) {
           setData(null);
         } else {

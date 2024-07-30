@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { ukRegex } from '../constants/regex';
+import { transformApostrophe } from '../utils/transformApostrophe';
 
 export interface User {
   id: string;
@@ -17,16 +18,18 @@ export const SignUpSchema = z.object({
   firstName: z
     .string()
     .min(2, { message: "Введіть ім'я" })
-    .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
+    .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
+    .transform(transformApostrophe),
   lastName: z
     .string()
     .min(2, { message: 'Введіть прізвище' })
-    .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс'),
-
+    .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
+    .transform(transformApostrophe),
   middleName: z
     .string()
     .min(2, { message: 'Введіть по-батькові' })
     .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
+    .transform(transformApostrophe)
     .nullable(),
 });
 

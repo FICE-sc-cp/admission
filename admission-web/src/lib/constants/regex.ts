@@ -1,4 +1,3 @@
-export const ukNumberRegex = /^\+380\d{9}$/;
 export const kirillicRegex = /^[А-Я]{2}$/;
 export const ukRegex = /^[ҐЄІЇЬА-ЩЮЯґєіїьа-щюя0-9\-`'’‘“”*,. ]+$/;
 export const dateRegex =

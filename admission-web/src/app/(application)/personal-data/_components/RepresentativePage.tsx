@@ -265,7 +265,7 @@ const RepresentativePage: FC = () => {
                   <FormControl>
                     <Input
                       disabled={field.value === null}
-                      placeholder='Індифікаційний код'
+                      placeholder='РНОКПП'
                       className='w-[320px] md:w-[360px]'
                       value={field.value === null ? '' : field.value}
                       onChange={field.onChange}

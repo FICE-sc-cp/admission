@@ -32,7 +32,7 @@ export const RegisterForm = () => {
   async function onSubmit(values: TSignUp) {
     try {
       await authApi.register(values);
-      push('/auth/email');
+      push('/auth/email?email=' + values.email);
     } catch (error) {
       if (isAxiosError(error) && error.response?.status === 400) {
         return form.setError('email', {

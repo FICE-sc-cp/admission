@@ -72,8 +72,14 @@ const Page = () => {
     await PersonalData.deletePersonalData(params.userId);
   };
 
-  const onSubmit = () => {
-    return;
+  const onSubmit = (
+    entrantData?: TPersonalDataSchema,
+    representativeData?: TPersonalDataSchema,
+    customerData?: TPersonalDataSchema
+  ) => {
+    console.log(entrantData, 'entrant');
+    console.log(representativeData, 'representative');
+    console.log(customerData, 'customer');
   };
 
   useEffect(() => {
@@ -96,7 +102,17 @@ const Page = () => {
           <Button variant='outline' onClick={deleteEntrant}>
             Видалити вступника
           </Button>
-          <Button onClick={onSubmit}>Зберегти зміни</Button>
+          <Button
+            onClick={() =>
+              onSubmit(
+                entrantForm.getValues(),
+                representativeForm.getValues(),
+                customerForm.getValues()
+              )
+            }
+          >
+            Зберегти зміни
+          </Button>
         </div>
       </div>
       <Separator orientation='horizontal' className='w-full bg-violet-500' />

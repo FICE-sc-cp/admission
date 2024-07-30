@@ -22,14 +22,14 @@ export const EntrantSchema = z
       .string({ required_error: "Обов'язкове поле" })
       .min(4, 'Орган видачі має містити 4 цифри'),
     passportSeries: z
-      .string()
+      .string({ required_error: "Обов'язкове поле" })
       .max(2, 'Серія паспорту має містити 2 символи')
       .regex(
         kirillicRegex,
         'Серія паспорту має містити кириличні літери верхнього регістру'
       )
       .nullable()
-      .default('ТТ'),
+      .default(null),
     idCode: z
       .string({ required_error: "Обов'язкове поле" })
       .max(10, 'ІПН має містити 10 цифр')
@@ -110,7 +110,7 @@ export const PersonalDataSchema = z
         'Серія паспорту має містити кириличні літери верхнього регістру'
       )
       .nullable()
-      .default('ТТ'),
+      .default(null),
     idCode: z
       .string({ required_error: "Обов'язкове поле" })
       .max(10, 'ІПН має містити 10 цифр')

@@ -11,7 +11,7 @@ export interface PersonalDataBody {
   customerData: Representative | null;
 }
 
-interface Representative {
+export interface Representative {
   firstName: string;
   middleName: string;
   lastName: string;
@@ -58,7 +58,7 @@ export interface GetPersonalData {
   confirmedStudyPlace: boolean;
   phone: string;
   username: string;
-  contracts: DocumentsApiBody;
+  contracts: DocumentsApiBody[];
   entrantData: Entrant;
   representativeData: Representative;
   customerData: Representative;

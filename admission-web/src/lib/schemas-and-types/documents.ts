@@ -36,16 +36,9 @@ export const DocumentsSchema = z.object({
     required_error: "Обов'язкове поле",
   }),
   specialty: z
-    .enum(
-      [
-        '121 Інженерія програмного забезпечення',
-        '123 Комп’ютерна інженерія',
-        '126 Інформаційні системи та технології',
-      ],
-      {
-        required_error: "Обов'язкове поле",
-      }
-    )
+    .enum(['121', '123', '126'], {
+      required_error: "Обов'язкове поле",
+    })
     .nullable(),
   paymentType: z
     .enum(['QUARTERLY', 'SEMESTERLY', 'MONTHLY'], {

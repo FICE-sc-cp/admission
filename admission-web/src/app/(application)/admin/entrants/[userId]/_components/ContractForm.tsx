@@ -41,6 +41,8 @@ import {
 import DocumentsApi from '@/app/api/documents/documents-api';
 import { DeletePopup } from '@/app/(application)/admin/entrants/[userId]/_components/DeletePopup';
 import { useRouter } from 'next/navigation';
+import { blob } from 'node:stream/consumers';
+import useAuth from '@/hooks/useAuth';
 
 interface ContractFormProps {
   data: DocumentsApiBody;
@@ -54,6 +56,8 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
       ...data,
     },
   });
+
+  const { user } = useAuth();
 
   const [showDeletePopup, setShowDeletePopup] = useState(false);
 
@@ -72,11 +76,75 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
 
   const downloadDocuments = async () => {
     const res = await DocumentsApi.downloadContract(data.id as string);
-    console.log(res);
+
+    const blob = new Blob([res.data], {
+      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    });
+
+    const url = window.URL.createObjectURL(blob);
+
+    const tempLink = document.createElement('a');
+    tempLink.href = url;
+    tempLink.setAttribute(
+      'download',
+      `${user?.lastName} ${user?.firstName} ${user?.middleName} ${data.specialty} Навчання`
+    );
+
+    document.body.appendChild(tempLink);
+    tempLink.click();
+
+    document.body.removeChild(tempLink);
+    window.URL.revokeObjectURL(url);
+
+    if (data.fundingSource === 'CONTRACT') {
+      const res = await DocumentsApi.downloadPayment(data.id as string);
+
+      const blob = new Blob([res.data], {
+        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+
+      const url = window.URL.createObjectURL(blob);
+
+      const tempLink = document.createElement('a');
+      tempLink.href = url;
+      tempLink.setAttribute(
+        'download',
+        `${user?.lastName} ${user?.firstName} ${user?.middleName} ${data.specialty} Оплата`
+      );
+
+      document.body.appendChild(tempLink);
+      tempLink.click();
+
+      document.body.removeChild(tempLink);
+      window.URL.revokeObjectURL(url);
+    }
+
+    if (data.specialty === '121' || data.specialty === '126') {
+      const res = await DocumentsApi.downloadPriority(data.id as string);
+
+      const blob = new Blob([res.data], {
+        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+
+      const url = window.URL.createObjectURL(blob);
+
+      const tempLink = document.createElement('a');
+      tempLink.href = url;
+      tempLink.setAttribute(
+        'download',
+        `${user?.lastName} ${user?.firstName} ${user?.middleName} ${data.specialty} Пріоритетка`
+      );
+
+      document.body.appendChild(tempLink);
+      tempLink.click();
+
+      document.body.removeChild(tempLink);
+      window.URL.revokeObjectURL(url);
+    }
   };
 
   useEffect(() => {
-    if (form.getValues('specialty') === '123 Комп’ютерна інженерія') {
+    if (form.getValues('specialty') === '123') {
       form.setValue('priorities', []);
     }
     if (form.getValues('degree') === 'MASTER') {
@@ -86,7 +154,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
         form.setValue(
           'specialty',
           //@ts-ignore
-          specialities[form.getValues('educationalProgram').split(' ')[0]]
+          form.getValues('educationalProgram').split(' ')[0]
         );
       }
 
@@ -97,9 +165,13 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
     }
     if (form.getValues('degree') === 'BACHELOR') {
       form.setValue('educationalProgram', null);
-      form.setValue('programType', null);
+      form.setValue('programType', 'PROFESSIONAL');
     }
   }, [form.getValues()]);
+
+  useEffect(() => {
+    form.setValue('priorities', []);
+  }, [form.getValues('specialty')]);
 
   useEffect(() => {
     if (!data.date) {
@@ -263,13 +335,13 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='121 Інженерія програмного забезпечення'>
+                        <SelectItem value='121'>
                           121 Інженерія програмного забезпечення
                         </SelectItem>
-                        <SelectItem value='123 Комп’ютерна інженерія'>
+                        <SelectItem value='123'>
                           123 Комп’ютерна інженерія
                         </SelectItem>
-                        <SelectItem value='126 Інформаційні системи та технології'>
+                        <SelectItem value='126'>
                           126 Інформаційні системи та технології
                         </SelectItem>
                       </SelectContent>
@@ -281,43 +353,36 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               <Separator className='bg-slate-300' orientation='horizontal' />
             </>
           )}
-          {form.getValues('specialty') === '123 Комп’ютерна інженерія' && (
-            <FormField
-              control={form.control}
-              name='priorityDate'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Дата заповнення</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder=''
-                      className='w-[320px] md:w-[350px]'
-                      value={field.value}
-                      disabled
-                    />
-                  </FormControl>
+          {form.getValues('specialty') === '123' &&
+            form.getValues('degree') !== 'MASTER' && (
+              <FormField
+                control={form.control}
+                name='priorityDate'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Дата заповнення</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder=''
+                        className='w-[320px] md:w-[350px]'
+                        value={field.value}
+                        disabled
+                      />
+                    </FormControl>
 
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
-          {form.getValues('specialty') ===
-            '121 Інженерія програмного забезпечення' && (
-            <PriorityForm
-              admin={true}
-              educationalPrograms={IPeduPrograms}
-              form={form}
-            />
-          )}
-          {form.getValues('specialty') ===
-            '126 Інформаційні системи та технології' && (
-            <PriorityForm
-              admin={true}
-              educationalPrograms={ISTeduPrograms}
-              form={form}
-            />
-          )}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
+          {form.getValues('specialty') === '121' &&
+            form.getValues('degree') !== 'MASTER' && (
+              <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
+            )}
+          {form.getValues('specialty') === '126' &&
+            form.getValues('degree') !== 'MASTER' && (
+              <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
+            )}
           {form.getValues('degree') === 'MASTER' && (
             <>
               <FormField

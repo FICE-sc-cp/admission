@@ -139,6 +139,7 @@ const Page = () => {
       },
       personalData?.id
     );
+    location.reload();
   };
 
   useEffect(() => {

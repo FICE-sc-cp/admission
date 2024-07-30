@@ -14,17 +14,23 @@ class DocumentsApi {
     await instance.delete(`documents/${contractId}`);
   }
 
-  async downloadContract(contractId:string){
-      return instance.get(`/documents/${contractId}/download/contract`)
+  async downloadContract(contractId: string) {
+    return instance.get(`/documents/${contractId}/download/contract`, {
+      responseType: 'blob',
+    });
   }
 
-    async downloadPayment(contractId:string){
-        return instance.get(`/documents/${contractId}/download/payment`)
-    }
+  async downloadPayment(contractId: string) {
+    return instance.get(`/documents/${contractId}/download/payment`, {
+      responseType: 'blob',
+    });
+  }
 
-    async downloadPriority(contractId:string){
-        return instance.get(`/documents/${contractId}/download/priority`)
-    }
+  async downloadPriority(contractId: string) {
+    return instance.get(`/documents/${contractId}/download/priority`, {
+      responseType: 'blob',
+    });
+  }
 }
 
 export default new DocumentsApi();

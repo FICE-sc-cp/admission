@@ -33,135 +33,72 @@ import {
 interface PriorityFormProps {
   educationalPrograms: IPrioritySelect[];
   form: UseFormReturn<TDocumentsSchema, any, undefined>;
-  admin: boolean;
 }
 
-const PriorityForm: FC<PriorityFormProps> = ({
-  educationalPrograms,
-  admin,
-  form,
-}) => {
-  if (admin) {
-    return (
-      <>
-        {educationalPrograms.map((priority, index) => (
-          <FormField
-            key={priority.id}
-            control={form.control}
-            name={`priorities.${index}`}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className='text-sm font-normal'>
-                  Приорітет {index + 1}
-                </FormLabel>
-                <Select
-                  onValueChange={(value) => {
-                    field.onChange({
-                      number: index,
-                      //@ts-ignore
-                      program: EducationProgramLabels[value],
-                    });
-                  }}
-                  value={EducationProgramAbbreviation[field.value.program]}
-                >
-                  <FormControl>
-                    <SelectTrigger className='w-[320px] md:w-[350px]'>
-                      <SelectValue placeholder='Вибери зі списку' />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className='w-[320px] md:w-auto'>
-                    {educationalPrograms.map((priority) => (
-                      <SelectItem value={priority.label} key={priority.id}>
-                        {priority.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
+const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
+  return (
+    <>
+      {educationalPrograms.map((priority, index) => (
         <FormField
+          key={priority.id}
           control={form.control}
-          name='priorityDate'
+          name={`priorities.${index}`}
           render={({ field }) => (
             <FormItem>
               <FormLabel className='text-sm font-normal'>
-                Дата заповнення
+                Приорітет {index + 1}
               </FormLabel>
-              <Input
-                type='text'
-                value={field.value}
-                className='w-[320px] md:w-[350px]'
-                disabled
-              />
+              <Select
+                onValueChange={(value) => {
+                  field.onChange({
+                    number: index,
+                    //@ts-ignore
+                    program: EducationProgramLabels[value],
+                  });
+                }}
+                value={
+                  field.value
+                    ? EducationProgramAbbreviation[field.value.program]
+                    : field.value
+                }
+              >
+                <FormControl>
+                  <SelectTrigger className='w-[320px] md:w-[350px]'>
+                    <SelectValue placeholder='Вибери зі списку' />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent className='w-[320px] md:w-auto'>
+                  {educationalPrograms.map((priority) => (
+                    <SelectItem value={priority.label} key={priority.id}>
+                      {priority.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
             </FormItem>
           )}
         />
-      </>
-    );
-  } else {
-    return (
-      <>
-        {educationalPrograms.map((priority, index) => (
-          <FormField
-            key={priority.id}
-            control={form.control}
-            name={`priorities.${index}`}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className='text-sm font-normal'>
-                  Приорітет {index + 1}
-                </FormLabel>
-                <Select
-                  onValueChange={(value) => {
-                    field.onChange({
-                      number: index,
-                      //@ts-ignore
-                      program: EducationProgramLabels[value],
-                    });
-                  }}
-                  value={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger className='w-[320px] md:w-[350px]'>
-                      <SelectValue placeholder='Вибери зі списку' />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent className='w-[320px] md:w-auto'>
-                    {educationalPrograms.map((priority) => (
-                      <SelectItem value={priority.label} key={priority.id}>
-                        {priority.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        ))}
-        <FormField
-          control={form.control}
-          name='priorityDate'
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className='text-sm font-normal'>
-                Дата заповнення
-              </FormLabel>
-              <Input
-                type='text'
-                value={field.value}
-                className='w-[320px] md:w-[350px]'
-                disabled
-              />
-            </FormItem>
-          )}
-        />
-      </>
-    );
-  }
+      ))}
+      <FormField
+        control={form.control}
+        name='priorityDate'
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel className='text-sm font-normal'>
+              Дата заповнення
+            </FormLabel>
+            <Input
+              type='text'
+              value={field.value}
+              className='w-[320px] md:w-[350px]'
+              disabled
+            />
+          </FormItem>
+        )}
+      />
+    </>
+  );
 };
 
 export default PriorityForm;

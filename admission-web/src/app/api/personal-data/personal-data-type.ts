@@ -12,6 +12,7 @@ export interface PersonalDataBody {
 }
 
 export interface Representative {
+  userId: string;
   firstName: string;
   middleName: string;
   lastName: string;
@@ -29,6 +30,7 @@ export interface Representative {
 }
 
 interface Entrant {
+  userId: string;
   passportSeries: string;
   passportNumber: string;
   passportInstitute: string;

@@ -65,8 +65,6 @@ const EntrantForm: FC = () => {
     setActiveStep((prevState) => 2);
   };
 
-  console.log(form.getValues());
-
   return (
     <Form {...form}>
       <form

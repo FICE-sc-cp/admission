@@ -2,9 +2,6 @@ import { Optional, Required } from '../../../globals/decorators';
 
 export class RepresentativeDataDto {
   @Required()
-    id: string;
-
-  @Required()
     userId: string;
 
   @Required()

@@ -99,7 +99,7 @@ model Token {
 }
 
 model EntrantData {
-  userId            String   @unique @map("user_id")
+  userId            String   @id @unique @map("user_id")
   passportSeries    String?  @map("passport_series")
   passportNumber    String   @map("passport_number")
   passportInstitute String   @map("passport_institute")
@@ -120,8 +120,7 @@ model EntrantData {
 }
 
 model RepresentativeData {
-  id                String   @id @default(uuid())
-  userId            String   @unique @map("user_id")
+  userId            String   @id @unique @map("user_id")
   firstName         String   @map("first_name")
   middleName        String?  @map("middle_name")
   lastName          String   @map("last_name")
@@ -145,8 +144,7 @@ model RepresentativeData {
 }
 
 model CustomerData {
-  id                String   @id @default(uuid())
-  userId            String   @unique @map("user_id")
+  userId            String   @id @unique @map("user_id")
   firstName         String   @map("first_name")
   middleName        String?  @map("middle_name")
   lastName          String   @map("last_name")

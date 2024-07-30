@@ -1,5 +1,8 @@
 export interface DocumentsApiBody {
   id?: string;
+  state?: State;
+  number?: string;
+  date?: string;
   degree: Degree;
   educationalProgram: string;
   programType: ProgramType;
@@ -40,4 +43,9 @@ enum StudyForm {
 enum FundingSource {
   BUDGET = 'BUDGET',
   CONTRACT = 'CONTRACT',
+}
+
+export enum State {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
 }

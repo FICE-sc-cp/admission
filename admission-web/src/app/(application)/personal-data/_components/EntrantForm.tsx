@@ -57,7 +57,6 @@ const EntrantForm: FC = () => {
   useEffect(() => {
     if (user) {
       form.setValue('email', user.email);
-      form.setValue('userId', user.id);
     }
   }, [user]);
 

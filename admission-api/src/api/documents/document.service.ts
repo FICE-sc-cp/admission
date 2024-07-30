@@ -5,11 +5,10 @@ import { UpdateContractDto } from './dto/update-contract.dto';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { UserRepo } from 'src/database/repo/user.repo';
 import { FileService } from 'src/globals/files/file.service';
-import { DocumentState, FundingSource } from '@prisma/client';
+import { FundingSource } from '@prisma/client';
 import { PersonalDataDto } from './dto/personal-data.dto';
 import { FileDto } from './dto/file.dto';
 import { CONTRACT_FUNDING_SOURCE_IS_BUDGET_MSG } from './constants';
-import { TelegramAPI } from 'src/globals/telegram/telegram.api';
 
 @Injectable()
 export class DocumentService {
@@ -128,22 +127,6 @@ export class DocumentService {
 
   async updateDocuments (id: string, data: UpdateContractDto): Promise<ContractDto> {
     const { priorities, ...contract } = data;
-    const currentContract = await this.documentRepo.find({ id });
-    const user = await this.userRepo.find({ id: currentContract.userId });
-
-    if (contract.number && contract.date) {
-      contract.state = DocumentState.APPROVED;
-      TelegramAPI.sendContract({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        middleName: user.middleName,
-        specialty: contract.specialty ?? currentContract.specialty,
-        contractNumber: contract.number,
-        competitivePoint: user.competitivePoint,
-        date: contract.date,
-      });
-    }
-
     return this.documentRepo.updateById(id, {
       ...contract,
       priorities: priorities ? {

@@ -52,7 +52,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                     <FormControl>
                       <Input
                         placeholder='example@example.com'
-                        className='w-[320px] md:w-[360px]'
+                        className='w-[320px] md:w-[350px]'
                         {...field}
                       />
                     </FormControl>
@@ -69,7 +69,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                     <FormControl>
                       <Input
                         placeholder='Ім’я'
-                        className='w-[320px] md:w-[360px]'
+                        className='w-[320px] md:w-[350px]'
                         {...field}
                       />
                     </FormControl>
@@ -86,7 +86,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                     <FormControl>
                       <Input
                         placeholder='Прізвище'
-                        className='w-[320px] md:w-[360px]'
+                        className='w-[320px] md:w-[350px]'
                         {...field}
                       />
                     </FormControl>
@@ -104,7 +104,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                       <Input
                         disabled={field.value === null}
                         placeholder='По батькові'
-                        className='w-[320px] md:w-[360px]'
+                        className='w-[320px] md:w-[350px]'
                         value={field.value === null ? '' : field.value}
                         onChange={field.onChange}
                       />
@@ -136,7 +136,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                   <FormControl>
                     <Input
                       placeholder='+380 000 000 00'
-                      className='w-[320px] md:w-[360px]'
+                      className='w-[320px] md:w-[350px]'
                       {...field}
                     />
                   </FormControl>
@@ -148,7 +148,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
               <p className='text-sm text-violet-500'>Паспортні дані</p>
               <Separator
                 orientation='horizontal'
-                className='w-[245px] bg-violet-500'
+                className='w-[240px] bg-violet-500'
               />
             </div>
             <div className='flex flex-col gap-3'>
@@ -183,7 +183,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                       <FormControl>
                         <Input
                           placeholder='Номер паспорту'
-                          className={`${form.getValues('oldPassportTemplate') ? 'w-[200px] md:w-[240px]' : 'w-[320px] md:w-[360px]'} `}
+                          className={`${form.getValues('oldPassportTemplate') ? 'w-[200px] md:w-[230px]' : 'w-[320px] md:w-[350px]'} `}
                           {...field}
                         />
                       </FormControl>
@@ -219,7 +219,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                   <FormControl>
                     <Input
                       placeholder='17.11.2022'
-                      className='w-[320px] md:w-[360px]'
+                      className='w-[320px] md:w-[350px]'
                       {...field}
                     />
                   </FormControl>
@@ -236,7 +236,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                   <FormControl>
                     <Input
                       placeholder='Орган видачі'
-                      className='w-[320px] md:w-[360px]'
+                      className='w-[320px] md:w-[350px]'
                       {...field}
                     />
                   </FormControl>
@@ -255,7 +255,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                       <Input
                         disabled={field.value === null}
                         placeholder='Індифікаційний код'
-                        className='w-[320px] md:w-[360px]'
+                        className='w-[320px] md:w-[350px]'
                         value={field.value === null ? '' : field.value}
                         onChange={field.onChange}
                       />
@@ -286,10 +286,11 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                   <FormLabel>Регіон</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    defaultValue={field.value}
+                    // defaultValue={field.value}
+                    value={field.value}
                   >
                     <FormControl>
-                      <SelectTrigger className='w-[320px] md:w-[360px]'>
+                      <SelectTrigger className='w-[320px] md:w-[350px]'>
                         <SelectValue placeholder='Вибери зі списку' />
                       </SelectTrigger>
                     </FormControl>
@@ -314,7 +315,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                   <FormControl>
                     <Input
                       placeholder='м. Київ'
-                      className='w-[320px] md:w-[360px]'
+                      className='w-[320px] md:w-[350px]'
                       value={field.value as string}
                       onChange={field.onChange}
                     />
@@ -332,7 +333,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                   <FormControl>
                     <Input
                       placeholder='вул. Академіка Янгеля 20'
-                      className='w-[320px] md:w-[360px]'
+                      className='w-[320px] md:w-[350px]'
                       {...field}
                     />
                   </FormControl>
@@ -349,7 +350,7 @@ export const PersonaForm: FC<PersonaFormProps> = ({
                   <FormControl>
                     <Input
                       placeholder='12345'
-                      className='w-[320px] md:w-[360px]'
+                      className='w-[320px] md:w-[350px]'
                       {...field}
                     />
                   </FormControl>

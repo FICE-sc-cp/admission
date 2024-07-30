@@ -45,19 +45,12 @@ const RepresentativePage: FC = () => {
   });
   const [adminCode, setAdminCode] = useState('');
 
-  const { user } = useAuth();
 
   const onSubmit = (data: TPersonalDataSchema) => {
     setRepresentativeData(data);
     setActiveStep((prevState) => prevState + 1);
     setAdminCode('');
   };
-
-  useEffect(() => {
-    if (user) {
-      form.setValue('userId', user.id);
-    }
-  }, [user]);
 
   return (
     <Form {...form}>

@@ -40,19 +40,12 @@ const CustomerPage: FC = () => {
     defaultValues: customerData !== null ? customerData : {},
   });
   const [adminCode, setAdminCode] = useState('');
-  const { user } = useAuth();
 
   const onSubmit = (data: TPersonalDataSchema) => {
     setCustomerData(data);
     setActiveStep((prevState) => prevState + 1);
     setAdminCode('');
   };
-
-  useEffect(() => {
-    if (user) {
-      form.setValue('userId', user.id);
-    }
-  }, [user]);
 
   return (
     <Form {...form}>

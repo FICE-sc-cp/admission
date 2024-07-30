@@ -15,6 +15,7 @@ import {
 } from '@/lib/schemas-and-types/personal-data/personal-data';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { DeletePopup } from '@/app/(application)/admin/entrants/[userId]/_components/DeletePopup';
+import { ContractForm } from '@/app/(application)/admin/entrants/[userId]/_components/ContractForm';
 
 const Page = () => {
   const { user } = useAuth();
@@ -81,13 +82,12 @@ const Page = () => {
   ) => {
     await PersonalData.updatePersonalData(
       {
-        email: personalData?.email,
-        firstName: personalData?.firstName,
-        middleName: personalData?.middleName,
-        lastName: personalData?.lastName,
+        email: entrantData?.email,
+        firstName: entrantData?.firstName,
+        middleName: entrantData?.middleName,
+        lastName: entrantData?.lastName,
         role: personalData?.role,
         entrantData: {
-          userId: entrantData?.userId || '',
           passportDate: entrantData?.passportDate || '',
           passportInstitute: entrantData?.passportInstitute || '',
           email: entrantData?.email || '',
@@ -102,7 +102,6 @@ const Page = () => {
         },
         customerData: customerData
           ? {
-              userId: customerData.userId || '',
               passportDate: customerData?.passportDate || '',
               passportInstitute: customerData?.passportInstitute || '',
               email: customerData?.email || '',
@@ -121,7 +120,6 @@ const Page = () => {
           : null,
         representativeData: representativeData
           ? {
-              userId: representativeData.userId || '',
               passportDate: representativeData?.passportDate || '',
               passportInstitute: representativeData?.passportInstitute || '',
               email: representativeData?.email || '',
@@ -141,22 +139,20 @@ const Page = () => {
       },
       personalData?.id
     );
-    console.log(entrantData, 'entrant');
-    console.log(representativeData, 'representative');
-    console.log(customerData, 'customer');
   };
 
   useEffect(() => {
     fetchPersonalData();
   }, []);
 
-  console.log(entrantForm.getValues());
   return (
     <main className='flex flex-1 flex-col gap-3 p-6'>
       {showDeletePopup && (
         <DeletePopup
           popupController={setShowDeletePopup}
           deleteEntrant={deleteEntrant}
+          title='Видалення вступника'
+          text='Ви впевнені, що хочете видалити вступика? Вспупник буде видалений разом із всіма його документами, цю дію неможливо буде відмінити!'
         />
       )}
 
@@ -203,6 +199,20 @@ const Page = () => {
           title={'Платник'}
           onSubmit={onSubmit}
         />
+      </div>
+      <div className='flex w-full flex-row items-center'>
+        <p className='w-[170px] text-sm text-violet-500'>Заповнені договори</p>
+        <Separator orientation='horizontal' className='shrink bg-violet-500' />
+      </div>
+      <div className='flex flex-row flex-wrap gap-4'>
+        {personalData?.contracts &&
+          personalData?.contracts.map((contract, index) => (
+            <ContractForm
+              key={contract.id}
+              data={contract}
+              number={index + 1}
+            />
+          ))}
       </div>
     </main>
   );

@@ -14,6 +14,7 @@ import {
   TPersonalDataSchema,
 } from '@/lib/schemas-and-types/personal-data/personal-data';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { DeletePopup } from '@/app/(application)/admin/entrants/[userId]/_components/DeletePopup';
 
 const Page = () => {
   const { user } = useAuth();
@@ -21,6 +22,7 @@ const Page = () => {
     null
   );
   const params = useParams<{ userId: string }>();
+  const [showDeletePopup, setShowDeletePopup] = useState(false);
 
   const entrantForm = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
@@ -72,11 +74,24 @@ const Page = () => {
     await PersonalData.deletePersonalData(params.userId);
   };
 
-  const onSubmit = (
+  const onSubmit = async (
     entrantData?: TPersonalDataSchema,
     representativeData?: TPersonalDataSchema,
     customerData?: TPersonalDataSchema
   ) => {
+    await PersonalData.updatePersonalData(
+      {
+        email: personalData?.email,
+        firstName: personalData?.firstName,
+        middleName: personalData?.middleName,
+        lastName: personalData?.lastName,
+        role: personalData?.role,
+        entrantData,
+        representativeData,
+        customerData,
+      },
+      personalData?.id
+    );
     console.log(entrantData, 'entrant');
     console.log(representativeData, 'representative');
     console.log(customerData, 'customer');
@@ -89,6 +104,10 @@ const Page = () => {
   console.log(entrantForm.getValues());
   return (
     <main className='flex flex-1 flex-col gap-3 p-6'>
+      <DeletePopup
+        popupController={setShowDeletePopup}
+        deleteEntrant={deleteEntrant}
+      />
       <div className='flex flex-row justify-between'>
         <div className='flex flex-col gap-1'>
           <p className='text-2xl font-semibold'>
@@ -99,7 +118,7 @@ const Page = () => {
         </div>
 
         <div className='flex flex-row gap-3'>
-          <Button variant='outline' onClick={deleteEntrant}>
+          <Button variant='outline' onClick={() => setShowDeletePopup(true)}>
             Видалити вступника
           </Button>
           <Button

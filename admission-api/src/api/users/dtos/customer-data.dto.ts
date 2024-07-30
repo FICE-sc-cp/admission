@@ -2,9 +2,6 @@ import { Optional, Required } from '../../../globals/decorators';
 
 export class CustomerDataDto {
   @Required()
-    id: string;
-
-  @Required()
     userId: string;
 
   @Required()

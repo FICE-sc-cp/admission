@@ -19,16 +19,15 @@ export const DeletePopup: FC<DeletePopupProps> = ({
       onClick={(e) => e.stopPropagation()}
       className='m-auto flex w-[450px] flex-col items-center gap-4 rounded-md border border-slate-300 bg-slate-50 p-4 shadow-lg'
     >
-      <p className='text-center text-xl'>Видалення вступника</p>
+      <p className='text-center text-xl'>Підтвердження особистих даних</p>
       <p className='text-center text-sm'>
-        Ви впевнені, що хочете видалити вступика? Вспупник буде видалений разом
-        із всіма його документами, цю дію неможливо буде відмінити!
+        Підійдіть до волонтера для схвалення особистих даних
       </p>
       <div className='flex flex-row gap-2'>
         <Button variant='outline' onClick={() => popupController(false)}>
           Скасувати
         </Button>
-        <Button onClick={deleteEntrant}>Видалити</Button>
+        <Button onClick={deleteEntrant}>Надіслати</Button>
       </div>
     </div>
   </div>

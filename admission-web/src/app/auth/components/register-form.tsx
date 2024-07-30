@@ -16,9 +16,10 @@ import {
 import { Checkbox } from '@/components/ui/checkbox';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
+import { isAxiosError } from 'axios';
 
 export const RegisterForm = () => {
-  const router = useRouter();
+  const { push } = useRouter();
   const form = useForm<TSignUp>({
     resolver: zodResolver(SignUpSchema),
     defaultValues: {
@@ -29,9 +30,19 @@ export const RegisterForm = () => {
     },
   });
   async function onSubmit(values: TSignUp) {
-    await authApi.register(values);
-    router.push('/auth/email');
+    try {
+      await authApi.register(values);
+      push('/auth/email?email=' + values.email);
+    } catch (error) {
+      if (isAxiosError(error) && error.response?.status === 400) {
+        return form.setError('email', {
+          type: 'manual',
+          message: 'Користувач з такою поштою вже існує',
+        });
+      }
+    }
   }
+
   return (
     <Form {...form}>
       <form

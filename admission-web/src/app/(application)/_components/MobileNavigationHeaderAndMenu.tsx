@@ -23,8 +23,13 @@ export default function MobileNavigationHeaderAndMenu() {
 
   const [showX, setShowX] = useState(false);
 
+  const handleMenuItemClick = () => {
+    setShowX(false);
+  };
+
   return (
     <DropdownMenu
+      open={showX}
       onOpenChange={(open) => {
         setShowX(open);
       }}
@@ -39,10 +44,7 @@ export default function MobileNavigationHeaderAndMenu() {
         </header>
       </DropdownMenuTrigger>
 
-      <DropdownMenuContent
-        className='w-[var(--radix-popper-anchor-width)]'
-        onAuxClick={() => console.log('aux')}
-      >
+      <DropdownMenuContent className='w-[var(--radix-popper-anchor-width)]'>
         <DropdownMenuGroup className='flex flex-col gap-y-1.5 p-2'>
           {user && user?.role === 'ENTRANT'
             ? entrantNavigationItems.map((item) => (
@@ -51,6 +53,7 @@ export default function MobileNavigationHeaderAndMenu() {
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}
                   title={item.title}
+                  onClick={handleMenuItemClick}
                 />
               ))
             : adminNavigationItems.map((item) => (
@@ -59,6 +62,7 @@ export default function MobileNavigationHeaderAndMenu() {
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}
                   title={item.title}
+                  onClick={handleMenuItemClick}
                 />
               ))}
           <LogoutNavMenuItem />

@@ -3,24 +3,14 @@ import React, { useState } from 'react';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 
 export function OpenQueueButton() {
-  const [opened, setOpened] = useState(false);
-  const [buttonText, setButtonText] = useState('Відкрити');
+  const [opened, setOpened] = useState(true);
 
   const handleClick = async () => {
-    try {
-      if (!opened) {
-        await AdminQueueApi.openQueue({ opened: true });
-        setOpened(true);
-        setButtonText('Закрити');
-      } else {
-        await AdminQueueApi.openQueue({ opened: false });
-        setOpened(false);
-        setButtonText('Відкрити');
-      }
-    } catch (error) {
-      console.log(error);
-    }
+    await AdminQueueApi.openQueue({ opened: opened });
+    setOpened(!opened);
   };
 
-  return <Button onClick={handleClick}>{buttonText}</Button>;
+  return (
+    <Button onClick={handleClick}>{opened ? 'Відкрити' : 'Закрити'}</Button>
+  );
 }

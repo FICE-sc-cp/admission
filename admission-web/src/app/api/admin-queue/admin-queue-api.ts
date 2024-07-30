@@ -1,10 +1,10 @@
 import { instance } from '@/app/api/instance';
 import { MessageResponse } from '@/app/api/api-common.types';
+import { UpdateUser } from '@/app/api/admin-queue/admin-queue-api.types';
 import {
-  OpenQueue,
-  UpdateUser,
-} from '@/app/api/admin-queue/admin-queue-api.types';
-import { GetQueueUsersRes } from '@/app/api/queue/queue-api.types';
+  GetQueueUsersRes,
+  UpdateQueueBody,
+} from '@/app/api/queue/queue-api.types';
 
 class AdminQueueApi {
   async getUsers(): Promise<GetQueueUsersRes> {
@@ -20,7 +20,7 @@ class AdminQueueApi {
     return await instance.delete<MessageResponse>(`/queue/users/${id}`);
   }
 
-  async openQueue(body: OpenQueue) {
+  async openQueue(body: UpdateQueueBody) {
     return await instance.patch(`/queue`, body);
   }
 

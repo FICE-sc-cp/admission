@@ -1,8 +1,6 @@
-export type UpdateUser = {
-  status?: string;
-  delta?: number;
-};
+import { QueuePositionStatus } from '@/lib/schemas-and-types/queue';
 
-export type OpenQueue = {
-  opened: boolean;
+export type UpdateUser = {
+  status?: QueuePositionStatus;
+  delta?: number;
 };

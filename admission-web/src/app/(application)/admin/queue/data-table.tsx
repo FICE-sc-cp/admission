@@ -29,6 +29,7 @@ import adminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 import { PositionInQueue } from '@/lib/schemas-and-types/queue';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { initialColumnVisibility } from '@/lib/constants/column-visibility';
+import { UpdateUser } from '@/app/api/admin-queue/admin-queue-api.types';
 
 interface AdminQueueDataTableProps {
   columns: ColumnDef<PositionInQueue>[];
@@ -45,7 +46,7 @@ export function AdminQueueDataTable({
     initialColumnVisibility
   );
 
-  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
   const table = useReactTable({
     data,
     columns,
@@ -60,13 +61,33 @@ export function AdminQueueDataTable({
   });
   const { toastSuccess, toastError } = useCommonToast();
 
+  const handleDelete = async (id: string) => {
+    try {
+      await adminQueueApi.deleteEntrant(id);
+      await fetchData();
+      toastSuccess('Вступника успішно видалено з черги!');
+    } catch (error) {
+      toastError(error, 'Не вдалося видалити вступника з черги');
+    }
+  };
+
+  const handleMoveDown = async (id: string, delta: UpdateUser) => {
+    try {
+      await adminQueueApi.changePosition(id, delta);
+      await fetchData();
+      toastSuccess('Вступника успішно перенесено на 5 позицій вниз!');
+    } catch (error) {
+      toastError(error, 'Не вдалося перенести вступника на 5 позицій вниз');
+    }
+  };
+
   return (
     <>
       <div className='mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:gap-0'>
         <h1 className='text-2xl font-medium'>Керування чергою</h1>
         <div className='flex items-center space-x-3'>
           <AdminColumnSelect table={table} />
-          <AdminQueueCleanUp />
+          <AdminQueueCleanUp fetchData={fetchData} />
           <OpenQueueButton />
         </div>
       </div>
@@ -75,18 +96,16 @@ export function AdminQueueDataTable({
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                          )}
-                    </TableHead>
-                  );
-                })}
+                {headerGroup.headers.map((header) => (
+                  <TableHead key={header.id}>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                  </TableHead>
+                ))}
               </TableRow>
             ))}
           </TableHeader>
@@ -112,23 +131,9 @@ export function AdminQueueDataTable({
                         button={<Button>Перенесення вниз</Button>}
                         title='Перенесення вниз по черзі'
                         description='Ви впевнені? Вступника буде перенесено вниз на 5 позицій по черзі!'
-                        action={async () => {
-                          try {
-                            await adminQueueApi.changePosition(
-                              row.original.userId,
-                              { delta: 5 }
-                            );
-                            await fetchData();
-                            toastSuccess(
-                              'Вступника успішно перенесено на 5 позицій вниз!'
-                            );
-                          } catch (error) {
-                            toastError(
-                              error,
-                              'Не вдалося перенести вступника на 5 позицій вниз'
-                            );
-                          }
-                        }}
+                        action={() =>
+                          handleMoveDown(row.original.userId, { delta: 5 })
+                        }
                       />
                       <AdminAlertDialog
                         button={
@@ -141,21 +146,7 @@ export function AdminQueueDataTable({
                         }
                         title='Видалення вступника з черги'
                         description='Ви впевнені, що хочете видалити вступика із черги?'
-                        action={async () => {
-                          try {
-                            await adminQueueApi.deleteEntrant(
-                              row.original.userId
-                            );
-                            await fetchData();
-                            toastSuccess('Вступника успішно видалено з черги!');
-                          } catch (error) {
-                            console.error(error);
-                            toastError(
-                              error,
-                              'Не вдалося видалити вступника з черги'
-                            );
-                          }
-                        }}
+                        action={() => handleDelete(row.original.userId)}
                       />
                     </TableCell>
                   </TableRow>

@@ -9,6 +9,7 @@ import React, { useState } from 'react';
 import { AdminStatusBadge } from '@/app/(application)/admin/queue/components/AdminStatusBadge';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 import { QueuePositionStatus } from '@/lib/schemas-and-types/queue';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 export function AdminStatusSelect({
   status,
@@ -18,14 +19,15 @@ export function AdminStatusSelect({
   id: string;
 }) {
   const [selectedStatus, setSelectedStatus] = useState(status);
+  const { toastSuccess } = useCommonToast();
 
   const handleStatusChange = async (newStatus: QueuePositionStatus) => {
     setSelectedStatus(newStatus);
-    try {
-      await AdminQueueApi.changePosition(id, { status: newStatus });
-    } catch (error) {
-      console.error(error);
-    }
+    await AdminQueueApi.changePosition(id, { status: newStatus });
+    toastSuccess(
+      'Статус оновлено!',
+      'Оновіть сторінку, щоб побачити оновлений стан черги'
+    );
   };
 
   return (

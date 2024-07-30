@@ -2,8 +2,14 @@ import { Button } from '@/components/ui/button';
 import React from 'react';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 import AdminAlertDialog from '@/app/(application)/admin/_components/AdminAlertDialog';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
-export function AdminQueueCleanUp() {
+export function AdminQueueCleanUp({
+  fetchData,
+}: {
+  fetchData: () => Promise<void>;
+}) {
+  const { toastError } = useCommonToast();
   return (
     <AdminAlertDialog
       button={<Button>Очистити чергу</Button>}
@@ -12,11 +18,9 @@ export function AdminQueueCleanUp() {
       action={async () => {
         try {
           await AdminQueueApi.cleanUpTheQueue();
-          setTimeout(() => {
-            window.location.reload();
-          }, 100);
+          await fetchData();
         } catch (error) {
-          console.error(error);
+          toastError(error, 'Не вдалося очистити чергу');
         }
       }}
     />

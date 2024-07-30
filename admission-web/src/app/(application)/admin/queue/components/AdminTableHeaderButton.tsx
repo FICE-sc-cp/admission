@@ -14,7 +14,7 @@ export function AdminTableHeaderButton({
 }: AdminTableHeaderButtonProps) {
   return (
     <Button
-      className={`m-0 w-fit p-0`}
+      className='m-0 w-fit p-0'
       variant='ghost'
       onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
     >

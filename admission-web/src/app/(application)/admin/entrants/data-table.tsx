@@ -18,7 +18,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { AdminEntrantTablePagination } from '@/app/(application)/admin/entrants/components/AdminEntrantTablePagination';
 import AdminAlertDialog from '@/app/(application)/admin/_components/AdminAlertDialog';
@@ -39,9 +39,7 @@ export function AdminEntrantDataTable({
   data,
   fetchData,
 }: DataTableProps) {
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
     columns,
@@ -54,6 +52,16 @@ export function AdminEntrantDataTable({
     },
   });
   const { toastSuccess, toastError } = useCommonToast();
+
+  const handleDelete = async (id: string) => {
+    try {
+      await AdminEntrantsApi.deleteEntrant(id);
+      await fetchData();
+      toastSuccess('Вступника успішно видалено!');
+    } catch (error) {
+      toastError(error, 'Не вдалося видалити вступника');
+    }
+  };
 
   return (
     <>
@@ -118,15 +126,7 @@ export function AdminEntrantDataTable({
                       }
                       title='Видалення вступника'
                       description='Ви впевнені, що хочете видалити вступика? Вступник буде видалений разом із всіма його документами, цю дію неможливо буде відмінити!'
-                      action={async () => {
-                        try {
-                          await AdminEntrantsApi.deleteEntrant(row.original.id);
-                          await fetchData();
-                          toastSuccess('Вступника успішно видалено!');
-                        } catch (error) {
-                          toastError(error, 'Не вдалося видалити вступника');
-                        }
-                      }}
+                      action={() => handleDelete(row.original.id)}
                     />
                   </TableCell>
                 </TableRow>

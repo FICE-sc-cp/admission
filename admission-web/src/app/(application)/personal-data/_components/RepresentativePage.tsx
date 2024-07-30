@@ -53,6 +53,12 @@ const RepresentativePage: FC = () => {
     setAdminCode('');
   };
 
+  useEffect(() => {
+    if (user) {
+      form.setValue('userId', user.id);
+    }
+  }, [user]);
+
   return (
     <Form {...form}>
       <form

@@ -35,6 +35,7 @@ const SubmitPage: FC = () => {
         lastName: user?.lastName || '',
         role: user?.role || '',
         entrantData: {
+          userId: entrantData?.userId || '',
           passportDate: entrantData?.passportDate || '',
           passportInstitute: entrantData?.passportInstitute || '',
           email: entrantData?.email || '',
@@ -49,6 +50,7 @@ const SubmitPage: FC = () => {
         },
         customerData: customerData
           ? {
+              userId: customerData.userId || '',
               passportDate: customerData?.passportDate || '',
               passportInstitute: customerData?.passportInstitute || '',
               email: customerData?.email || '',
@@ -67,6 +69,7 @@ const SubmitPage: FC = () => {
           : null,
         representativeData: representativeData
           ? {
+              userId: representativeData.userId || '',
               passportDate: representativeData?.passportDate || '',
               passportInstitute: representativeData?.passportInstitute || '',
               email: representativeData?.email || '',

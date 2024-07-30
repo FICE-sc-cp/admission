@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { string, z } from 'zod';
 import {
   dateRegex,
   kirillicRegex,
@@ -8,6 +8,7 @@ import {
 
 export const EntrantSchema = z
   .object({
+    userId: string(),
     phoneNumber: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukNumberRegex, 'Номер має містити 9 цифр'),
@@ -73,6 +74,7 @@ export const EntrantSchema = z
 
 export const PersonalDataSchema = z
   .object({
+    userId: string(),
     lastName: z
       .string({ required_error: `Обов'язкове поле` })
       .min(2, 'Не коротше 2 символів')

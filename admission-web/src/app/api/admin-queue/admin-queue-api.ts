@@ -7,9 +7,8 @@ import {
 } from '@/app/api/admin-queue/admin-queue-api.types';
 
 class AdminQueueApi {
-  async getUsers(): Promise<Positions> {
-    const { data } = await instance.get('/queue/users');
-    return data;
+  async getUsers() {
+    return await instance.get<Positions>('/queue/users');
   }
 
   async changePosition(id: string, body: UpdateUser) {
@@ -17,15 +16,15 @@ class AdminQueueApi {
   }
 
   async deleteEntrant(id: string) {
-    await instance.delete<MessageResponse>(`/queue/users/${id}`);
+    return await instance.delete<MessageResponse>(`/queue/users/${id}`);
   }
 
   async openQueue(body: OpenQueue) {
-    await instance.patch(`/queue`, body);
+    return await instance.patch(`/queue`, body);
   }
 
   async cleanUpTheQueue() {
-    await instance.delete<MessageResponse>(`/queue/queue/users`);
+    return await instance.delete<MessageResponse>(`/queue/users`);
   }
 }
 

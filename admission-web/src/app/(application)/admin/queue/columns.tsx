@@ -155,45 +155,7 @@ export const columns: ColumnDef<QueuePosition>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const { refresh } = useRouter();
-      return (
-        <div className='flex items-center space-x-4'>
-          <AdminAlertDialog
-            button={<Button>Перенесення вниз</Button>}
-            title='Перенесення вниз по черзі'
-            description='Ви впевнені? Вступника буде перенесено вниз на 5 позицій по черзі!'
-            action={async () => {
-              try {
-                await AdminQueueApi.changePosition(row.original.userId, {
-                  delta: 5,
-                });
-                refresh();
-              } catch (error) {
-                console.error(error);
-              }
-            }}
-          />
-          <AdminAlertDialog
-            button={
-              <Button
-                variant='outline'
-                className='h-[50px] w-[50px] rounded-full'
-              >
-                <Trash2Icon />
-              </Button>
-            }
-            title='Видалення вступника з черги'
-            description='Ви впевнені, що хочете видалити вступика із черги?'
-            action={async () => {
-              try {
-                await AdminQueueApi.deleteEntrant(row.original.userId);
-                refresh();
-              } catch (error) {
-                console.error(error);
-              }
-            }}
-          />
-        </div>
-      );
+      return <></>;
     },
   },
 ];

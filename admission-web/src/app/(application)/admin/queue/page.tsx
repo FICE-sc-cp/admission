@@ -10,19 +10,19 @@ export default function AdminQueue() {
   const [data, setData] = useState<QueuePosition[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const { positions } = await AdminQueueApi.getUsers();
-        setData(positions);
-        setLoading(false);
-      } catch (error) {
-        console.error(error);
-      }
+  async function fetchData() {
+    try {
+      const { data } = await AdminQueueApi.getUsers();
+      setData(data.positions);
+      setLoading(false);
+    } catch (error) {
+      console.error(error);
     }
+  }
 
+  useEffect(() => {
     fetchData();
-  }, [data]);
+  }, []);
 
   if (loading) {
     return (
@@ -35,8 +35,12 @@ export default function AdminQueue() {
   }
 
   return (
-    <div className='container mx-auto py-10'>
-      <AdminQueueDataTable columns={columns} data={data} />
+    <div className='mx-auto py-10'>
+      <AdminQueueDataTable
+        columns={columns}
+        data={data}
+        fetchData={fetchData}
+      />
     </div>
   );
 }

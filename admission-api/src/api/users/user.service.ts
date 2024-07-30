@@ -14,22 +14,16 @@ export class UserService {
     return this.userRepo.updateById(id, {
       ...data,
       entrantData: entrantData ? {
-        upsert: {
-          update: entrantData,
-          create: entrantData,
-        },
+        delete: true,
+        create: entrantData,
       } : undefined,
       representativeData: representativeData ? {
-        upsert: {
-          update: representativeData,
-          create: representativeData,
-        },
+        delete: true,
+        create: representativeData,
       } : undefined,
       customerData: customerData ? {
-        upsert: {
-          update: customerData,
-          create: customerData,
-        },
+        delete: true,
+        create: customerData,
       } : undefined,
     });
   }

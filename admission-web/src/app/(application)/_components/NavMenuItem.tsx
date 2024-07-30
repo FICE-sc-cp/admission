@@ -9,10 +9,12 @@ interface NavMenuItemProps {
   icon: ReactNode;
   href: string;
   withNavElem?: boolean;
+  onClick: () => void;
 }
 
 export default function NavMenuItem({
   withNavElem = false,
+  onClick,
   ...item
 }: NavMenuItemProps) {
   const pathname = usePathname();
@@ -31,6 +33,7 @@ export default function NavMenuItem({
       key={item.title}
       href={item.href}
       className={!withNavElem ? className : ''}
+      onClick={onClick}
     >
       {withNavElem ? (
         <DropdownMenuItem key={item.title} className={className}>

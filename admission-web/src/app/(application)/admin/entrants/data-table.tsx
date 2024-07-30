@@ -61,7 +61,7 @@ export function AdminEntrantDataTable<TData, TValue>({
           className='max-w-sm sm:max-w-lg'
         />
       </div>
-      <div className='h-[700px] min-w-[1088px] rounded-md border'>
+      <div className='min-w-[1088px] rounded-md border'>
         <Table>
           <TableHeader className='bg-gray-100'>
             {table.getHeaderGroups().map((headerGroup) => (

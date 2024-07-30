@@ -1,32 +1,23 @@
-'use client';
-import { entrantNavigationItems } from '@/lib/constants/navigation';
-import NavMenuItem from './NavMenuItem';
-import useAuth from '@/hooks/useAuth';
-import { adminNavigationItems } from '@/lib/constants/admin-navigation';
-import { LogoutNavMenuItem } from './LogoutNavMenuItem';
+import { AvatarAndName } from './AvatarAndName';
+import { Separator } from '@radix-ui/react-dropdown-menu';
+import { DesktopSidebarNavigationItems } from './DesktopSidebarNavigationItems';
 
 export const DesktopSidebarNavigation = () => {
-  const { user } = useAuth();
   return (
-    <nav className='grid items-start gap-2 text-sm font-medium lg:px-4'>
-      {user && user?.role === 'ENTRANT'
-        ? entrantNavigationItems.map((item) => (
-            <NavMenuItem
-              key={item.href}
-              href={item.href}
-              icon={<item.icon className={'h-5 w-5'} />}
-              title={item.title}
-            />
-          ))
-        : adminNavigationItems.map((item) => (
-            <NavMenuItem
-              key={item.href}
-              href={item.href}
-              icon={<item.icon className={'h-5 w-5'} />}
-              title={item.title}
-            />
-          ))}
-      <LogoutNavMenuItem />
-    </nav>
+    <div className='sticky top-0 hidden max-h-[97vh] md:block md:flex-[0_0_220px] lg:flex-[0_0_280px]'>
+      <div className='m-[10px] flex h-full flex-col rounded-md border border-[#CBD5E1] bg-muted/10 px-2 shadow-md shadow-[#00000040]'>
+        <div className='px-4 py-3'>
+          <AvatarAndName size='default' />
+        </div>
+
+        <Separator />
+
+        <div className='py-2'>
+          <DesktopSidebarNavigationItems />
+        </div>
+
+        <Separator />
+      </div>
+    </div>
   );
 };

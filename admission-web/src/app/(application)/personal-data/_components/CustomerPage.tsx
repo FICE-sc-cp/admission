@@ -205,7 +205,11 @@ const CustomerPage: FC = () => {
                   <FormControl>
                     <Checkbox
                       checked={field.value}
-                      onCheckedChange={field.onChange}
+                      onCheckedChange={() =>
+                        field.onChange({
+                          target: { value: !field.value },
+                        })
+                      }
                     />
                   </FormControl>
                   <FormLabel>Старий зразок паспорту</FormLabel>
@@ -258,7 +262,7 @@ const CustomerPage: FC = () => {
                   <FormControl>
                     <Input
                       disabled={field.value === null}
-                      placeholder='Індифікаційний код'
+                      placeholder='РНОКПП'
                       className='w-[320px] md:w-[360px]'
                       value={field.value === null ? '' : field.value}
                       onChange={field.onChange}

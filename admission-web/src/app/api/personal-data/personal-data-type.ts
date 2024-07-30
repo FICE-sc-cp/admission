@@ -13,7 +13,7 @@ export interface PersonalDataBody {
 
 interface Representative {
   firstName: string;
-  middleName: string;
+  middleName: string | null;
   lastName: string;
   email: string;
   passportSeries: string;

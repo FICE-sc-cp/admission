@@ -192,7 +192,7 @@ const EntrantForm: FC = () => {
                         <Input
                           placeholder='Серія'
                           className={'w-[120px]'}
-                          value={field.value as string}
+                          value={field.value ?? ''}
                           onChange={field.onChange}
                         />
                       </FormControl>
@@ -229,7 +229,9 @@ const EntrantForm: FC = () => {
                   <FormControl>
                     <Checkbox
                       checked={field.value}
-                      onCheckedChange={field.onChange}
+                      onCheckedChange={(e) => {
+                        form.setValue('oldPassportTemplate', !!e);
+                      }}
                     />
                   </FormControl>
                   <FormLabel>Старий зразок паспорту</FormLabel>
@@ -282,7 +284,7 @@ const EntrantForm: FC = () => {
                   <FormControl>
                     <Input
                       disabled={field.value === null}
-                      placeholder='Індифікаційний код'
+                      placeholder='РНОКПП'
                       className='w-[320px] md:w-[360px]'
                       value={field.value === null ? '' : field.value}
                       onChange={field.onChange}

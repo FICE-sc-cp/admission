@@ -9,6 +9,7 @@ import AdminAlertDialog from '@/app/(application)/admin/_components/AdminAlertDi
 import { QueuePosition } from '@/app/api/admin-queue/admin-queue-api.types';
 import React from 'react';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
+import { useRouter } from 'next/navigation';
 
 const lastNameSort: SortingFn<any> = (rowA, rowB) => {
   const a = rowA.original.user.lastName;
@@ -153,44 +154,45 @@ export const columns: ColumnDef<QueuePosition>[] = [
     header: '',
     enableHiding: false,
     cell: ({ row }) => {
+      const { refresh } = useRouter();
       return (
-        <>
-          <div className='flex items-center space-x-4'>
-            <AdminAlertDialog
-              button={<Button>Перенесення вниз</Button>}
-              title='Перенесення вниз по черзі'
-              description='Ви впевнені? Вступника буде перенесено вниз на 5 позицій по черзі!'
-              action={async () => {
-                try {
-                  await AdminQueueApi.changePosition(row.original.userId, {
-                    delta: 5,
-                  });
-                } catch (error) {
-                  console.error(error);
-                }
-              }}
-            />
-            <AdminAlertDialog
-              button={
-                <Button
-                  variant='outline'
-                  className='h-[50px] w-[50px] rounded-full'
-                >
-                  <Trash2Icon />
-                </Button>
+        <div className='flex items-center space-x-4'>
+          <AdminAlertDialog
+            button={<Button>Перенесення вниз</Button>}
+            title='Перенесення вниз по черзі'
+            description='Ви впевнені? Вступника буде перенесено вниз на 5 позицій по черзі!'
+            action={async () => {
+              try {
+                await AdminQueueApi.changePosition(row.original.userId, {
+                  delta: 5,
+                });
+                refresh();
+              } catch (error) {
+                console.error(error);
               }
-              title='Видалення вступника з черги'
-              description='Ви впевнені, що хочете видалити вступика із черги?'
-              action={async () => {
-                try {
-                  await AdminQueueApi.deleteEntrant(row.original.userId);
-                } catch (error) {
-                  console.error(error);
-                }
-              }}
-            />
-          </div>
-        </>
+            }}
+          />
+          <AdminAlertDialog
+            button={
+              <Button
+                variant='outline'
+                className='h-[50px] w-[50px] rounded-full'
+              >
+                <Trash2Icon />
+              </Button>
+            }
+            title='Видалення вступника з черги'
+            description='Ви впевнені, що хочете видалити вступика із черги?'
+            action={async () => {
+              try {
+                await AdminQueueApi.deleteEntrant(row.original.userId);
+                refresh();
+              } catch (error) {
+                console.error(error);
+              }
+            }}
+          />
+        </div>
       );
     },
   },

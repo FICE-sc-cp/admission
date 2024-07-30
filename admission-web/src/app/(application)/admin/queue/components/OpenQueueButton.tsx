@@ -3,8 +3,8 @@ import React, { useState } from 'react';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 
 export function OpenQueueButton() {
-  const [opened, setOpened] = useState(true);
-  const [buttonText, setButtonText] = useState('Закрити');
+  const [opened, setOpened] = useState(false);
+  const [buttonText, setButtonText] = useState('Відкрити');
 
   const handleClick = async () => {
     try {

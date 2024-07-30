@@ -1,8 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-
-interface AdminStatusBadgeProps {
-  status: 'WAITING' | 'PROCESSING';
-}
+import { QueuePositionStatus } from '@/lib/schemas-and-types/queue';
 
 const adminBadgeStyles = {
   WAITING: {
@@ -15,9 +12,7 @@ const adminBadgeStyles = {
   },
 };
 
-export function AdminStatusBadge({
-  status = 'WAITING',
-}: AdminStatusBadgeProps) {
+export function AdminStatusBadge({ status }: { status: QueuePositionStatus }) {
   const { className, label } = adminBadgeStyles[status];
   return <Badge className={className}>{label}</Badge>;
 }

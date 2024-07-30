@@ -12,6 +12,9 @@ export function AdminQueueCleanUp() {
       action={async () => {
         try {
           await AdminQueueApi.cleanUpTheQueue();
+          setTimeout(() => {
+            window.location.reload();
+          }, 100);
         } catch (error) {
           console.error(error);
         }

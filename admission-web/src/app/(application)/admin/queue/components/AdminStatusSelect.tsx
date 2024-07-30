@@ -8,30 +8,23 @@ import {
 import React, { useState } from 'react';
 import { AdminStatusBadge } from '@/app/(application)/admin/queue/components/AdminStatusBadge';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
+import { QueuePositionStatus } from '@/lib/schemas-and-types/queue';
 
 export function AdminStatusSelect({
   status,
   id,
 }: {
-  status: 'WAITING' | 'PROCESSING';
+  status: QueuePositionStatus;
   id: string;
 }) {
   const [selectedStatus, setSelectedStatus] = useState(status);
 
-  const handleStatusChange = async (newStatus: 'WAITING' | 'PROCESSING') => {
+  const handleStatusChange = async (newStatus: QueuePositionStatus) => {
     setSelectedStatus(newStatus);
-    if (newStatus === 'PROCESSING') {
-      try {
-        await AdminQueueApi.changePosition(id, { status: 'PROCESSING' });
-      } catch (error) {
-        console.error(error);
-      }
-    } else {
-      try {
-        await AdminQueueApi.changePosition(id, { status: 'WAITING' });
-      } catch (error) {
-        console.error(error);
-      }
+    try {
+      await AdminQueueApi.changePosition(id, { status: newStatus });
+    } catch (error) {
+      console.error(error);
     }
   };
 
@@ -43,12 +36,13 @@ export function AdminStatusSelect({
         />
       </SelectTrigger>
       <SelectContent>
-        <SelectItem value='WAITING'>
-          <AdminStatusBadge status='WAITING' />
-        </SelectItem>
-        <SelectItem value='PROCESSING'>
-          <AdminStatusBadge status='PROCESSING' />
-        </SelectItem>
+        {(['WAITING', 'PROCESSING'] as QueuePositionStatus[]).map((status) => {
+          return (
+            <SelectItem value={status as string} key={status}>
+              <AdminStatusBadge status={status} />
+            </SelectItem>
+          );
+        })}
       </SelectContent>
     </Select>
   );

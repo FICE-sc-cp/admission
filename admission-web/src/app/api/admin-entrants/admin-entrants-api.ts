@@ -8,7 +8,7 @@ class AdminEntrantsApi {
     return data;
   }
   async deleteEntrant(id: string) {
-    await instance.delete<MessageResponse>(`/users/${id}`);
+    return await instance.delete<MessageResponse>(`/users/${id}`);
   }
 }
 

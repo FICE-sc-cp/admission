@@ -1,11 +1,11 @@
 import { Button } from '@/components/ui/button';
 import { Column } from '@tanstack/react-table';
-import { QueuePosition } from '@/app/api/admin-queue/admin-queue-api.types';
+import { PositionInQueue } from '@/lib/schemas-and-types/queue';
 
 interface AdminTableHeaderButtonProps {
   text?: string;
   width?: string;
-  column: Column<QueuePosition>;
+  column: Column<PositionInQueue>;
 }
 
 export function AdminTableHeaderButton({

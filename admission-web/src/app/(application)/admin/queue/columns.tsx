@@ -1,15 +1,10 @@
 'use client';
 
 import { ColumnDef, SortingFn } from '@tanstack/react-table';
-import { Button } from '@/components/ui/button';
-import { Trash2Icon } from 'lucide-react';
 import { AdminTableHeaderButton } from '@/app/(application)/admin/queue/components/AdminTableHeaderButton';
 import { AdminStatusSelect } from '@/app/(application)/admin/queue/components/AdminStatusSelect';
-import AdminAlertDialog from '@/app/(application)/admin/_components/AdminAlertDialog';
-import { QueuePosition } from '@/app/api/admin-queue/admin-queue-api.types';
 import React from 'react';
-import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
-import { useRouter } from 'next/navigation';
+import { PositionInQueue } from '@/lib/schemas-and-types/queue';
 
 const lastNameSort: SortingFn<any> = (rowA, rowB) => {
   const a = rowA.original.user.lastName;
@@ -41,7 +36,7 @@ const specialtySort: SortingFn<any> = (rowA, rowB) => {
   return a.localeCompare(b, 'uk', { numeric: true, sensitivity: 'base' });
 };
 
-export const columns: ColumnDef<QueuePosition>[] = [
+export const columns: ColumnDef<PositionInQueue>[] = [
   {
     accessorKey: 'relativePosition',
     enableHiding: false,
@@ -147,15 +142,6 @@ export const columns: ColumnDef<QueuePosition>[] = [
           id={row.original.userId}
         />
       );
-    },
-  },
-  {
-    accessorKey: 'buttons',
-    header: '',
-    enableHiding: false,
-    cell: ({ row }) => {
-      const { refresh } = useRouter();
-      return <></>;
     },
   },
 ];

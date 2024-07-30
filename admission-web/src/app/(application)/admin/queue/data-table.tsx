@@ -26,37 +26,24 @@ import { Button } from '@/components/ui/button';
 import { Trash2Icon } from 'lucide-react';
 import AdminAlertDialog from '../_components/AdminAlertDialog';
 import adminQueueApi from '@/app/api/admin-queue/admin-queue-api';
-import { useRouter } from 'next/navigation';
+import { PositionInQueue } from '@/lib/schemas-and-types/queue';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { initialColumnVisibility } from '@/lib/constants/column-visibility';
 
-interface AdminQueueDataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface AdminQueueDataTableProps {
+  columns: ColumnDef<PositionInQueue>[];
+  data: PositionInQueue[];
   fetchData: () => Promise<void>;
 }
 
-const initialColumnVisibility = {
-  relativePosition: true,
-  lastName: true,
-  firstName: true,
-  middleName: true,
-  phone: true,
-  email: false,
-  printedEdbo: false,
-  expectedSpecialities: false,
-  isDorm: false,
-  status: true,
-  buttons: true,
-};
-
-export function AdminQueueDataTable<TData, TValue>({
+export function AdminQueueDataTable({
   columns,
   data,
   fetchData,
-}: AdminQueueDataTableProps<TData, TValue>) {
+}: AdminQueueDataTableProps) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     initialColumnVisibility
   );
-  const { refresh } = useRouter();
 
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const table = useReactTable({
@@ -71,6 +58,7 @@ export function AdminQueueDataTable<TData, TValue>({
       sorting,
     },
   });
+  const { toastSuccess, toastError } = useCommonToast();
 
   return (
     <>
@@ -82,9 +70,9 @@ export function AdminQueueDataTable<TData, TValue>({
           <OpenQueueButton />
         </div>
       </div>
-      <div className='overflow-auto rounded-md border'>
+      <div className='overflow-auto rounded-md border bg-gray-100'>
         <Table>
-          <TableHeader className='bg-gray-100'>
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -107,7 +95,7 @@ export function AdminQueueDataTable<TData, TValue>({
               <>
                 {table.getRowModel().rows.map((row) => (
                   <TableRow
-                    className='hover:bg-white'
+                    className='bg-white hover:bg-white'
                     key={row.id}
                     data-state={row.getIsSelected() && 'selected'}
                   >
@@ -127,14 +115,18 @@ export function AdminQueueDataTable<TData, TValue>({
                         action={async () => {
                           try {
                             await adminQueueApi.changePosition(
-                              '77b65bb8-9af3-433a-911e-a67c418f4640',
-                              {
-                                delta: 5,
-                              }
+                              row.original.userId,
+                              { delta: 5 }
                             );
-                            refresh();
+                            await fetchData();
+                            toastSuccess(
+                              'Вступника успішно перенесено на 5 позицій вниз!'
+                            );
                           } catch (error) {
-                            console.error(error, 'error');
+                            toastError(
+                              error,
+                              'Не вдалося перенести вступника на 5 позицій вниз'
+                            );
                           }
                         }}
                       />
@@ -151,14 +143,17 @@ export function AdminQueueDataTable<TData, TValue>({
                         description='Ви впевнені, що хочете видалити вступика із черги?'
                         action={async () => {
                           try {
-                            const res = await adminQueueApi.deleteEntrant(
-                              '069cc7a1-0106-43d0-9c75-a261db9b4a7c'
+                            await adminQueueApi.deleteEntrant(
+                              row.original.userId
                             );
-                            console.log(res);
                             await fetchData();
-                            refresh();
+                            toastSuccess('Вступника успішно видалено з черги!');
                           } catch (error) {
-                            console.error(error, 'error');
+                            console.error(error);
+                            toastError(
+                              error,
+                              'Не вдалося видалити вступника з черги'
+                            );
                           }
                         }}
                       />
@@ -167,7 +162,7 @@ export function AdminQueueDataTable<TData, TValue>({
                 ))}
               </>
             ) : (
-              <TableRow className='hover:bg-white'>
+              <TableRow className='bg-white hover:bg-white'>
                 <TableCell
                   colSpan={columns.length}
                   className='h-24 text-center text-xl font-light'

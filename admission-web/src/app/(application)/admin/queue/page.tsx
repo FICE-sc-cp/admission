@@ -2,21 +2,24 @@
 import { columns } from './columns';
 import { AdminQueueDataTable } from '@/app/(application)/admin/queue/data-table';
 import { useEffect, useState } from 'react';
-import { QueuePosition } from '@/app/api/admin-queue/admin-queue-api.types';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 import { Loader2 } from 'lucide-react';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { PositionInQueue } from '@/lib/schemas-and-types/queue';
 
 export default function AdminQueue() {
-  const [data, setData] = useState<QueuePosition[]>([]);
+  const [data, setData] = useState<PositionInQueue[]>([]);
   const [loading, setLoading] = useState(true);
+  const { toastError } = useCommonToast();
 
   async function fetchData() {
     try {
-      const { data } = await AdminQueueApi.getUsers();
-      setData(data.positions);
-      setLoading(false);
+      const { positions } = await AdminQueueApi.getUsers();
+      setData(positions);
     } catch (error) {
-      console.error(error);
+      toastError(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -35,11 +38,11 @@ export default function AdminQueue() {
   }
 
   return (
-    <div className='mx-auto py-10'>
+    <div className='container mx-auto p-5'>
       <AdminQueueDataTable
+        fetchData={fetchData}
         columns={columns}
         data={data}
-        fetchData={fetchData}
       />
     </div>
   );

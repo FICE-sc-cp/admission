@@ -31,7 +31,7 @@ export const LoginForm = () => {
   async function onSubmit(values: TSignIn) {
     try {
       await authApi.login(values);
-      push('/auth/email');
+      push('/auth/email?email=' + values.email);
     } catch (error) {
       if (isAxiosError(error) && error.response?.status === 404) {
         form.setError(

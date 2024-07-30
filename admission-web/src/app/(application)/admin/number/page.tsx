@@ -26,11 +26,7 @@ export default function AdminCurrentNumberPage() {
       const { data } = await queueApi.getUsers('WAITING', 5, 0);
       setData(data.positions);
     } catch (error) {
-      if (isAxiosError(error) && error.response?.status === 400) {
-        setData(null);
-      } else {
-        toastError(error);
-      }
+      toastError(error);
     } finally {
       setIsLoading(false);
     }
@@ -38,7 +34,18 @@ export default function AdminCurrentNumberPage() {
 
   useEffect(() => {
     fetchQueueUser();
+    const intervalId = setInterval(fetchQueueUser, 5000);
+    return () => clearInterval(intervalId);
   }, []);
+
+  useEffect(() => {
+    if (document && isExpanded) {
+      const queueLink = document.getElementById('queue-link');
+      if (queueLink) {
+        queueLink.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  }, [document, isExpanded, isLoading]);
 
   if (isLoading || !data) {
     return (
@@ -85,7 +92,8 @@ export default function AdminCurrentNumberPage() {
           </>
         )}
       </Button>
-      <div className='my-5 flex max-h-[90vh] gap-5 md:flex-col md:justify-normal md:gap-10 lg:p-8'>
+
+      <div className='my-5 flex max-h-[90vh] gap-[10px] md:flex-col md:justify-normal md:gap-5 lg:p-8'>
         <div className='flex flex-auto flex-col items-center justify-around gap-10 md:h-auto md:flex-none md:flex-row'>
           {firstRow.map((positionInQueue) => (
             <QueueNumberItem
@@ -94,6 +102,10 @@ export default function AdminCurrentNumberPage() {
             />
           ))}
         </div>
+        <span
+          className='queue-link invisible mt-[-400px] block h-[400px]'
+          id='queue-link'
+        ></span>
         <div className='my-[25%] flex flex-auto flex-col items-center justify-around gap-10 md:mx-[17.5%] md:my-0 md:h-auto md:flex-none md:flex-row'>
           {secondRow.map((positionInQueue) => (
             <QueueNumberItem

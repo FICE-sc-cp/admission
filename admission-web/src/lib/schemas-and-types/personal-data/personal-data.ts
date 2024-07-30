@@ -23,7 +23,7 @@ export const EntrantSchema = z
       .string({ required_error: "Обов'язкове поле" })
       .regex(/^\d{4}$/, 'Орган видачі має містити 4 цифри'),
     passportSeries: z
-      .string()
+      .string({ required_error: "Обов'язкове поле" })
       .max(2, 'Серія паспорту має містити 2 символи')
       .regex(
         kirillicRegex,

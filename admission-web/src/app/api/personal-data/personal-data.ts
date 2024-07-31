@@ -12,6 +12,10 @@ class PersonalDataApi {
     );
     return personalData;
   }
+
+  async deletePersonalData(userId: string) {
+    await instance.delete(`/users/${userId}`);
+  }
 }
 
 export default new PersonalDataApi();

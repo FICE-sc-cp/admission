@@ -1,8 +1,8 @@
-import { z } from 'zod';
+import { string, z } from 'zod';
 import {
   dateRegex,
   kirillicRegex,
-  phoneRegex,
+  ukNumberRegex,
   ukRegex,
 } from '@/lib/constants/regex';
 import { transformApostrophe } from '@/lib/utils/transformApostrophe';
@@ -11,7 +11,7 @@ export const EntrantSchema = z
   .object({
     phoneNumber: z
       .string({ required_error: "Обов'язкове поле" })
-      .regex(phoneRegex, 'Номер має містити 9 цифр'),
+      .regex(ukNumberRegex, 'Номер має містити 9 цифр'),
     passportNumber: z.string({ required_error: "Обов'язкове поле" }),
     email: z
       .string({ required_error: `Обов'язкове поле` })
@@ -23,7 +23,7 @@ export const EntrantSchema = z
       .string({ required_error: "Обов'язкове поле" })
       .regex(/^\d{4}$/, 'Орган видачі має містити 4 цифри'),
     passportSeries: z
-      .string()
+      .string({ required_error: "Обов'язкове поле" })
       .max(2, 'Серія паспорту має містити 2 символи')
       .regex(
         kirillicRegex,
@@ -56,7 +56,7 @@ export const EntrantSchema = z
       }),
     study_form: z.enum(['Бюджет', 'Контракт']).default('Контракт'),
     submission_in_corpus: z.boolean().default(false).optional(),
-    oldPassportTemplate: z.boolean().default(false),
+    oldPassportTemplate: z.boolean().default(false).optional(),
   })
   .superRefine((data, ctx) => {
     const passportNumber = data.passportNumber;
@@ -106,7 +106,7 @@ export const PersonalDataSchema = z
       .email('Введіть емейл'),
     phoneNumber: z
       .string({ required_error: "Обов'язкове поле" })
-      .regex(phoneRegex, 'Номер має містити 9 цифр'),
+      .regex(ukNumberRegex, 'Номер має містити 9 цифр'),
     passportNumber: z.string({ required_error: "Обов'язкове поле" }),
     passportDate: z
       .string({ required_error: "Обов'язкове поле" })
@@ -121,7 +121,6 @@ export const PersonalDataSchema = z
         kirillicRegex,
         'Серія паспорту має містити кириличні літери верхнього регістру'
       )
-
       .nullable()
       .default(null),
     idCode: z
@@ -130,7 +129,9 @@ export const PersonalDataSchema = z
       .refine((value) => value === null || /^[0-9]{10}$/.test(value), {
         message: 'РНОКПП має містити 10 цифр',
       }),
-    region: z.string({ required_error: 'Будь ласка оберіть регіон' }),
+    region: z
+      .string({ required_error: 'Будь ласка оберіть регіон' })
+      .transform(transformApostrophe),
     settlement: z
       .string({ required_error: "Обов'язкове поле" })
       .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
@@ -144,7 +145,7 @@ export const PersonalDataSchema = z
       .refine((value) => /^[0-9]{5}$/.test(value), {
         message: 'Має містити 5 цифр',
       }),
-    oldPassportTemplate: z.boolean().default(false),
+    oldPassportTemplate: z.boolean().default(false).optional(),
   })
   .superRefine((data, ctx) => {
     const passportNumber = data.passportNumber;

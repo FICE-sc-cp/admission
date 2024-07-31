@@ -10,7 +10,7 @@ export interface PositionInQueue {
   userId: string;
   code: number;
   position: number;
-  status: string;
+  status: QueuePositionStatus;
   lastNotifiedPosition: number;
   createdAt: string;
   updatedAt: string;

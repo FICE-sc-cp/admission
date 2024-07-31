@@ -9,7 +9,7 @@ interface NavMenuItemProps {
   icon: ReactNode;
   href: string;
   withNavElem?: boolean;
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 export default function NavMenuItem({

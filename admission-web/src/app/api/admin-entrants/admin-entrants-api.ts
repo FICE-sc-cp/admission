@@ -1,6 +1,6 @@
 import { User } from '@/app/api/admin-entrants/admin-entrants-api.types';
 import { instance } from '@/app/api/instance';
-import { MessageResponse } from "@/app/api/api-common.types";
+import { MessageResponse } from '@/app/api/api-common.types';
 
 class AdminEntrantsApi {
   async getUsers(): Promise<User[]> {
@@ -8,7 +8,7 @@ class AdminEntrantsApi {
     return data;
   }
   async deleteEntrant(id: string) {
-    await instance.delete<MessageResponse>(`/users/${id}`);
+    return await instance.delete<MessageResponse>(`/users/${id}`);
   }
 }
 

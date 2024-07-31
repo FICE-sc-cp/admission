@@ -4,8 +4,8 @@ import { AdminEntrantDataTable } from '@/app/(application)/admin/entrants/data-t
 import { columns } from '@/app/(application)/admin/entrants/columns';
 import AdminEntrantsApi from '@/app/api/admin-entrants/admin-entrants-api';
 import { User } from '@/app/api/admin-entrants/admin-entrants-api.types';
-import { Loader2 } from 'lucide-react';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { Loader } from '@/app/(application)/_components/Loader';
 
 export default function AdminEntrantsPage() {
   const [data, setData] = useState<User[]>([]);
@@ -28,13 +28,7 @@ export default function AdminEntrantsPage() {
   }, []);
 
   if (loading) {
-    return (
-      <div className='flex min-h-96 min-w-96 items-center justify-center'>
-        <span>
-          <Loader2 className='text-clay-700 animate-spin' size={80} />
-        </span>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (

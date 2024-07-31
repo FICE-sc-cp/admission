@@ -22,7 +22,7 @@ class DocumentsApi {
   }
 
   async downloadContract(contractId: string) {
-    return instance.get<DownloadDocument>(
+    return instance.get<mimeType>(
       `/documents/${contractId}/download/contract`,
       {
         responseType: 'blob',
@@ -31,16 +31,13 @@ class DocumentsApi {
   }
 
   async downloadPayment(contractId: string) {
-    return instance.get<DownloadDocument>(
-      `/documents/${contractId}/download/payment`,
-      {
-        responseType: 'blob',
-      }
-    );
+    return instance.get<mimeType>(`/documents/${contractId}/download/payment`, {
+      responseType: 'blob',
+    });
   }
 
   async downloadPriority(contractId: string) {
-    return instance.get<DownloadDocument>(
+    return instance.get<mimeType>(
       `/documents/${contractId}/download/priority`,
       {
         responseType: 'blob',

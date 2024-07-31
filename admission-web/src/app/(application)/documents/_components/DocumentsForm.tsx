@@ -26,7 +26,6 @@ import { useEffect } from 'react';
 import {
   PROFESSIONAL,
   SCIENTIFIC,
-  specialities,
 } from '@/lib/constants/documents-educational-programs';
 import DocumentsApi from '@/app/api/documents/documents-api';
 import useAuth from '@/hooks/useAuth';
@@ -51,7 +50,7 @@ export const DocumentsForm = () => {
   };
 
   useEffect(() => {
-    if (form.getValues('specialty') === '123 Комп’ютерна інженерія') {
+    if (form.getValues('specialty') === '123') {
       form.setValue('priorities', null);
     }
     if (form.getValues('degree') === 'MASTER') {
@@ -61,7 +60,7 @@ export const DocumentsForm = () => {
         form.setValue(
           'specialty',
           //@ts-ignore
-          specialities[form.getValues('educationalProgram').split(' ')[0]]
+          form.getValues('educationalProgram').split(' ')[0] as string
         );
       }
 
@@ -72,7 +71,7 @@ export const DocumentsForm = () => {
     }
     if (form.getValues('degree') === 'BACHELOR') {
       form.setValue('educationalProgram', null);
-      form.setValue('programType', null);
+      form.setValue('programType', 'PROFESSIONAL');
     }
   }, [form.getValues()]);
 
@@ -303,7 +302,7 @@ export const DocumentsForm = () => {
                   >
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='121 Інженерія програмного забезпечення' />
+                        <RadioGroupItem value='121' />
                       </FormControl>
                       <FormLabel>
                         121 Інженерія програмного забезпечення
@@ -311,13 +310,13 @@ export const DocumentsForm = () => {
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='123 Комп’ютерна інженерія' />
+                        <RadioGroupItem value='123' />
                       </FormControl>
                       <FormLabel>123 Комп’ютерна інженерія</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='126 Інформаційні системи та технології' />
+                        <RadioGroupItem value='126' />
                       </FormControl>
                       <FormLabel>
                         126 Інформаційні системи та технології
@@ -330,14 +329,14 @@ export const DocumentsForm = () => {
             )}
           />
         )}
-        {form.getValues('specialty') ===
-          '121 Інженерія програмного забезпечення' && (
-          <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
-        )}
-        {form.getValues('specialty') ===
-          '126 Інформаційні системи та технології' && (
-          <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
-        )}
+        {form.getValues('specialty') === '121' &&
+          form.getValues('degree') !== 'MASTER' && (
+            <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
+          )}
+        {form.getValues('specialty') === '126' &&
+          form.getValues('degree') !== 'MASTER' && (
+            <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
+          )}
         <Button
           onClick={() => onSubmit(form.getValues())}
           className='w-full md:w-[185px]'

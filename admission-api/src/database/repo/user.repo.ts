@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../prisma.service';
-import { Prisma, Role, User } from '@prisma/client';
+import { Prisma, Role } from '@prisma/client';
 import { UserDto } from '../../api/users/dtos/user.dto';
 
 @Injectable()
@@ -40,10 +40,11 @@ export class UserRepo {
     });
   }
 
-  async updateById (id: string, data: Prisma.UserUncheckedUpdateInput): Promise<User> {
+  async updateById (id: string, data: Prisma.UserUncheckedUpdateInput): Promise<UserDto> {
     return this.prisma.user.update({
       where: { id },
       data,
+      include: this.include,
     });
   }
 

@@ -23,13 +23,17 @@ import {
 import { Input } from '@/components/ui/input';
 import {
   IPrioritySelect,
+  TAdminDocumentsSchema,
   TDocumentsSchema,
 } from '@/lib/schemas-and-types/documents';
-import { EducationProgramLabels } from '@/lib/constants/documents-educational-programs';
+import {
+  EducationProgramAbbreviation,
+  EducationProgramLabels,
+} from '@/lib/constants/documents-educational-programs';
 
 interface PriorityFormProps {
   educationalPrograms: IPrioritySelect[];
-  form: UseFormReturn<TDocumentsSchema, any, undefined>;
+  form: UseFormReturn<TAdminDocumentsSchema, any, undefined>;
 }
 
 const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
@@ -53,11 +57,14 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
                     program: EducationProgramLabels[value],
                   });
                 }}
-                //@ts-ignore
-                defaultValue={field.value}
+                value={
+                  field.value
+                    ? EducationProgramAbbreviation[field.value.program]
+                    : field.value
+                }
               >
                 <FormControl>
-                  <SelectTrigger className='w-[320px] md:w-[511px]'>
+                  <SelectTrigger className='w-[320px] md:w-[350px]'>
                     <SelectValue placeholder='Вибери зі списку' />
                   </SelectTrigger>
                 </FormControl>
@@ -85,7 +92,7 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
             <Input
               type='text'
               value={field.value}
-              className='w-[320px] md:w-[511px]'
+              className='w-[320px] md:w-[350px]'
               disabled
             />
           </FormItem>

@@ -11,6 +11,9 @@ export interface IPrioritySelect {
   id: EducationProgram;
 }
 
+export type mimeType =
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
 const prioritySchema = z.object(
   {
     number: z.number({

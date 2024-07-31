@@ -1,3 +1,5 @@
+import { mimeType } from '@/lib/schemas-and-types/documents';
+
 export interface DocumentsApiBody {
   id?: string;
   state?: State;
@@ -13,6 +15,10 @@ export interface DocumentsApiBody {
   priorityDate: string;
   userId: string;
   priorities: Priorities[];
+}
+
+export interface DownloadDocument {
+  data: mimeType;
 }
 
 interface Priorities {

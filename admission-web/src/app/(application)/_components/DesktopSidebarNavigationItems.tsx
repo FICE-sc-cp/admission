@@ -12,7 +12,6 @@ export const DesktopSidebarNavigationItems = () => {
       {user && user?.role === 'ENTRANT'
         ? entrantNavigationItems.map((item) => (
             <NavMenuItem
-              onClick={() => {}}
               key={item.href}
               href={item.href}
               icon={<item.icon className={'h-5 w-5'} />}
@@ -21,7 +20,6 @@ export const DesktopSidebarNavigationItems = () => {
           ))
         : adminNavigationItems.map((item) => (
             <NavMenuItem
-              onClick={() => {}}
               key={item.href}
               href={item.href}
               icon={<item.icon className={'h-5 w-5'} />}

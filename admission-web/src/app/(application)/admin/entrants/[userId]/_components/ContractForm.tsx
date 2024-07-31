@@ -1,6 +1,7 @@
 import React, { FC, useEffect, useState } from 'react';
 import {
   DocumentsApiBody,
+  DownloadDocument,
   State,
 } from '@/app/api/documents/documents-api.types';
 import { useForm } from 'react-hook-form';
@@ -40,6 +41,7 @@ import {
 import DocumentsApi from '@/app/api/documents/documents-api';
 import { DeletePopup } from '@/app/(application)/admin/entrants/[userId]/_components/DeletePopup';
 import useAuth from '@/hooks/useAuth';
+import { downloadFile } from '@/lib/utils/downloadFile';
 
 interface ContractFormProps {
   data: DocumentsApiBody;
@@ -74,69 +76,18 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
   const downloadDocuments = async () => {
     const res = await DocumentsApi.downloadContract(data.id as string);
 
-    const blob = new Blob([res.data], {
-      type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-    });
-
-    const url = window.URL.createObjectURL(blob);
-
-    const tempLink = document.createElement('a');
-    tempLink.href = url;
-    tempLink.setAttribute(
-      'download',
-      `${user?.lastName} ${user?.firstName} ${user?.middleName} ${data.specialty} Навчання`
-    );
-
-    document.body.appendChild(tempLink);
-    tempLink.click();
-
-    document.body.removeChild(tempLink);
-    window.URL.revokeObjectURL(url);
+    downloadFile(res.data, user, data, 'Навчання');
 
     if (data.fundingSource === 'CONTRACT') {
       const res = await DocumentsApi.downloadPayment(data.id as string);
 
-      const blob = new Blob([res.data], {
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      });
-
-      const url = window.URL.createObjectURL(blob);
-
-      const tempLink = document.createElement('a');
-      tempLink.href = url;
-      tempLink.setAttribute(
-        'download',
-        `${user?.lastName} ${user?.firstName} ${user?.middleName} ${data.specialty} Оплата`
-      );
-
-      document.body.appendChild(tempLink);
-      tempLink.click();
-
-      document.body.removeChild(tempLink);
-      window.URL.revokeObjectURL(url);
+      downloadFile(res.data, user, data, 'Оплата');
     }
 
     if (data.specialty === '121' || data.specialty === '126') {
       const res = await DocumentsApi.downloadPriority(data.id as string);
 
-      const blob = new Blob([res.data], {
-        type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      });
-
-      const url = window.URL.createObjectURL(blob);
-
-      const tempLink = document.createElement('a');
-      tempLink.href = url;
-      tempLink.setAttribute(
-        'download',
-        `${user?.lastName} ${user?.firstName} ${user?.middleName} ${data.specialty} Пріоритетка`
-      );
-
-      document.body.appendChild(tempLink);
-      tempLink.click();
-
-      document.body.removeChild(tempLink);
-      window.URL.revokeObjectURL(url);
+      downloadFile(res.data, user, data, 'Приорітети');
     }
   };
 

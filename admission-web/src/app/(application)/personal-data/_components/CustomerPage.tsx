@@ -29,6 +29,7 @@ import {
 import { regions } from '@/lib/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
 import { FC, useState } from 'react';
+import { PersonalData } from '@/lib/schemas-and-types/personal-data/entrant';
 
 const CustomerPage: FC = () => {
   const { customerData, setCustomerData, activeStep, setActiveStep } =
@@ -41,7 +42,7 @@ const CustomerPage: FC = () => {
   const [adminCode, setAdminCode] = useState('');
 
   const onSubmit = (data: TPersonalDataSchema) => {
-    setCustomerData(data);
+    setCustomerData(data as PersonalData);
     setActiveStep((prevState) => prevState + 1);
     setAdminCode('');
   };

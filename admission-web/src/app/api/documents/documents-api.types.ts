@@ -1,14 +1,24 @@
+import { mimeType } from '@/lib/schemas-and-types/documents';
+
 export interface DocumentsApiBody {
+  id?: string;
+  state?: State;
+  number?: string;
+  date?: string | null;
   degree: Degree;
-  educationalProgram: string;
-  programType: ProgramType;
-  paymentType: PaymentType;
-  specialty: string;
+  educationalProgram: string | null;
+  programType: ProgramType | null;
+  paymentType: PaymentType | null;
+  specialty: string | null;
   studyForm: StudyForm;
   fundingSource: FundingSource;
   priorityDate: string;
   userId: string;
-  priorities: Priorities;
+  priorities: Priorities[];
+}
+
+export interface DownloadDocument {
+  data: mimeType;
 }
 
 interface Priorities {
@@ -39,4 +49,9 @@ enum StudyForm {
 enum FundingSource {
   BUDGET = 'BUDGET',
   CONTRACT = 'CONTRACT',
+}
+
+export enum State {
+  PENDING = 'PENDING',
+  APPROVED = 'APPROVED',
 }

@@ -49,20 +49,20 @@ const SubmitPage: FC = () => {
         },
         customerData: customerData
           ? {
-              passportDate: customerData.passportDate || '',
-              passportInstitute: customerData.passportInstitute || '',
-              email: customerData.email || '',
-              idCode: customerData.idCode || '',
-              address: customerData.address || '',
-              passportNumber: customerData.passportNumber || '',
-              index: customerData.index || '',
-              passportSeries: customerData.passportSeries || '',
-              phoneNumber: customerData.phoneNumber || '',
-              region: customerData.region || '',
-              settlement: customerData.settlement || '',
-              firstName: customerData.firstName || '',
-              middleName: customerData.middleName || '',
-              lastName: customerData.lastName || '',
+              passportDate: customerData?.passportDate || '',
+              passportInstitute: customerData?.passportInstitute || '',
+              email: customerData?.email || '',
+              idCode: customerData?.idCode || '',
+              address: customerData?.address || '',
+              passportNumber: customerData?.passportNumber || '',
+              index: customerData?.index || '',
+              passportSeries: customerData?.passportSeries || '',
+              phoneNumber: customerData?.phoneNumber || '',
+              region: customerData?.region || '',
+              settlement: customerData?.settlement || '',
+              firstName: customerData?.firstName || '',
+              middleName: customerData?.middleName || '',
+              lastName: customerData?.lastName || '',
             }
           : null,
         representativeData: representativeData
@@ -123,7 +123,9 @@ const SubmitPage: FC = () => {
               Орган видачі: {entrantData.passportInstitute}
             </p>
             {entrantData.idCode && (
-              <p className='text-base'>РНОКПП: {entrantData.idCode}</p>
+              <p className='text-base'>
+                Індифікаційний код: {entrantData.idCode}
+              </p>
             )}
             <p className='text-base'>Регіон: {entrantData.region}</p>
             <p className='text-base'>
@@ -164,7 +166,9 @@ const SubmitPage: FC = () => {
               Орган видачі: {representativeData.passportInstitute}
             </p>
             {representativeData.idCode && (
-              <p className='text-base'>РНОКПП: {representativeData.idCode}</p>
+              <p className='text-base'>
+                Індифікаційний код: {representativeData.idCode}
+              </p>
             )}
             <p className='text-base'>Регіон: {representativeData.region}</p>
             <p className='text-base'>
@@ -205,7 +209,9 @@ const SubmitPage: FC = () => {
               Орган видачі: {customerData.passportInstitute}
             </p>
             {customerData.idCode && (
-              <p className='text-base'>РНОКПП: {customerData.idCode}</p>
+              <p className='text-base'>
+                Індифікаційний код: {customerData.idCode}
+              </p>
             )}
             <p className='text-base'>Регіон: {customerData.region}</p>
             <p className='text-base'>

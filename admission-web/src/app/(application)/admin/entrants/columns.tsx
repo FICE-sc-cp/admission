@@ -1,6 +1,5 @@
 'use client';
 import { ColumnDef } from '@tanstack/react-table';
-import { AdminDeleteEntrantCell } from '@/app/(application)/admin/entrants/components/AdminDeleteEntrantCell';
 import { User } from '@/app/api/admin-entrants/admin-entrants-api.types';
 
 export const columns: ColumnDef<User>[] = [
@@ -36,13 +35,6 @@ export const columns: ColumnDef<User>[] = [
       return contracts.some((contract) => contract.state === 'APPROVED')
         ? 'ПОДАНО'
         : 'НЕ ПОДАНО';
-    },
-  },
-  {
-    accessorKey: 'id',
-    header: '',
-    cell: ({ row }) => {
-      return <AdminDeleteEntrantCell row={row} />;
     },
   },
 ];

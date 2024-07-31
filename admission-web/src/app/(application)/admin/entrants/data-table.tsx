@@ -18,22 +18,28 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import React from 'react';
+import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { AdminEntrantTablePagination } from '@/app/(application)/admin/entrants/components/AdminEntrantTablePagination';
+import AdminAlertDialog from '@/app/(application)/admin/_components/AdminAlertDialog';
+import { Button } from '@/components/ui/button';
+import { Trash2Icon } from 'lucide-react';
+import AdminEntrantsApi from '@/app/api/admin-entrants/admin-entrants-api';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { User } from '@/app/api/admin-entrants/admin-entrants-api.types';
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
-  data: TData[];
+interface DataTableProps {
+  columns: ColumnDef<User>[];
+  data: User[];
+  fetchData: () => Promise<void>;
 }
 
-export function AdminEntrantDataTable<TData, TValue>({
+export function AdminEntrantDataTable({
   columns,
   data,
-}: DataTableProps<TData, TValue>) {
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  );
+  fetchData,
+}: DataTableProps) {
+  const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
     data,
     columns,
@@ -45,6 +51,17 @@ export function AdminEntrantDataTable<TData, TValue>({
       columnFilters,
     },
   });
+  const { toastSuccess, toastError } = useCommonToast();
+
+  const handleDelete = async (id: string) => {
+    try {
+      await AdminEntrantsApi.deleteEntrant(id);
+      await fetchData();
+      toastSuccess('Вступника успішно видалено!');
+    } catch (error) {
+      toastError(error, 'Не вдалося видалити вступника');
+    }
+  };
 
   return (
     <>
@@ -61,7 +78,7 @@ export function AdminEntrantDataTable<TData, TValue>({
           className='max-w-sm sm:max-w-lg'
         />
       </div>
-      <div className='min-w-[1088px] rounded-md border'>
+      <div className='min-h-[700px] min-w-[1088px] rounded-md border bg-gray-100'>
         <Table>
           <TableHeader className='bg-gray-100'>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -85,7 +102,7 @@ export function AdminEntrantDataTable<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className='hover:bg-white'
+                  className='bg-white hover:bg-white'
                   key={row.id}
                   data-state={row.getIsSelected() && 'selected'}
                 >
@@ -97,10 +114,25 @@ export function AdminEntrantDataTable<TData, TValue>({
                       )}
                     </TableCell>
                   ))}
+                  <TableCell>
+                    <AdminAlertDialog
+                      button={
+                        <Button
+                          variant='outline'
+                          className='h-[50px] w-[50px] rounded-full'
+                        >
+                          <Trash2Icon />
+                        </Button>
+                      }
+                      title='Видалення вступника'
+                      description='Ви впевнені, що хочете видалити вступика? Вступник буде видалений разом із всіма його документами, цю дію неможливо буде відмінити!'
+                      action={() => handleDelete(row.original.id)}
+                    />
+                  </TableCell>
                 </TableRow>
               ))
             ) : (
-              <TableRow className='hover:bg-white'>
+              <TableRow className='bg-gray-100'>
                 <TableCell
                   colSpan={columns.length}
                   className='h-24 text-center text-xl font-light'

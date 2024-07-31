@@ -1,5 +1,5 @@
 export interface Entrant {
-  userId: string;
+  userId?: string;
   passportSeries?: string | null;
   passportNumber: string;
   passportInstitute: string;
@@ -17,7 +17,7 @@ export interface Entrant {
 }
 
 export interface PersonalData {
-  userId: string;
+  userId?: string;
   firstName: string;
   lastName: string;
   middleName?: string | null;

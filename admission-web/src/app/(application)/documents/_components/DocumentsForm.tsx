@@ -26,7 +26,6 @@ import { useEffect } from 'react';
 import {
   PROFESSIONAL,
   SCIENTIFIC,
-  specialities,
 } from '@/lib/constants/documents-educational-programs';
 import DocumentsApi from '@/app/api/documents/documents-api';
 import useAuth from '@/hooks/useAuth';

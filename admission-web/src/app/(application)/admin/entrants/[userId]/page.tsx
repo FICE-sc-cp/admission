@@ -4,7 +4,10 @@ import React, { useEffect, useState } from 'react';
 import { PersonaForm } from '@/app/(application)/admin/entrants/[userId]/_components/PersonaForm';
 import PersonalData from '@/app/api/personal-data/personal-data';
 import useAuth from '@/hooks/useAuth';
-import { GetPersonalData } from '@/app/api/personal-data/personal-data-type';
+import {
+  GetPersonalData,
+  PersonalDataBody,
+} from '@/app/api/personal-data/personal-data-type';
 import { Button } from '@/components/ui/button';
 import { useParams } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
@@ -29,42 +32,42 @@ const Page = () => {
     resolver: zodResolver(PersonalDataSchema),
     values: {
       ...personalData?.entrantData,
-      firstName: personalData?.firstName,
-      lastName: personalData?.lastName,
+      firstName: personalData?.firstName as string,
+      lastName: personalData?.lastName as string,
       middleName: personalData?.middleName || null,
       idCode: personalData?.entrantData.idCode || null,
       oldPassportTemplate: personalData?.entrantData.passportSeries
         ? true
         : false,
-    },
+    } as TPersonalDataSchema,
   });
 
   const representativeForm = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
     values: {
       ...personalData?.representativeData,
-      firstName: personalData?.representativeData.firstName,
-      lastName: personalData?.representativeData.lastName,
+      firstName: personalData?.representativeData.firstName as string,
+      lastName: personalData?.representativeData.lastName as string,
       middleName: personalData?.representativeData.middleName || null,
       idCode: personalData?.representativeData.idCode || null,
       oldPassportTemplate: personalData?.representativeData.passportSeries
         ? true
         : false,
-    },
+    } as TPersonalDataSchema,
   });
 
   const customerForm = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
     values: {
       ...personalData?.customerData,
-      firstName: personalData?.customerData.firstName,
-      lastName: personalData?.customerData.lastName,
+      firstName: personalData?.customerData.firstName as string,
+      lastName: personalData?.customerData.lastName as string,
       middleName: personalData?.customerData.middleName || null,
       idCode: personalData?.customerData.idCode || null,
       oldPassportTemplate: personalData?.customerData.passportSeries
         ? true
         : false,
-    },
+    } as TPersonalDataSchema,
   });
 
   async function fetchPersonalData() {
@@ -82,8 +85,8 @@ const Page = () => {
   ) => {
     await PersonalData.updatePersonalData(
       {
-        email: entrantData?.email,
-        firstName: entrantData?.firstName,
+        email: entrantData?.email as string,
+        firstName: entrantData?.firstName as string,
         middleName: entrantData?.middleName,
         lastName: entrantData?.lastName,
         role: personalData?.role,
@@ -136,8 +139,8 @@ const Page = () => {
               lastName: representativeData?.lastName || '',
             }
           : null,
-      },
-      personalData?.id
+      } as PersonalDataBody,
+      personalData?.id as string
     );
     location.reload();
   };
@@ -151,7 +154,7 @@ const Page = () => {
       {showDeletePopup && (
         <DeletePopup
           popupController={setShowDeletePopup}
-          deleteEntrant={deleteEntrant}
+          deleteFunc={deleteEntrant}
           title='Видалення вступника'
           text='Ви впевнені, що хочете видалити вступика? Вспупник буде видалений разом із всіма його документами, цю дію неможливо буде відмінити!'
         />

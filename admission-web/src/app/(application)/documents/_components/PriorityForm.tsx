@@ -33,7 +33,7 @@ import {
 
 interface PriorityFormProps {
   educationalPrograms: IPrioritySelect[];
-  form: UseFormReturn<TAdminDocumentsSchema, any, undefined>;
+  form: UseFormReturn<TAdminDocumentsSchema | TDocumentsSchema, any, undefined>;
 }
 
 const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {

@@ -21,7 +21,7 @@ export const EducationProgramLabels = {
   'Інформаційне забезпечення робототехнічних систем': 'ISRS',
   'Інформаційні управляючі системи та технології': 'IMST',
 };
-export const EducationProgramAbbreviation = {
+export const EducationProgramAbbreviation: { [key: string]: string } = {
   CSSE: 'Інженерія програмного забезпечення інформаційних систем',
   ISSE: "Інженерія програмного забезпечення комп'ютерних систем",
   IIS: 'Інтегровані інформаційні системи',

@@ -380,10 +380,12 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
             )}
           {form.getValues('specialty') === '121' &&
             form.getValues('degree') !== 'MASTER' && (
+              //@ts-ignore
               <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
             )}
           {form.getValues('specialty') === '126' &&
             form.getValues('degree') !== 'MASTER' && (
+              //@ts-ignore
               <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
             )}
           {form.getValues('degree') === 'MASTER' && (
@@ -398,7 +400,6 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                       <Select
                         onValueChange={field.onChange}
                         value={field.value as string}
-                        className='flex flex-col space-y-1'
                       >
                         <FormItem className='flex items-center space-x-3 space-y-0'>
                           <FormControl>
@@ -430,7 +431,6 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                         <Select
                           onValueChange={field.onChange}
                           value={field.value as string}
-                          className='flex flex-col space-y-1'
                         >
                           <FormItem className='flex items-center space-x-3 space-y-0'>
                             <FormControl>

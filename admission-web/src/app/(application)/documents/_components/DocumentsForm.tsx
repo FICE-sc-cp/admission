@@ -331,15 +331,13 @@ export const DocumentsForm = () => {
           />
         )}
         {form.getValues('specialty') === '121' &&
-          form.getValues('degree') !==
-            'MASTER'(
-              <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
-            )}
+          form.getValues('degree') !== 'MASTER' && (
+            <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
+          )}
         {form.getValues('specialty') === '126' &&
-          form.getValues('degree') !==
-            'MASTER'(
-              <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
-            )}
+          form.getValues('degree') !== 'MASTER' && (
+            <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
+          )}
         <Button
           onClick={() => onSubmit(form.getValues())}
           className='w-full md:w-[185px]'

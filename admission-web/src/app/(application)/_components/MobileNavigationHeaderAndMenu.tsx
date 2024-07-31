@@ -47,6 +47,7 @@ export default function MobileNavigationHeaderAndMenu() {
           {user && user?.role === 'ENTRANT'
             ? entrantNavigationItems.map((item) => (
                 <NavMenuItem
+                  onClick={() => {}}
                   key={item.href}
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}
@@ -55,6 +56,7 @@ export default function MobileNavigationHeaderAndMenu() {
               ))
             : adminNavigationItems.map((item) => (
                 <NavMenuItem
+                  onClick={() => {}}
                   key={item.href}
                   href={item.href}
                   icon={<item.icon className={'h-5 w-5'} />}

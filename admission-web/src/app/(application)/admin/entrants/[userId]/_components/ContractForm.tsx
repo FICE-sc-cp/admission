@@ -30,7 +30,6 @@ import { Input } from '@/components/ui/input';
 import {
   PROFESSIONAL,
   SCIENTIFIC,
-  specialities,
 } from '@/lib/constants/documents-educational-programs';
 import { Separator } from '@/components/ui/separator';
 import PriorityForm from '@/app/(application)/documents/_components/PriorityForm';
@@ -40,8 +39,6 @@ import {
 } from '@/lib/constants/priority-select-values';
 import DocumentsApi from '@/app/api/documents/documents-api';
 import { DeletePopup } from '@/app/(application)/admin/entrants/[userId]/_components/DeletePopup';
-import { useRouter } from 'next/navigation';
-import { blob } from 'node:stream/consumers';
 import useAuth from '@/hooks/useAuth';
 
 interface ContractFormProps {
@@ -53,7 +50,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
   const form = useForm<TAdminDocumentsSchema>({
     resolver: zodResolver(AdminDocumentsSchema),
     defaultValues: {
-      ...data,
+      ...(data as TAdminDocumentsSchema),
     },
   });
 
@@ -303,7 +300,10 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Тип оплати</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value as string}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder='Вибери зі списку' />
@@ -328,7 +328,10 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Спеціальність</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value as string}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder='Вибери зі списку' />
@@ -394,7 +397,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
-                        value={field.value}
+                        value={field.value as string}
                         className='flex flex-col space-y-1'
                       >
                         <FormItem className='flex items-center space-x-3 space-y-0'>
@@ -426,7 +429,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
-                          value={field.value}
+                          value={field.value as string}
                           className='flex flex-col space-y-1'
                         >
                           <FormItem className='flex items-center space-x-3 space-y-0'>

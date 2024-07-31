@@ -23,6 +23,7 @@ import {
 import { Input } from '@/components/ui/input';
 import {
   IPrioritySelect,
+  TAdminDocumentsSchema,
   TDocumentsSchema,
 } from '@/lib/schemas-and-types/documents';
 import {
@@ -32,7 +33,7 @@ import {
 
 interface PriorityFormProps {
   educationalPrograms: IPrioritySelect[];
-  form: UseFormReturn<TDocumentsSchema, any, undefined>;
+  form: UseFormReturn<TAdminDocumentsSchema, any, undefined>;
 }
 
 const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {

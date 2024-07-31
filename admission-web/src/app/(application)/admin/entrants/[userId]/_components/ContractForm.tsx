@@ -468,6 +468,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               className='w-[360px]'
               type='button'
               onClick={downloadDocuments}
+              disabled={data.state !== State.APPROVED}
             >
               Завантажити
             </Button>

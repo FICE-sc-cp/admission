@@ -6,12 +6,12 @@ import { User } from '@/lib/schemas-and-types/auth';
 import { mimeType } from '@/lib/schemas-and-types/documents';
 
 export const downloadFile = (
-  resData: DownloadDocument,
+  resData: mimeType,
   user: User | null,
   data: DocumentsApiBody,
   text: string
 ) => {
-  const blob = new Blob([resData.data], {
+  const blob = new Blob([resData], {
     type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   });
 

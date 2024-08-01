@@ -33,9 +33,10 @@ import {
   EntrantSchema,
 } from '@/lib/schemas/personal-data.schemas';
 import { useToast } from '@/components/ui/toast/use-toast';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 const EntrantForm: FC = () => {
-  const { toast } = useToast();
+  const { toastSuccess } = useCommonToast();
   const [isContract, setIsContract] = useState(true);
   const {
     isAdult,
@@ -64,10 +65,7 @@ const EntrantForm: FC = () => {
 
   const onSubmit = (data: TEntrantSchema) => {
     setEntrantData(data);
-    toast({
-      title: 'Дані вступника збережено!',
-      variant: 'success',
-    });
+    toastSuccess('Дані вступника збережено!');
     setActiveStep((prevState) => 2);
   };
 

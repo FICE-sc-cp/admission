@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { FC } from 'react';
-import { RegisterForm } from '../components/register-form';
+import { RegisterForm } from '../../../components/pages/auth/sign-up/components/register-form';
 
 const SignUpPage: FC = () => {
   return (

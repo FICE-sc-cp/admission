@@ -1,8 +1,8 @@
 'use client';
+import { Loader } from '@/components/common/components/Loader';
 import useAuth from '@/lib/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
-import { Loader } from '@/app/(application)/_components/Loader';
 
 interface AuthLayoutProps {
   children: React.ReactNode;

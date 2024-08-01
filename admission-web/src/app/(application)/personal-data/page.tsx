@@ -1,12 +1,12 @@
 'use client';
 
-import ProgressStepper from '@/app/(application)/personal-data/_components/progress-stepper/ProgressStepper';
-import { useEffect, useState } from 'react';
-import EntrantForm from '@/app/(application)/personal-data/_components/EntrantForm';
-import { usePersonalDataContext } from '$/admission-web/contexts/PersonalDataContext';
-import SubmitPage from '@/app/(application)/personal-data/_components/SubmitPage';
-import RepresentativePage from '@/app/(application)/personal-data/_components/RepresentativePage';
-import CustomerPage from '@/app/(application)/personal-data/_components/CustomerPage';
+import CustomerPage from '@/components/pages/entrant/personal-data/components/CustomerPage';
+import EntrantForm from '@/components/pages/entrant/personal-data/components/EntrantForm';
+import ProgressStepper from '@/components/pages/entrant/personal-data/components/ProgressStepper';
+import RepresentativePage from '@/components/pages/entrant/personal-data/components/RepresentativePage';
+import SubmitPage from '@/components/pages/entrant/personal-data/components/SubmitPage';
+import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
+import { useState, useEffect } from 'react';
 
 const PersonalDataPage = () => {
   const { isAdult, isAnotherPayer, activeStep } = usePersonalDataContext();
@@ -30,7 +30,6 @@ const PersonalDataPage = () => {
 
   return (
     <main className='flex flex-1 flex-col items-center gap-4 p-4 lg:gap-6 lg:p-6'>
-      {/*<DataAlreadyExist />*/}
       <ProgressStepper activeStep={activeStep} steps={steps} />
       {activeStep === 1 && <EntrantForm />}
       {steps[activeStep - 1] === 'Законний представник' && (

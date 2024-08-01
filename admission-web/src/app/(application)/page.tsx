@@ -3,8 +3,8 @@
 import { authApi } from '@/app/api/auth/auth-api';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader } from '@/app/(application)/_components/Loader';
-import { StudentPersonalDataBlock } from '@/app/(application)/_components/student-profile-page/StudentPersonalDataBlock';
+import { Loader } from '@/components/common/components/Loader';
+import { StudentPersonalDataBlock } from '@/components/pages/entrant/main/components/StudentPersonalDataBlock';
 
 export default function Dashboard() {
   const [role, setRole] = useState('');

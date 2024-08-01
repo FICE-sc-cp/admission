@@ -1,4 +1,4 @@
-import { QueuePositionStatus } from '@/lib/schemas-and-types/queue';
+import { QueuePositionStatus } from '@/lib/types/queue.types';
 
 export type UpdateUser = {
   status?: QueuePositionStatus;

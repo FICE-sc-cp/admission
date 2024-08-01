@@ -1,32 +1,38 @@
-import { Button } from '@/components/ui/button';
+'use client';
+
+import { authApi } from '@/app/api/auth/auth-api';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { Loader } from '@/components/common/components/Loader';
+import { StudentPersonalDataBlock } from '@/components/pages/entrant/main/components/StudentPersonalDataBlock';
 
 export default function Dashboard() {
-  return (
-    <main className='flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6'>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-      <h3 className='text-2xl font-bold tracking-tight'>Головна пейджа</h3>
-    </main>
-  );
+  const [role, setRole] = useState('');
+  const [userId, setUserId] = useState('');
+  const [loading, setLoading] = useState(true);
+  const { push } = useRouter();
+
+  async function fetchData() {
+    try {
+      const { data } = await authApi.getMe();
+      setUserId(data.id);
+      setRole(data.role);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (loading) {
+    return <Loader />;
+  }
+
+  if (role === 'ADMIN') {
+    push('/admin');
+  }
+
+  return <StudentPersonalDataBlock userId={userId} />;
 }

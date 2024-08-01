@@ -1,11 +1,11 @@
 'use client';
 import { useEffect, useState } from 'react';
-import { AdminEntrantDataTable } from '@/app/(application)/admin/entrants/data-table';
-import { columns } from '@/app/(application)/admin/entrants/columns';
 import AdminEntrantsApi from '@/app/api/admin-entrants/admin-entrants-api';
 import { User } from '@/app/api/admin-entrants/admin-entrants-api.types';
-import { Loader2 } from 'lucide-react';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { AdminEntrantDataTable } from '@/components/pages/admin/entrants/components/EntrantsDataTable';
+import { Loader } from 'lucide-react';
+import { EntrantsColumns } from '@/components/pages/admin/entrants/components/EntrantsColumns';
 
 export default function AdminEntrantsPage() {
   const [data, setData] = useState<User[]>([]);
@@ -28,20 +28,14 @@ export default function AdminEntrantsPage() {
   }, []);
 
   if (loading) {
-    return (
-      <div className='flex min-h-96 min-w-96 items-center justify-center'>
-        <span>
-          <Loader2 className='text-clay-700 animate-spin' size={80} />
-        </span>
-      </div>
-    );
+    return <Loader />;
   }
 
   return (
     <div className='container mx-auto py-4'>
       <AdminEntrantDataTable
         fetchData={fetchData}
-        columns={columns}
+        columns={EntrantsColumns}
         data={data}
       />
     </div>

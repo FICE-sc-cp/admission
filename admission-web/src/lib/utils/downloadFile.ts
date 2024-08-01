@@ -1,17 +1,14 @@
-import {
-  DocumentsApiBody,
-  DownloadDocument,
-} from '@/app/api/documents/documents-api.types';
-import { User } from '@/lib/schemas-and-types/auth';
-import { mimeType } from '@/lib/schemas-and-types/documents';
+import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
+import { mimeType } from '@/lib/types/documents.types';
+import { User } from '../types/auth.types';
 
 export const downloadFile = (
-  resData: DownloadDocument,
+  resData: mimeType,
   user: User | null,
   data: DocumentsApiBody,
   text: string
 ) => {
-  const blob = new Blob([resData.data], {
+  const blob = new Blob([resData], {
     type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   });
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { FC } from 'react';
-import { PersonalDataContextProvider } from '$/admission-web/contexts/PersonalDataContext';
+import { PersonalDataContextProvider } from '@/lib/contexts/PersonalDataContext';
 
 interface PersonalDataLayoutProps {
   children: React.ReactNode;

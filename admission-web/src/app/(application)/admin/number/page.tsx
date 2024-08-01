@@ -1,13 +1,13 @@
 'use client';
 import { queueApi } from '@/app/api/queue/queue-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
-import { isAxiosError } from 'axios';
-import { Expand, Loader2, Shrink } from 'lucide-react';
+import { Expand, Shrink } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { QueueNumberItem } from './components/queue-number-item/QueueNumberItem';
-import { PositionInQueue } from '@/lib/schemas-and-types/queue';
+import { QueueNumberItem } from '../../../../components/pages/admin/number/components/queue-number-item/QueueNumberItem';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import { PositionInQueue } from '@/lib/types/queue.types';
+import { Loader } from '@/components/common/components/Loader';
 
 export default function AdminCurrentNumberPage() {
   const params = useSearchParams();
@@ -48,13 +48,7 @@ export default function AdminCurrentNumberPage() {
   }, [document, isExpanded, isLoading]);
 
   if (isLoading || !data) {
-    return (
-      <div className='flex min-h-96 min-w-96 items-center justify-center'>
-        <span>
-          <Loader2 className='text-clay-700 animate-spin' size={80} />
-        </span>
-      </div>
-    );
+    return <Loader />;
   }
 
   const firstRow = data.slice(0, 3);

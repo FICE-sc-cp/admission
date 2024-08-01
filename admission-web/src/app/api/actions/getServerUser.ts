@@ -2,7 +2,7 @@
 
 import { cookies } from 'next/headers';
 import { instance } from '../instance';
-import { User } from '@/lib/schemas-and-types/auth';
+import { User } from '@/lib/types/auth.types';
 
 export async function getServerUser(): Promise<User | null> {
   const sessionToken = cookies().get('session');

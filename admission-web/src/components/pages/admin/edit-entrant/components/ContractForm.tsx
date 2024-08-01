@@ -47,6 +47,7 @@ import { isUniquePriorities } from '@/lib/utils/isUnique';
 import { useToast } from '@/components/ui/toast/use-toast';
 import { useRouter } from 'next/navigation';
 import { TPriorities } from '@/lib/types/documents.types';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 interface ContractFormProps {
   data: DocumentsApiBody;
@@ -54,7 +55,7 @@ interface ContractFormProps {
 }
 
 export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
-  const { toast } = useToast();
+  const { toastSuccess, toastError } = useCommonToast();
   const { push } = useRouter();
 
   const form = useForm<TAdminDocumentsSchema>({
@@ -91,16 +92,10 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
           { state: 'APPROVED', ...documents } as DocumentsApiBody,
           data.id as string
         );
-        toast({
-          title: `Договір ${number} підтверджено!`,
-          variant: 'success',
-        });
+        toastSuccess(`Договір ${number} підтверджено!`);
         push(`/admin/entrants/${user?.id as string}`);
       } catch {
-        toast({
-          title: 'Щось пішло не так!',
-          variant: 'destructive',
-        });
+        toastError('Щось пішло не так!');
       }
     }
   };
@@ -108,17 +103,11 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
   const deleteContract = async () => {
     try {
       await DocumentsApi.deleteDocument(data.id as string);
-      toast({
-        title: `Договір №${number} видалено!`,
-        variant: 'success',
-      });
+      toastSuccess(`Договір №${number} видалено!`);
       setShowDeletePopup(false);
       push(`/admin/entrants/${user?.id as string}`);
     } catch {
-      toast({
-        title: 'Щось пішло не так!',
-        variant: 'destructive',
-      });
+      toastError('Щось пішло не так!');
     }
   };
 

@@ -21,9 +21,10 @@ import { ContractForm } from '@/components/pages/admin/edit-entrant/components/C
 import { DeletePopup } from '@/components/pages/admin/edit-entrant/components/DeletePopup';
 import { PersonaForm } from '@/components/pages/admin/edit-entrant/components/PersonaForm';
 import { useToast } from '@/components/ui/toast/use-toast';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 const Page = () => {
-  const { toast } = useToast();
+  const { toastSuccess, toastError } = useCommonToast();
   const { push } = useRouter();
 
   const [personalData, setPersonalData] = useState<GetPersonalData | null>(
@@ -147,16 +148,10 @@ const Page = () => {
         } as PersonalDataBody,
         personalData?.id as string
       );
-      toast({
-        title: 'Дані оновлено!',
-        variant: 'success',
-      });
+      toastSuccess('Дані оновлено!');
       push(`/admin/entrants/${params.userId}`);
     } catch {
-      toast({
-        title: 'Щось пішло не так!',
-        variant: 'destructive',
-      });
+      toastError('Щось пішло не так!');
     }
   };
 

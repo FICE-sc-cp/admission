@@ -33,12 +33,13 @@ import {
 import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
 import { BaseForm } from '@/components/pages/entrant/personal-data/components/BaseForm';
 import { useToast } from '@/components/ui/toast/use-toast';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 const RepresentativePage: FC = () => {
   const { representativeData, setRepresentativeData, setActiveStep } =
     usePersonalDataContext();
 
-  const { toast } = useToast();
+  const { toastSuccess } = useCommonToast();
 
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
@@ -50,10 +51,7 @@ const RepresentativePage: FC = () => {
 
   const onSubmit = (data: TPersonalDataSchema) => {
     setRepresentativeData(data);
-    toast({
-      title: 'Дані законного представника збережено!',
-      variant: 'success',
-    });
+    toastSuccess('Дані законного представника збережено!');
     setActiveStep((prevState) => prevState + 1);
   };
 

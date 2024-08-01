@@ -4,7 +4,7 @@ import {
   SCIENTIFIC,
 } from '@/lib/constants/documents-educational-programs';
 
-const prioritySchema = z.object(
+export const prioritySchema = z.object(
   {
     number: z.number({
       required_error: "Обов'язкове поле",
@@ -59,7 +59,7 @@ export const DocumentsSchema = z.object({
 });
 
 export const AdminDocumentsSchema = DocumentsSchema.extend({
-  date: z.string().readonly(),
+  date: z.string({ required_error: "Обов'язкове поле" }).readonly(),
   number: z.string({ required_error: "Обов'язкове поле" }),
 });
 

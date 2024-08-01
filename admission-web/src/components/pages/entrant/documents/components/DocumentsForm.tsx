@@ -17,7 +17,7 @@ import {
   ISTeduPrograms,
 } from '@/lib/constants/priority-select-values';
 import { getCurrentDate } from '@/lib/utils/getCurrentDate';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   PROFESSIONAL,
   SCIENTIFIC,
@@ -30,28 +30,64 @@ import {
   DocumentsSchema,
 } from '@/lib/schemas/documents.schemas';
 import PriorityForm from './PriorityForm';
+import { useToast } from '@/components/ui/toast/use-toast';
+import { isUniquePriorities } from '@/lib/utils/isUnique';
+import priorityForm from './PriorityForm';
+import { TPriorities } from '@/lib/types/documents.types';
 
 export const DocumentsForm = () => {
+  const { toast } = useToast();
+
   const form = useForm<TDocumentsSchema>({
     resolver: zodResolver(DocumentsSchema),
     defaultValues: {
       priorityDate: getCurrentDate(),
+      priorities: [],
     },
   });
+
+  const [prioritiesData, setPrioritiesData] = useState<TPriorities[] | null>(
+    null
+  );
 
   const { push } = useRouter();
 
   const { user } = useAuth();
 
   const onSubmit = async (data: TDocumentsSchema) => {
-    //@ts-ignore
-    await DocumentsApi.createDocument({ ...data, userId: user?.id });
-    push('/');
+    if (!isUniquePriorities(prioritiesData as TPriorities[])) {
+      if (prioritiesData) {
+        for (let i = 0; i < prioritiesData.length; i++) {
+          form.setError(`priorities.${i}`, {
+            type: 'required',
+            message: 'Приорітети мають бути унікальними!',
+          });
+        }
+      }
+
+      return;
+    } else {
+      try {
+        //@ts-ignore
+        await DocumentsApi.createDocument({ ...data, userId: user?.id });
+        push('/');
+        toast({
+          title: 'Договір успішно створений!',
+          variant: 'success',
+        });
+      } catch {
+        toast({
+          title: 'Щось пішло не так!',
+          variant: 'destructive',
+        });
+      }
+    }
   };
 
   useEffect(() => {
+    setPrioritiesData(form.getValues('priorities') as TPriorities[]);
     if (form.getValues('specialty') === '123') {
-      form.setValue('priorities', null);
+      form.setValue('priorities', []);
     }
     if (form.getValues('degree') === 'MASTER') {
       //@ts-ignore
@@ -64,7 +100,7 @@ export const DocumentsForm = () => {
         );
       }
 
-      form.setValue('priorities', null);
+      form.setValue('priorities', []);
     }
     if (form.getValues('fundingSource') === 'BUDGET') {
       form.setValue('paymentType', null);
@@ -337,10 +373,7 @@ export const DocumentsForm = () => {
           form.getValues('degree') !== 'MASTER' && (
             <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
           )}
-        <Button
-          onClick={() => onSubmit(form.getValues())}
-          className='w-full md:w-[185px]'
-        >
+        <Button type='submit' className='w-full md:w-[185px]'>
           Надіслати договір
         </Button>
       </form>

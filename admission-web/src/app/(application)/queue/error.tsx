@@ -1,8 +1,8 @@
 'use client';
 
+import { QueueErrorMessages } from '@/components/pages/entrant/queue/constants/QueueErrorMessages';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { QueueErrorMessages } from './constants/QueueErrorMessages';
 
 export default function Error({
   error,

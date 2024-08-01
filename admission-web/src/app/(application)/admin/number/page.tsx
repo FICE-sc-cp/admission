@@ -3,11 +3,11 @@ import { queueApi } from '@/app/api/queue/queue-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { Expand, Shrink } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { QueueNumberItem } from './components/queue-number-item/QueueNumberItem';
+import { QueueNumberItem } from '../../../../components/pages/admin/number/components/queue-number-item/QueueNumberItem';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { Loader } from '@/app/(application)/_components/Loader';
 import { PositionInQueue } from '@/lib/types/queue.types';
+import { Loader } from '@/components/common/components/Loader';
 
 export default function AdminCurrentNumberPage() {
   const params = useSearchParams();

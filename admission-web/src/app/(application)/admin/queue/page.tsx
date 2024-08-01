@@ -1,11 +1,11 @@
 'use client';
-import { columns } from './columns';
-import { AdminQueueDataTable } from '@/app/(application)/admin/queue/data-table';
 import { useEffect, useState } from 'react';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { PositionInQueue } from '@/lib/types/queue.types';
-import { Loader } from '@/app/(application)/_components/Loader';
+import { QueueColumns } from '@/components/pages/admin/queue/components/QueueColumns';
+import { AdminQueueDataTable } from '@/components/pages/admin/queue/components/QueueDataTable';
+import { Loader } from '@/components/common/components/Loader';
 
 export default function AdminQueue() {
   const [data, setData] = useState<PositionInQueue[]>([]);
@@ -35,7 +35,7 @@ export default function AdminQueue() {
     <div className='container mx-auto p-5'>
       <AdminQueueDataTable
         fetchData={fetchData}
-        columns={columns}
+        columns={QueueColumns}
         data={data}
       />
     </div>

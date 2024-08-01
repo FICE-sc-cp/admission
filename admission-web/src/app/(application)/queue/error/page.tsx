@@ -1,6 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { QueueErrorMessages } from '../constants/QueueErrorMessages';
+import { QueueErrorMessages } from '../../../../components/pages/entrant/queue/constants/QueueErrorMessages';
 
 export default function Error({
   searchParams,

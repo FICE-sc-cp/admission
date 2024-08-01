@@ -1,7 +1,7 @@
 import { FC } from 'react';
-import { SideSection } from '@/app/auth/components/side-section';
 import Image from 'next/image';
 import { Toaster } from '@/components/ui/toast/toaster';
+import { SideSection } from '@/components/pages/auth/common/components/side-section';
 
 interface AuthLayoutProps {
   children: React.ReactNode;

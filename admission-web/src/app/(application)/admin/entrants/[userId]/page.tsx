@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { PersonaForm } from '@/app/(application)/admin/entrants/[userId]/_components/PersonaForm';
 import PersonalData from '@/app/api/personal-data/personal-data';
 import useAuth from '@/lib/hooks/useAuth';
 import {
@@ -14,12 +13,13 @@ import { Separator } from '@/components/ui/separator';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { DeletePopup } from '@/app/(application)/admin/entrants/[userId]/_components/DeletePopup';
-import { ContractForm } from '@/app/(application)/admin/entrants/[userId]/_components/ContractForm';
 import {
   TPersonalDataSchema,
   PersonalDataSchema,
 } from '@/lib/schemas/personal-data.schemas';
+import { ContractForm } from '@/components/pages/admin/edit-entrant/components/ContractForm';
+import { DeletePopup } from '@/components/pages/admin/edit-entrant/components/DeletePopup';
+import { PersonaForm } from '@/components/pages/admin/edit-entrant/components/PersonaForm';
 
 const Page = () => {
   const [personalData, setPersonalData] = useState<GetPersonalData | null>(

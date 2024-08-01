@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Session } from '@/hooks/types';
+import { Session } from '../types/auth.types';
 import { AuthContext } from '../providers/auth-provider';
 
 const useAuth = (): Session => {

@@ -4,7 +4,7 @@ import { ColumnDef, SortingFn } from '@tanstack/react-table';
 import { AdminTableHeaderButton } from '@/app/(application)/admin/queue/components/AdminTableHeaderButton';
 import { AdminStatusSelect } from '@/app/(application)/admin/queue/components/AdminStatusSelect';
 import React from 'react';
-import { PositionInQueue } from '@/lib/schemas-and-types/queue';
+import { PositionInQueue } from '@/lib/types/queue.types';
 
 const lastNameSort: SortingFn<any> = (rowA, rowB) => {
   const a = rowA.original.user.lastName;

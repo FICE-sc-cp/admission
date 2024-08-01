@@ -1,8 +1,8 @@
 'use client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import Link from 'next/link';
-import { cn } from '@/lib/cn';
-import useAuth from '@/hooks/useAuth';
+import { cn } from '@/lib/utils/cn';
+import useAuth from '@/lib/hooks/useAuth';
 import { FC } from 'react';
 
 interface AvatarAndNameProps {

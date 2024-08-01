@@ -2,10 +2,7 @@
 
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import {
-  PersonalDataSchema,
-  TPersonalDataSchema,
-} from '@/lib/schemas-and-types/personal-data/personal-data';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePersonalDataContext } from '$/admission-web/contexts/PersonalDataContext';
 import {
@@ -28,8 +25,12 @@ import {
 } from '@/components/ui/select';
 import { regions } from '@/lib/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
-import { FC, useEffect, useState } from 'react';
-import useAuth from '@/hooks/useAuth';
+import { FC, useState } from 'react';
+import useAuth from '@/lib/hooks/useAuth';
+import {
+  TPersonalDataSchema,
+  PersonalDataSchema,
+} from '@/lib/schemas/personal-data.schemas';
 
 const RepresentativePage: FC = () => {
   const {

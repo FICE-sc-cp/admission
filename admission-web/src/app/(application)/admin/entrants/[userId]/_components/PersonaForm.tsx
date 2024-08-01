@@ -19,8 +19,8 @@ import {
 } from '@/components/ui/select';
 import { regions } from '@/lib/constants/personal-data-select';
 import { UseFormReturn } from 'react-hook-form';
-import { TPersonalDataSchema } from '@/lib/schemas-and-types/personal-data/personal-data';
 import { Separator } from '@/components/ui/separator';
+import { TPersonalDataSchema } from '@/lib/schemas/personal-data.schemas';
 
 interface PersonaFormProps {
   title: string;

@@ -26,10 +26,10 @@ import { Button } from '@/components/ui/button';
 import { Trash2Icon } from 'lucide-react';
 import AdminAlertDialog from '../_components/AdminAlertDialog';
 import adminQueueApi from '@/app/api/admin-queue/admin-queue-api';
-import { PositionInQueue } from '@/lib/schemas-and-types/queue';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { initialColumnVisibility } from '@/lib/constants/column-visibility';
 import { UpdateUser } from '@/app/api/admin-queue/admin-queue-api.types';
+import { PositionInQueue } from '@/lib/types/queue.types';
 
 interface AdminQueueDataTableProps {
   columns: ColumnDef<PositionInQueue>[];

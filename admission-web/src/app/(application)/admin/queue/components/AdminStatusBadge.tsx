@@ -1,5 +1,5 @@
 import { Badge } from '@/components/ui/badge';
-import { QueuePositionStatus } from '@/lib/schemas-and-types/queue';
+import { QueuePositionStatus } from '@/lib/types/queue.types';
 
 const adminBadgeStyles = {
   WAITING: {

@@ -2,11 +2,11 @@
 import { EnterQueue } from './components/enter-queue/EnterQueue';
 import { EnteredQueue } from './components/entered-queue/EnteredQueue';
 import { useEffect, useState } from 'react';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/lib/hooks/useAuth';
 import { Loader2 } from 'lucide-react';
-import { QueueUser } from '@/lib/schemas-and-types/queue';
 import { queueApi } from '@/app/api/queue/queue-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { QueueUser } from '@/lib/types/queue.types';
 
 export default function Page() {
   const [data, setData] = useState<QueueUser | null>(null);

@@ -1,11 +1,10 @@
 'use client';
 
 import { createContext, PropsWithChildren, useEffect, useState } from 'react';
-import { User } from '@/lib/schemas-and-types/auth';
 import { authApi } from '@/app/api/auth/auth-api';
 
-import { Session } from '@/hooks/types';
 import { useRouter } from 'next/navigation';
+import { Session, User } from '../types/auth.types';
 
 export const AuthContext = createContext<Session | null>(null);
 

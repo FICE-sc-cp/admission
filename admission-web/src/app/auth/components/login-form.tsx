@@ -1,7 +1,6 @@
 'use client';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { SignInSchema, TSignIn } from '@/lib/schemas-and-types/auth';
 
 import {
   Form,
@@ -17,6 +16,7 @@ import { authApi } from '@/app/api/auth/auth-api';
 import { useRouter } from 'next/navigation';
 import { isAxiosError } from 'axios';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { TSignIn, SignInSchema } from '@/lib/schemas/auth.schemas';
 
 export const LoginForm = () => {
   const { toastError } = useCommonToast();

@@ -1,9 +1,8 @@
 'use client';
 
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 import Step from '@/app/(application)/personal-data/_components/progress-stepper/_components/Step';
 import { Separator } from '@/components/ui/separator';
-import { usePersonalDataContext } from '$/admission-web/contexts/PersonalDataContext';
 
 interface ProgressStepperProps {
   activeStep: number;

@@ -1,18 +1,8 @@
 import { z } from 'zod';
-import { EducationProgram } from '$/utils/src';
 import {
   PROFESSIONAL,
   SCIENTIFIC,
 } from '@/lib/constants/documents-educational-programs';
-import { getCurrentDate } from '@/lib/utils/getCurrentDate';
-
-export interface IPrioritySelect {
-  label: string;
-  id: EducationProgram;
-}
-
-export type mimeType =
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
 const prioritySchema = z.object(
   {
@@ -67,20 +57,6 @@ export const DocumentsSchema = z.object({
     })
     .nullable(),
 });
-// .superRefine((data, ctx) => {
-//   if (!data.priorities) return true;
-//   const programs = data.priorities.map((priority) => priority.program);
-//   const uniquePrograms = new Set(programs);
-//   if (uniquePrograms.size !== programs.length) {
-//     return ctx.addIssue({
-//       code: z.ZodIssueCode.custom,
-//       message: 'Приорітети повинні бути унікальними',
-//       path: ['priorities'],
-//     });
-//   }
-//
-//   return ctx;
-// });
 
 export const AdminDocumentsSchema = DocumentsSchema.extend({
   date: z.string().readonly(),

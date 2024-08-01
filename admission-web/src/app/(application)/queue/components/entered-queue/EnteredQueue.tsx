@@ -1,5 +1,5 @@
-import { User } from '@/lib/schemas-and-types/auth';
-import { QueueUser } from '@/lib/schemas-and-types/queue';
+import { User } from '@/lib/types/auth.types';
+import { QueueUser } from '@/lib/types/queue.types';
 import { Circle } from 'lucide-react';
 import { FC } from 'react';
 

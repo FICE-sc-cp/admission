@@ -1,12 +1,9 @@
 'use client';
 
-import { FC, useState } from 'react';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { z } from 'zod';
-import { useForm, UseFormReturn } from 'react-hook-form';
+import { FC } from 'react';
+import { UseFormReturn } from 'react-hook-form';
 
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
@@ -21,15 +18,16 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Input } from '@/components/ui/input';
-import {
-  IPrioritySelect,
-  TAdminDocumentsSchema,
-  TDocumentsSchema,
-} from '@/lib/schemas-and-types/documents';
+
 import {
   EducationProgramAbbreviation,
   EducationProgramLabels,
 } from '@/lib/constants/documents-educational-programs';
+import {
+  TAdminDocumentsSchema,
+  TDocumentsSchema,
+} from '@/lib/schemas/documents.schemas';
+import { IPrioritySelect } from '@/lib/types/documents.types';
 
 interface PriorityFormProps {
   educationalPrograms: IPrioritySelect[];

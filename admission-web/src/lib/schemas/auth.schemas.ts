@@ -2,15 +2,6 @@ import { z } from 'zod';
 import { ukRegex } from '../constants/regex';
 import { transformApostrophe } from '../utils/transformApostrophe';
 
-export interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  middleName: string | null;
-  lastName: string;
-  role: string;
-}
-
 export const SignUpSchema = z.object({
   email: z
     .string({ required_error: 'Введіть пошту' })

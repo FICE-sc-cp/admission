@@ -8,7 +8,7 @@ import {
   PersonalDataBody,
 } from '@/app/api/personal-data/personal-data-type';
 import { Button } from '@/components/ui/button';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import { Separator } from '@/components/ui/separator';
 import { useForm } from 'react-hook-form';
 
@@ -20,8 +20,12 @@ import {
 import { ContractForm } from '@/components/pages/admin/edit-entrant/components/ContractForm';
 import { DeletePopup } from '@/components/pages/admin/edit-entrant/components/DeletePopup';
 import { PersonaForm } from '@/components/pages/admin/edit-entrant/components/PersonaForm';
+import { useToast } from '@/components/ui/toast/use-toast';
 
 const Page = () => {
+  const { toast } = useToast();
+  const { push } = useRouter();
+
   const [personalData, setPersonalData] = useState<GetPersonalData | null>(
     null
   );
@@ -83,66 +87,77 @@ const Page = () => {
     representativeData?: TPersonalDataSchema,
     customerData?: TPersonalDataSchema
   ) => {
-    await PersonalData.updatePersonalData(
-      {
-        email: entrantData?.email as string,
-        firstName: entrantData?.firstName as string,
-        middleName: entrantData?.middleName,
-        lastName: entrantData?.lastName,
-        role: personalData?.role,
-        entrantData: {
-          passportDate: entrantData?.passportDate || '',
-          passportInstitute: entrantData?.passportInstitute || '',
-          email: entrantData?.email || '',
-          idCode: entrantData?.idCode || '',
-          address: entrantData?.address || '',
-          passportNumber: entrantData?.passportNumber || '',
-          index: entrantData?.index || '',
-          passportSeries: entrantData?.passportSeries || '',
-          phoneNumber: entrantData?.phoneNumber || '',
-          region: entrantData?.region || '',
-          settlement: entrantData?.settlement || '',
-        },
-        customerData: customerData
-          ? {
-              passportDate: customerData?.passportDate || '',
-              passportInstitute: customerData?.passportInstitute || '',
-              email: customerData?.email || '',
-              idCode: customerData?.idCode || '',
-              address: customerData?.address || '',
-              passportNumber: customerData?.passportNumber || '',
-              index: customerData?.index || '',
-              passportSeries: customerData?.passportSeries || '',
-              phoneNumber: customerData?.phoneNumber || '',
-              region: customerData?.region || '',
-              settlement: customerData?.settlement || '',
-              firstName: customerData?.firstName || '',
-              middleName: customerData?.middleName || '',
-              lastName: customerData?.lastName || '',
-            }
-          : null,
-        representativeData: representativeData
-          ? {
-              passportDate: representativeData?.passportDate || '',
-              passportInstitute: representativeData?.passportInstitute || '',
-              email: representativeData?.email || '',
-              idCode: representativeData?.idCode || '',
-              address: representativeData?.address || '',
-              passportNumber: representativeData?.passportNumber || '',
-              index: representativeData?.index || '',
-              passportSeries: representativeData?.passportSeries || '',
-              phoneNumber: representativeData?.phoneNumber || '',
-              region: representativeData?.region || '',
-              settlement: representativeData?.settlement || '',
-              firstName: representativeData?.firstName || '',
-              middleName: representativeData?.middleName || '',
-              lastName: representativeData?.lastName || '',
-            }
-          : null,
-      } as PersonalDataBody,
-      personalData?.id as string
-    );
-    location.reload();
+    try {
+      await PersonalData.updatePersonalData(
+        {
+          email: entrantData?.email as string,
+          firstName: entrantData?.firstName as string,
+          middleName: entrantData?.middleName,
+          lastName: entrantData?.lastName,
+          role: personalData?.role,
+          entrantData: {
+            passportDate: entrantData?.passportDate || '',
+            passportInstitute: entrantData?.passportInstitute || '',
+            email: entrantData?.email || '',
+            idCode: entrantData?.idCode || '',
+            address: entrantData?.address || '',
+            passportNumber: entrantData?.passportNumber || '',
+            index: entrantData?.index || '',
+            passportSeries: entrantData?.passportSeries || '',
+            phoneNumber: entrantData?.phoneNumber || '',
+            region: entrantData?.region || '',
+            settlement: entrantData?.settlement || '',
+          },
+          customerData: customerData
+            ? {
+                passportDate: customerData?.passportDate || '',
+                passportInstitute: customerData?.passportInstitute || '',
+                email: customerData?.email || '',
+                idCode: customerData?.idCode || '',
+                address: customerData?.address || '',
+                passportNumber: customerData?.passportNumber || '',
+                index: customerData?.index || '',
+                passportSeries: customerData?.passportSeries || '',
+                phoneNumber: customerData?.phoneNumber || '',
+                region: customerData?.region || '',
+                settlement: customerData?.settlement || '',
+                firstName: customerData?.firstName || '',
+                middleName: customerData?.middleName || '',
+                lastName: customerData?.lastName || '',
+              }
+            : null,
+          representativeData: representativeData
+            ? {
+                passportDate: representativeData?.passportDate || '',
+                passportInstitute: representativeData?.passportInstitute || '',
+                email: representativeData?.email || '',
+                idCode: representativeData?.idCode || '',
+                address: representativeData?.address || '',
+                passportNumber: representativeData?.passportNumber || '',
+                index: representativeData?.index || '',
+                passportSeries: representativeData?.passportSeries || '',
+                phoneNumber: representativeData?.phoneNumber || '',
+                region: representativeData?.region || '',
+                settlement: representativeData?.settlement || '',
+                firstName: representativeData?.firstName || '',
+                middleName: representativeData?.middleName || '',
+                lastName: representativeData?.lastName || '',
+              }
+            : null,
+        } as PersonalDataBody,
+        personalData?.id as string
+      );
+      toast({
+        title: 'Дані оновлено!',
+        variant: 'success',
+      });
+      push(`/admin/entrants/${params.userId}`);
+    } catch {
+      toast({
+        title: 'Щось пішло не так!',
+        variant: 'destructive',
+      });
+    }
   };
 
   useEffect(() => {

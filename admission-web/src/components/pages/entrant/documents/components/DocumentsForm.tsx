@@ -34,9 +34,10 @@ import { useToast } from '@/components/ui/toast/use-toast';
 import { isUniquePriorities } from '@/lib/utils/isUnique';
 import priorityForm from './PriorityForm';
 import { TPriorities } from '@/lib/types/documents.types';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 export const DocumentsForm = () => {
-  const { toast } = useToast();
+  const { toastError, toastSuccess } = useCommonToast();
 
   const form = useForm<TDocumentsSchema>({
     resolver: zodResolver(DocumentsSchema),
@@ -71,15 +72,9 @@ export const DocumentsForm = () => {
         //@ts-ignore
         await DocumentsApi.createDocument({ ...data, userId: user?.id });
         push('/');
-        toast({
-          title: 'Договір успішно створений!',
-          variant: 'success',
-        });
+        toastSuccess('Договір успішно створений!');
       } catch {
-        toast({
-          title: 'Щось пішло не так!',
-          variant: 'destructive',
-        });
+        toastError('Щось пішло не так!');
       }
     }
   };

@@ -42,6 +42,11 @@ import {
 } from '@/lib/schemas/documents.schemas';
 import { DeletePopup } from './DeletePopup';
 import PriorityForm from '@/components/pages/entrant/documents/components/PriorityForm';
+import priorityForm from '@/components/pages/entrant/documents/components/PriorityForm';
+import { isUniquePriorities } from '@/lib/utils/isUnique';
+import { useToast } from '@/components/ui/toast/use-toast';
+import { useRouter } from 'next/navigation';
+import { TPriorities } from '@/lib/types/documents.types';
 
 interface ContractFormProps {
   data: DocumentsApiBody;
@@ -49,6 +54,9 @@ interface ContractFormProps {
 }
 
 export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
+  const { toast } = useToast();
+  const { push } = useRouter();
+
   const form = useForm<TAdminDocumentsSchema>({
     resolver: zodResolver(AdminDocumentsSchema),
     defaultValues: {
@@ -60,17 +68,58 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
 
   const [showDeletePopup, setShowDeletePopup] = useState(false);
 
+  const [prioritiesData, setPrioritiesData] = useState<TPriorities[] | null>(
+    null
+  );
+
   const onSubmit = async (documents: TAdminDocumentsSchema) => {
-    await DocumentsApi.updateDocument(
-      { state: 'APPROVED', ...documents } as DocumentsApiBody,
-      data.id as string
-    );
-    location.reload();
+    setPrioritiesData(form.getValues('priorities') as TPriorities[]);
+    if (!isUniquePriorities(prioritiesData as TPriorities[])) {
+      if (prioritiesData) {
+        for (let i = 0; i < prioritiesData.length; i++) {
+          form.setError(`priorities.${i}`, {
+            type: 'required',
+            message: 'Приорітети мають бути унікальними!',
+          });
+        }
+      }
+
+      return;
+    } else {
+      try {
+        await DocumentsApi.updateDocument(
+          { state: 'APPROVED', ...documents } as DocumentsApiBody,
+          data.id as string
+        );
+        toast({
+          title: `Договір ${number} підтверджено!`,
+          variant: 'success',
+        });
+        push(`/admin/entrants/${user?.id as string}`);
+      } catch {
+        toast({
+          title: 'Щось пішло не так!',
+          variant: 'destructive',
+        });
+      }
+    }
   };
 
   const deleteContract = async () => {
-    await DocumentsApi.deleteDocument(data.id as string);
-    location.reload();
+    try {
+      await DocumentsApi.deleteDocument(data.id as string);
+      toast({
+        title: `Договір №${number} видалено!`,
+        variant: 'success',
+      });
+      setShowDeletePopup(false);
+      push(`/admin/entrants/${user?.id as string}`);
+    } catch {
+      toast({
+        title: 'Щось пішло не так!',
+        variant: 'destructive',
+      });
+    }
   };
 
   const downloadDocuments = async () => {
@@ -133,7 +182,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
         <DeletePopup
           popupController={setShowDeletePopup}
           deleteFunc={deleteContract}
-          title={`Видалити договір ${number}`}
+          title={`Видалити договір №${number}`}
           text='Дія є безповоротною, видалений договір не буде повернено'
         />
       )}
@@ -424,7 +473,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               Завантажити
             </Button>
             <Button
-              onClick={() => onSubmit(form.getValues())}
+              type='submit'
               className='w-[360px]'
               disabled={data.state === State.APPROVED}
             >

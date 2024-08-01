@@ -1,11 +1,7 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import {
-  PersonalDataSchema,
-  TPersonalDataSchema,
-} from '@/lib/schemas-and-types/personal-data/personal-data';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePersonalDataContext } from '$/admission-web/contexts/PersonalDataContext';
 import {
@@ -29,7 +25,11 @@ import {
 import { regions } from '@/lib/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
 import { FC, useState } from 'react';
-import { PersonalData } from '@/lib/schemas-and-types/personal-data/entrant';
+import {
+  TPersonalDataSchema,
+  PersonalDataSchema,
+} from '@/lib/schemas/personal-data.schemas';
+import { PersonalData } from '@/lib/types/entrant.types';
 
 const CustomerPage: FC = () => {
   const { customerData, setCustomerData, activeStep, setActiveStep } =

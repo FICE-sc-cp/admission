@@ -1,7 +1,4 @@
-import {
-  PositionInQueue,
-  QueuePositionStatus,
-} from '@/lib/schemas-and-types/queue';
+import { PositionInQueue, QueuePositionStatus } from '@/lib/types/queue.types';
 
 export interface GetQueueRes {
   queueSize: number;

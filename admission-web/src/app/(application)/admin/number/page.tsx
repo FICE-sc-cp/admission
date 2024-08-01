@@ -4,10 +4,10 @@ import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { Expand, Shrink } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { QueueNumberItem } from './components/queue-number-item/QueueNumberItem';
-import { PositionInQueue } from '@/lib/schemas-and-types/queue';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import { Loader } from '@/app/(application)/_components/Loader';
+import { PositionInQueue } from '@/lib/types/queue.types';
 
 export default function AdminCurrentNumberPage() {
   const params = useSearchParams();

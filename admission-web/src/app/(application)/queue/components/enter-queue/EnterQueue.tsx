@@ -6,7 +6,7 @@ import { AskUserForGeolocation } from './ask-user-for-geolocation/AskUserForGeol
 import { Location, QueueErorr } from '../../types/QueueTypes';
 import { vincentyDistance } from '../../utils/vincentyDistance ';
 import { useRouter } from 'next/navigation';
-import { QueueUser } from '@/lib/schemas-and-types/queue';
+import { QueueUser } from '@/lib/types/queue.types';
 
 interface EnteredQueueProps {
   userId: string;

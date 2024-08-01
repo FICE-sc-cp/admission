@@ -1,3 +1,4 @@
+import { Entrant, PersonalData } from '@/lib/types/entrant.types';
 import React, {
   createContext,
   useContext,
@@ -5,10 +6,6 @@ import React, {
   FC,
   ReactNode,
 } from 'react';
-import {
-  Entrant,
-  PersonalData,
-} from '@/lib/schemas-and-types/personal-data/entrant';
 
 interface ContextProps {
   isAdult: boolean;

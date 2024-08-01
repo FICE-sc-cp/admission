@@ -17,14 +17,14 @@ import { Input } from '@/components/ui/input';
 
 import { Checkbox } from '@/components/ui/checkbox';
 import { useRouter } from 'next/navigation';
-import {
-  enterQueueFormSchema,
-  TEnterQueueForm,
-} from '@/lib/schemas-and-types/enter-queue';
 import { queueApi } from '@/app/api/queue/queue-api';
 import { isAxiosError } from 'axios';
 import { QueueErorr } from '../../../types/QueueTypes';
-import { QueueUser } from '@/lib/schemas-and-types/queue';
+import {
+  TEnterQueueForm,
+  enterQueueFormSchema,
+} from '@/lib/schemas/queue-entrant.schemas';
+import { QueueUser } from '@/lib/types/queue.types';
 
 interface EnterQueueProps {
   userId: string;

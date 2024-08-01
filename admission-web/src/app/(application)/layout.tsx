@@ -3,7 +3,7 @@
 import { DesktopSidebarNavigation } from '@/app/(application)/_components/DesktopSidebarNavigation';
 import MobileNavigationHeaderAndMenu from '@/app/(application)/_components/MobileNavigationHeaderAndMenu';
 import { FC } from 'react';
-import AuthProvider from '@/providers/auth-provider';
+import AuthProvider from '@/lib/providers/auth-provider';
 import { Toaster } from '@/components/ui/toast/toaster';
 
 interface ApplicationLayoutProps {

@@ -1,9 +1,5 @@
 'use client';
 
-import {
-  DocumentsSchema,
-  TDocumentsSchema,
-} from '@/lib/schemas-and-types/documents';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from '@/components/ui/button';
@@ -28,8 +24,12 @@ import {
   SCIENTIFIC,
 } from '@/lib/constants/documents-educational-programs';
 import DocumentsApi from '@/app/api/documents/documents-api';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/lib/hooks/useAuth';
 import { useRouter } from 'next/navigation';
+import {
+  TDocumentsSchema,
+  DocumentsSchema,
+} from '@/lib/schemas/documents.schemas';
 
 export const DocumentsForm = () => {
   const form = useForm<TDocumentsSchema>({

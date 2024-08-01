@@ -1,14 +1,10 @@
 import React, { FC, useEffect, useState } from 'react';
 import {
   DocumentsApiBody,
-  DownloadDocument,
   State,
 } from '@/app/api/documents/documents-api.types';
 import { useForm } from 'react-hook-form';
-import {
-  AdminDocumentsSchema,
-  TAdminDocumentsSchema,
-} from '@/lib/schemas-and-types/documents';
+
 import { zodResolver } from '@hookform/resolvers/zod';
 import { getCurrentDate } from '@/lib/utils/getCurrentDate';
 import {
@@ -40,8 +36,12 @@ import {
 } from '@/lib/constants/priority-select-values';
 import DocumentsApi from '@/app/api/documents/documents-api';
 import { DeletePopup } from '@/app/(application)/admin/entrants/[userId]/_components/DeletePopup';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/lib/hooks/useAuth';
 import { downloadFile } from '@/lib/utils/downloadFile';
+import {
+  TAdminDocumentsSchema,
+  AdminDocumentsSchema,
+} from '@/lib/schemas/documents.schemas';
 
 interface ContractFormProps {
   data: DocumentsApiBody;

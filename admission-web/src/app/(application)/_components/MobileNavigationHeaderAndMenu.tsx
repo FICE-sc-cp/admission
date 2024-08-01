@@ -14,7 +14,7 @@ import { Menu, X } from 'lucide-react';
 import { entrantNavigationItems } from '@/lib/constants/navigation';
 
 import NavMenuItem from '@/app/(application)/_components/NavMenuItem';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/lib/hooks/useAuth';
 import { adminNavigationItems } from '@/lib/constants/admin-navigation';
 import { LogoutNavMenuItem } from './LogoutNavMenuItem';
 

@@ -3,7 +3,7 @@ import {
   DownloadDocument,
 } from '@/app/api/documents/documents-api.types';
 import { instance } from '@/app/api/instance';
-import { mimeType } from '@/lib/schemas-and-types/documents';
+import { mimeType } from '@/lib/types/documents.types';
 
 class DocumentsApi {
   async createDocument(body: DocumentsApiBody) {

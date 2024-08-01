@@ -5,7 +5,7 @@ import { ProfileHeader } from '@/app/(application)/_components/student-profile-p
 import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
 import DocumentsApi from '@/app/api/documents/documents-api';
 import { downloadFile } from '@/lib/utils/downloadFile';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/lib/hooks/useAuth';
 
 export function NoDocumentsPopUp({
   contracts,

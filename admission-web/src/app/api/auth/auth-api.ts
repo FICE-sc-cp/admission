@@ -1,7 +1,7 @@
-import { User } from '@/lib/schemas-and-types/auth';
 import { instance } from '../instance';
 import { LoginBody, RegisterBody } from './auth-api.types';
 import { MessageResponse } from '../api-common.types';
+import { User } from '@/lib/types/auth.types';
 
 class AuthApi {
   async register(body: RegisterBody) {

@@ -8,7 +8,7 @@ import {
 import React, { useState } from 'react';
 import { AdminStatusBadge } from '@/app/(application)/admin/queue/components/AdminStatusBadge';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
-import { QueuePositionStatus } from '@/lib/schemas-and-types/queue';
+import { QueuePositionStatus } from '@/lib/types/queue.types';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 export function AdminStatusSelect({

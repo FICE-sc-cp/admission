@@ -4,7 +4,6 @@ import { authApi } from '@/app/api/auth/auth-api';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { SignUpSchema, TSignUp } from '@/lib/schemas-and-types/auth';
 
 import {
   Form,
@@ -17,6 +16,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { isAxiosError } from 'axios';
+import { TSignUp, SignUpSchema } from '@/lib/schemas/auth.schemas';
 
 export const RegisterForm = () => {
   const { push } = useRouter();

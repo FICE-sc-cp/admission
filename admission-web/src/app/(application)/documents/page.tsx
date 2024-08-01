@@ -2,7 +2,7 @@
 import { Separator } from '@/components/ui/separator';
 import { DocumentsForm } from '@/app/(application)/documents/_components/DocumentsForm';
 import PersonalData from '@/app/api/personal-data/personal-data';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/lib/hooks/useAuth';
 import { NoPersonalData } from '@/app/(application)/documents/_components/NoPersonalData';
 import { useEffect, useState } from 'react';
 import { GetPersonalData } from '@/app/api/personal-data/personal-data-type';

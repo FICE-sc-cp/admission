@@ -6,7 +6,7 @@ import {
   UpdateQueueUserBody,
 } from './queue-api.types';
 import { instance } from '../instance';
-import { QueuePositionStatus, QueueUser } from '@/lib/schemas-and-types/queue';
+import { QueuePositionStatus, QueueUser } from '@/lib/types/queue.types';
 
 class QueueApi {
   async get() {

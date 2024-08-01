@@ -1,9 +1,6 @@
-import {
-  DocumentsApiBody,
-  DownloadDocument,
-} from '@/app/api/documents/documents-api.types';
-import { User } from '@/lib/schemas-and-types/auth';
-import { mimeType } from '@/lib/schemas-and-types/documents';
+import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
+import { mimeType } from '@/lib/types/documents.types';
+import { User } from '../types/auth.types';
 
 export const downloadFile = (
   resData: mimeType,

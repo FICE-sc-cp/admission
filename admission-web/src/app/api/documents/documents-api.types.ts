@@ -1,4 +1,4 @@
-import { mimeType } from '@/lib/schemas-and-types/documents';
+import { mimeType } from '@/lib/types/documents.types';
 
 export interface DocumentsApiBody {
   id?: string;

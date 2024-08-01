@@ -4,7 +4,7 @@ import { AdminQueueDataTable } from '@/app/(application)/admin/queue/data-table'
 import { useEffect, useState } from 'react';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
-import { PositionInQueue } from '@/lib/schemas-and-types/queue';
+import { PositionInQueue } from '@/lib/types/queue.types';
 import { Loader } from '@/app/(application)/_components/Loader';
 
 export default function AdminQueue() {

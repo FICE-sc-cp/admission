@@ -2,11 +2,7 @@
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-import {
-  EntrantSchema,
-  TEntrantSchema,
-} from '@/lib/schemas-and-types/personal-data/personal-data';
+
 import {
   Form,
   FormControl,
@@ -31,7 +27,11 @@ import {
 } from '@/components/ui/select';
 import { regions } from '@/lib/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
-import useAuth from '@/hooks/useAuth';
+import useAuth from '@/lib/hooks/useAuth';
+import {
+  TEntrantSchema,
+  EntrantSchema,
+} from '@/lib/schemas/personal-data.schemas';
 
 const EntrantForm: FC = () => {
   const [isContract, setIsContract] = useState(true);

@@ -19,7 +19,7 @@ const SubmitPopup: FC<SubmitPopupProps> = ({
 }) => {
   return (
     <div
-      className='absolute inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm'
+      className='fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-50 backdrop-blur-sm'
       onClick={() => popupController(false)}
     >
       <div

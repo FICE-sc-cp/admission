@@ -36,8 +36,8 @@ import { useToast } from '@/components/ui/toast/use-toast';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 const EntrantForm: FC = () => {
-  const { toastSuccess } = useCommonToast();
   const [isContract, setIsContract] = useState(true);
+  const { toastSuccess } = useCommonToast();
   const {
     isAdult,
     isAnotherPayer,

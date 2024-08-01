@@ -32,12 +32,13 @@ import { PersonalData } from '@/lib/types/entrant.types';
 import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
 import { BaseForm } from '@/components/pages/entrant/personal-data/components/BaseForm';
 import { useToast } from '@/components/ui/toast/use-toast';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 const CustomerPage: FC = () => {
   const { customerData, setCustomerData, activeStep, setActiveStep } =
     usePersonalDataContext();
 
-  const { toast } = useToast();
+  const { toastSuccess } = useCommonToast();
 
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
@@ -47,10 +48,7 @@ const CustomerPage: FC = () => {
 
   const onSubmit = (data: TPersonalDataSchema) => {
     setCustomerData(data as PersonalData);
-    toast({
-      title: 'Дані платника збережено!',
-      variant: 'success',
-    });
+    toastSuccess('Дані платника збережено!');
     setActiveStep((prevState) => prevState + 1);
   };
 

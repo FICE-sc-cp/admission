@@ -62,10 +62,10 @@ export const RegisterForm = () => {
         />
         <FormField
           control={form.control}
-          name='firstName'
+          name='lastName'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-normal'>Ім&apos;я</FormLabel>
+              <FormLabel className='text-sm font-normal'>Прізвище</FormLabel>
               <Input {...field} />
               <FormMessage />
             </FormItem>
@@ -73,10 +73,10 @@ export const RegisterForm = () => {
         />
         <FormField
           control={form.control}
-          name='lastName'
+          name='firstName'
           render={({ field }) => (
             <FormItem>
-              <FormLabel className='text-sm font-normal'>Прізвище</FormLabel>
+              <FormLabel className='text-sm font-normal'>Ім&apos;я</FormLabel>
               <Input {...field} />
               <FormMessage />
             </FormItem>

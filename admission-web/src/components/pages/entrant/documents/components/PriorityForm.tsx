@@ -23,8 +23,8 @@ import {
   TAdminDocumentsSchema,
   TDocumentsSchema,
 } from '@/lib/schemas/documents.schemas';
-import { EducationProgramAbbreviation } from '@/lib/constants/educational-programs';
 import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
+import { DocumentState } from '$/utils/src/enums/DocumentStateEnum';
 
 interface PriorityFormProps {
   educationalPrograms: {
@@ -32,9 +32,14 @@ interface PriorityFormProps {
     id: EducationProgram;
   }[];
   form: UseFormReturn<TAdminDocumentsSchema | TDocumentsSchema, any, undefined>;
+  priorityState?: DocumentState;
 }
 
-const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
+const PriorityForm: FC<PriorityFormProps> = ({
+  educationalPrograms,
+  priorityState,
+  form,
+}) => {
   return (
     <>
       {educationalPrograms.map((priority, index) => (
@@ -55,6 +60,7 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
                   });
                 }}
                 value={field.value ? field.value.program : ''}
+                disabled={priorityState === DocumentState.APPROVED}
               >
                 <FormControl>
                   <SelectTrigger className='w-[320px] md:w-[350px]'>
@@ -86,6 +92,7 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
               type='text'
               value={field.value}
               className='w-[320px] md:w-[350px]'
+              disabled={priorityState === DocumentState.APPROVED}
             />
           </FormItem>
         )}

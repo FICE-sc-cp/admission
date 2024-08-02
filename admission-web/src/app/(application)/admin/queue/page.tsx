@@ -25,6 +25,10 @@ export default function AdminQueue() {
 
   useEffect(() => {
     fetchData();
+
+    const interval = setInterval(fetchData, 15000);
+
+    return () => clearInterval(interval);
   }, []);
 
   if (loading) {

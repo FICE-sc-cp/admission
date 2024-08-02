@@ -1,8 +1,9 @@
 import { z } from 'zod';
-import {
-  PROFESSIONAL,
-  SCIENTIFIC,
-} from '@/lib/constants/documents-educational-programs';
+import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
+import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
+import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
+import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
+import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 
 export const prioritySchema = z.object(
   {
@@ -19,13 +20,13 @@ export const prioritySchema = z.object(
 );
 
 export const DocumentsSchema = z.object({
-  degree: z.enum(['BACHELOR', 'MASTER'], {
+  degree: z.nativeEnum(EducationalDegree, {
     required_error: "Обов'язкове поле",
   }),
-  fundingSource: z.enum(['BUDGET', 'CONTRACT'], {
+  fundingSource: z.nativeEnum(FundingSource, {
     required_error: "Обов'язкове поле",
   }),
-  studyForm: z.enum(['FULL_TIME', 'PART_TIME'], {
+  studyForm: z.nativeEnum(StudyForm, {
     required_error: "Обов'язкове поле",
   }),
   specialty: z
@@ -34,7 +35,7 @@ export const DocumentsSchema = z.object({
     })
     .nullable(),
   paymentType: z
-    .enum(['QUARTERLY', 'SEMESTERLY', 'MONTHLY'], {
+    .nativeEnum(PaymentType, {
       required_error: "Обов'язкове поле",
     })
     .nullable(),
@@ -46,13 +47,12 @@ export const DocumentsSchema = z.object({
     .nullable(),
   priorityDate: z.string().readonly(),
   programType: z
-    .enum(['PROFESSIONAL', 'SCIENTIFIC'], {
+    .nativeEnum(EducationalProgramType, {
       required_error: "Обов'язкове поле",
     })
     .nullable(),
   educationalProgram: z
-    //@ts-ignore
-    .enum([...PROFESSIONAL, ...SCIENTIFIC], {
+    .string({
       required_error: "Обов'язкове поле",
     })
     .nullable(),

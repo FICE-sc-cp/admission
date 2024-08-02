@@ -1,38 +1,16 @@
 'use client';
 
 import { useForm } from 'react-hook-form';
-import { z } from 'zod';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { regions } from '@/lib/constants/personal-data-select';
-import { Button } from '@/components/ui/button';
-import { FC, useState } from 'react';
-import useAuth from '@/lib/hooks/useAuth';
+import { FC } from 'react';
 import {
   TPersonalDataSchema,
   PersonalDataSchema,
 } from '@/lib/schemas/personal-data.schemas';
 import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
+import { convertToPersonalData } from '../utils/convertToPersonalData';
 import { BaseForm } from '@/components/pages/entrant/personal-data/components/BaseForm';
-import { useToast } from '@/components/ui/toast/use-toast';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 const RepresentativePage: FC = () => {
@@ -43,14 +21,12 @@ const RepresentativePage: FC = () => {
 
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
-    //@ts-ignore
     defaultValues: representativeData !== null ? representativeData : {},
   });
 
-  const { user } = useAuth();
-
   const onSubmit = (data: TPersonalDataSchema) => {
-    setRepresentativeData(data);
+    const personalData = convertToPersonalData(data);
+    setRepresentativeData(personalData);
     toastSuccess('Дані законного представника збережено!');
     setActiveStep((prevState) => prevState + 1);
   };

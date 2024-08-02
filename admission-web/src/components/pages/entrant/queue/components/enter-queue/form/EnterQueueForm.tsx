@@ -131,7 +131,7 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
                   className='mt-0 text-sm font-normal'
                   htmlFor='printedEdbo'
                 >
-                  Роздрукована ЄДЕБО
+                  Роздрукована заява з ЄДЕБО
                 </FormLabel>
                 <FormMessage />
               </FormItem>

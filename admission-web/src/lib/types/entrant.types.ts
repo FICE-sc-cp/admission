@@ -1,36 +1,42 @@
-export interface Entrant {
-  userId?: string;
-  passportSeries?: string | null;
-  passportNumber: string;
-  passportInstitute: string;
-  passportDate: string;
-  phoneNumber: string;
-  idCode: string | null;
-  email: string;
-  region: string;
-  settlement: string | null;
-  address: string;
-  index: string;
-  study_form?: string | null;
-  submission_in_corpus?: boolean | null;
-  oldPassportTemplate?: boolean | null;
-}
+import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
+import { Role } from '$/utils/src/enums/RolesEnum';
 
 export interface PersonalData {
-  userId?: string;
+  userId: string;
   firstName: string;
+  middleName: string | null;
   lastName: string;
-  middleName?: string | null;
-  passportSeries?: string | null;
+  email: string;
+  passportSeries: string | null;
   passportNumber: string;
   passportInstitute: string;
   passportDate: string;
   phoneNumber: string;
   idCode: string | null;
-  email: string;
   region: string;
   settlement: string | null;
   address: string;
   index: string;
-  oldPassportTemplate?: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+export interface User extends Omit<PersonalData, 'userId'> {
+  id: string;
+  role: Role;
+  benefit: boolean;
+  competitivePoint: number;
+  telegramId: bigint;
+  expectedSpecialities: string;
+  isDorm: boolean;
+  printedEdbo: boolean;
+  confirmedStudyPlace: boolean;
+  phone: string;
+  username: string;
+}
+
+export interface Entrant
+  extends Omit<PersonalData, 'middleName' | 'firstName' | 'lastName'> {
+  submission_in_corpus: boolean;
+  oldPassportTemplate: boolean;
 }

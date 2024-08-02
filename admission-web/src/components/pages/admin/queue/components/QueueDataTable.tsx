@@ -23,13 +23,13 @@ import { Button } from '@/components/ui/button';
 import { Trash2Icon } from 'lucide-react';
 import adminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
-import { initialColumnVisibility } from '@/lib/constants/column-visibility';
 import { UpdateUser } from '@/app/api/admin-queue/admin-queue-api.types';
 import { PositionInQueue } from '@/lib/types/queue.types';
 import AdminAlertDialog from '@/components/pages/admin/common/components/AdminAlertDialog';
 import { AdminColumnSelect } from './AdminColumnSelect';
 import { AdminQueueCleanUp } from './AdminQueueCleanUp';
 import { OpenQueueButton } from './OpenQueueButton';
+import { QueueInitialColumnVisibility } from '../constants/QueueColumnVisibility';
 
 interface AdminQueueDataTableProps {
   columns: ColumnDef<PositionInQueue>[];
@@ -43,7 +43,7 @@ export function AdminQueueDataTable({
   fetchData,
 }: AdminQueueDataTableProps) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-    initialColumnVisibility
+    QueueInitialColumnVisibility
   );
 
   const [sorting, setSorting] = useState<SortingState>([]);

@@ -1,14 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
 import AdminEntrantsApi from '@/app/api/admin-entrants/admin-entrants-api';
-import { User } from '@/app/api/admin-entrants/admin-entrants-api.types';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { AdminEntrantDataTable } from '@/components/pages/admin/entrants/components/EntrantsDataTable';
 import { Loader } from 'lucide-react';
 import { EntrantsColumns } from '@/components/pages/admin/entrants/components/EntrantsColumns';
+import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
 
 export default function AdminEntrantsPage() {
-  const [data, setData] = useState<User[]>([]);
+  const [data, setData] = useState<AdminUser[]>([]);
   const [loading, setLoading] = useState(true);
   const { toastError } = useCommonToast();
 

@@ -10,14 +10,16 @@ import React, {
 interface ContextProps {
   isAdult: boolean;
   setIsAdult: (value: boolean) => void;
+  isContract: boolean;
+  setIsContract: (value: boolean) => void;
   isAnotherPayer: boolean;
   setIsAnotherPayer: (value: boolean) => void;
-  entrantData: Entrant | null;
-  setEntrantData: (value: Entrant) => void;
-  representativeData: PersonalData | null;
-  setRepresentativeData: (value: PersonalData) => void;
-  customerData: PersonalData | null;
-  setCustomerData: (value: PersonalData) => void;
+  entrantData: Omit<Entrant, 'userId'> | null;
+  setEntrantData: (value: Omit<Entrant, 'userId'>) => void;
+  representativeData: Omit<PersonalData, 'userId'> | null;
+  setRepresentativeData: (value: Omit<PersonalData, 'userId'>) => void;
+  customerData: Omit<PersonalData, 'userId'> | null;
+  setCustomerData: (value: Omit<PersonalData, 'userId'>) => void;
   activeStep: number;
   setActiveStep: (value: (prevState: number) => number) => void;
 }
@@ -30,12 +32,21 @@ const PersonalDataContextProvider: FC<{ children: ReactNode }> = ({
   const [isAdult, setIsAdult] = useState(true);
   const [isAnotherPayer, setIsAnotherPayer] = useState(false);
   const [activeStep, setActiveStep] = useState(1);
+  const [isContract, setIsContract] = useState(true);
 
-  const [entrantData, setEntrantData] = useState<Entrant | null>(null);
-  const [representativeData, setRepresentativeData] =
-    useState<PersonalData | null>(null);
+  const [entrantData, setEntrantData] = useState<Omit<
+    Entrant,
+    'userId'
+  > | null>(null);
+  const [representativeData, setRepresentativeData] = useState<Omit<
+    PersonalData,
+    'userId'
+  > | null>(null);
 
-  const [customerData, setCustomerData] = useState<PersonalData | null>(null);
+  const [customerData, setCustomerData] = useState<Omit<
+    PersonalData,
+    'userId'
+  > | null>(null);
 
   return (
     <PersonalDataContext.Provider
@@ -52,6 +63,8 @@ const PersonalDataContextProvider: FC<{ children: ReactNode }> = ({
         setActiveStep,
         customerData,
         setCustomerData,
+        isContract,
+        setIsContract,
       }}
     >
       {children}

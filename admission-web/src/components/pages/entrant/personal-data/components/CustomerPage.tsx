@@ -3,36 +3,15 @@
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Checkbox } from '@/components/ui/checkbox';
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from '@/components/ui/select';
-import { regions } from '@/lib/constants/personal-data-select';
-import { Button } from '@/components/ui/button';
 import { FC, useState } from 'react';
 import {
   TPersonalDataSchema,
   PersonalDataSchema,
 } from '@/lib/schemas/personal-data.schemas';
-import { PersonalData } from '@/lib/types/entrant.types';
 import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
 import { BaseForm } from '@/components/pages/entrant/personal-data/components/BaseForm';
-import { useToast } from '@/components/ui/toast/use-toast';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { convertToPersonalData } from '../utils/convertToPersonalData';
 
 const CustomerPage: FC = () => {
   const { customerData, setCustomerData, activeStep, setActiveStep } =
@@ -42,12 +21,13 @@ const CustomerPage: FC = () => {
 
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
-    //@ts-ignore
     defaultValues: customerData !== null ? customerData : {},
   });
+  const [adminCode, setAdminCode] = useState('');
 
   const onSubmit = (data: TPersonalDataSchema) => {
-    setCustomerData(data as PersonalData);
+    const personalData = convertToPersonalData(data);
+    setCustomerData(personalData);
     toastSuccess('Дані платника збережено!');
     setActiveStep((prevState) => prevState + 1);
   };

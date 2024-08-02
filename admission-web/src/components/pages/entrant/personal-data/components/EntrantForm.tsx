@@ -25,18 +25,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { regions } from '@/lib/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
 import useAuth from '@/lib/hooks/useAuth';
 import {
   TEntrantSchema,
   EntrantSchema,
 } from '@/lib/schemas/personal-data.schemas';
-import { useToast } from '@/components/ui/toast/use-toast';
+import { regions } from '@/lib/constants/regions';
+import { convertToEntrantData } from '../utils/convertToEntrantData';
+import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 const EntrantForm: FC = () => {
-  const [isContract, setIsContract] = useState(true);
   const { toastSuccess } = useCommonToast();
   const {
     isAdult,
@@ -46,12 +46,13 @@ const EntrantForm: FC = () => {
     setEntrantData,
     entrantData,
     setActiveStep,
+    setIsContract,
+    isContract,
   } = usePersonalDataContext();
 
   const [adminCode, setAdminCode] = useState('');
   const form = useForm<TEntrantSchema>({
     resolver: zodResolver(EntrantSchema),
-    //@ts-ignore
     defaultValues: entrantData !== null ? entrantData : {},
   });
 
@@ -64,7 +65,8 @@ const EntrantForm: FC = () => {
   }, [user]);
 
   const onSubmit = (data: TEntrantSchema) => {
-    setEntrantData(data);
+    const personalData = convertToEntrantData(data);
+    setEntrantData(personalData);
     toastSuccess('Дані вступника збережено!');
     setActiveStep((prevState) => 2);
   };
@@ -78,7 +80,7 @@ const EntrantForm: FC = () => {
         <div className='flex flex-col items-start gap-[24px]'>
           <FormField
             control={form.control}
-            name='study_form'
+            name='study_type'
             render={({ field }) => (
               <FormItem className='space-y-3'>
                 <FormLabel className='text-base'>
@@ -87,7 +89,7 @@ const EntrantForm: FC = () => {
                 <FormControl>
                   <RadioGroup
                     onValueChange={(value) => {
-                      field.onChange(value);
+                      field.onChange(FundingSource.BUDGET);
                       if (value === 'Бюджет') {
                         setIsContract(false);
                         setIsAnotherPayer(false);
@@ -95,18 +97,18 @@ const EntrantForm: FC = () => {
                         setIsContract(true);
                       }
                     }}
-                    defaultValue='Контракт'
+                    defaultValue={FundingSource.BUDGET}
                     className='flex flex-col'
                   >
                     <FormItem className='flex items-center gap-[8px] space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='Бюджет' />
+                        <RadioGroupItem value={FundingSource.BUDGET} />
                       </FormControl>
                       <FormLabel className='text-sm'>Бюджет</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center gap-[8px] space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='Контракт' />
+                        <RadioGroupItem value={FundingSource.CONTRACT} />
                       </FormControl>
                       <FormLabel className='text-sm'>Контракт</FormLabel>
                     </FormItem>
@@ -347,7 +349,7 @@ const EntrantForm: FC = () => {
                   <Input
                     placeholder='м. Київ'
                     className='w-[320px] md:w-[360px]'
-                    value={field.value as string}
+                    value={field.value ?? ''}
                     onChange={field.onChange}
                   />
                 </FormControl>

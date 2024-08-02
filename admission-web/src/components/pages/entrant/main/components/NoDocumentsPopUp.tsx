@@ -6,6 +6,8 @@ import DocumentsApi from '@/app/api/documents/documents-api';
 import { downloadFile } from '@/lib/utils/downloadFile';
 import useAuth from '@/lib/hooks/useAuth';
 import { ProfileHeader } from './ProfileHeader';
+import { educationalDegreeLabels } from '@/lib/constants/educationalDegreeLabels';
+import { studyFormLabels } from '@/lib/constants/studyFormLabels';
 
 export function NoDocumentsPopUp({
   contracts,
@@ -49,9 +51,9 @@ export function NoDocumentsPopUp({
             </Button>
           </div>
           <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
-            <h6>Освітній рівень: {contract.degree}</h6>
+            <h6>Освітній рівень: {educationalDegreeLabels[contract.degree]}</h6>
             <h6>Спеціальність: {contract.specialty}</h6>
-            <h6>Форма навчання: {contract.studyForm}</h6>
+            <h6>Форма навчання: {studyFormLabels[contract.studyForm]}</h6>
             <h2 className='font-medium'>Пріоритети освітніх програм</h2>
             {contract.priorities.map((priority) => (
               <h6 key={priority.number}>

@@ -1,9 +1,7 @@
 import {
   UserRoundCheck,
   FileText,
-  Flame,
   BetweenHorizonalStart,
-  LogOut,
   Fingerprint,
 } from 'lucide-react';
 

@@ -1,52 +1,22 @@
 import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
+import { Entrant, PersonalData } from '@/lib/types/entrant.types';
 
 export interface PersonalDataBody {
   email: string;
   firstName: string;
-  middleName: string;
+  middleName: string | null;
   lastName: string;
   role: string;
-  entrantData: Entrant | null;
-  representativeData: Representative | null;
-  customerData: Representative | null;
-}
-
-export interface Representative {
-  firstName: string;
-  middleName: string;
-  lastName: string;
-  email: string;
-  passportSeries: string;
-  passportNumber: string;
-  passportInstitute: string;
-  passportDate: string;
-  phoneNumber: string;
-  idCode: string;
-  region: string;
-  settlement: string;
-  address: string;
-  index: string;
-}
-
-interface Entrant {
-  passportSeries: string;
-  passportNumber: string;
-  passportInstitute: string;
-  passportDate: string;
-  phoneNumber: string;
-  idCode: string;
-  email: string;
-  region: string;
-  settlement: string;
-  address: string;
-  index: string;
+  entrantData: Omit<Entrant, 'userId'> | null;
+  representativeData: Omit<PersonalData, 'userId'> | null;
+  customerData: Omit<PersonalData, 'userId'> | null;
 }
 
 export interface GetPersonalData {
   id: string;
   email: string;
   firstName: string;
-  middleName: string;
+  middleName: string | null;
   lastName: string;
   role: string;
   benefit: boolean;
@@ -60,6 +30,6 @@ export interface GetPersonalData {
   username: string;
   contracts: DocumentsApiBody[];
   entrantData: Entrant;
-  representativeData: Representative;
-  customerData: Representative;
+  representativeData: PersonalData;
+  customerData: PersonalData;
 }

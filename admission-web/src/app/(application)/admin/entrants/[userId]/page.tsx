@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState } from 'react';
 import PersonalData from '@/app/api/personal-data/personal-data';
-import useAuth from '@/lib/hooks/useAuth';
 import {
   GetPersonalData,
   PersonalDataBody,
@@ -19,8 +18,7 @@ import {
 } from '@/lib/schemas/personal-data.schemas';
 import { ContractForm } from '@/components/pages/admin/edit-entrant/components/ContractForm';
 import { DeletePopup } from '@/components/pages/admin/edit-entrant/components/DeletePopup';
-import { PersonaForm } from '@/components/pages/admin/edit-entrant/components/PersonaForm';
-import { useToast } from '@/components/ui/toast/use-toast';
+import { PersonalForm } from '@/components/pages/admin/edit-entrant/components/PersonalForm';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 const Page = () => {
@@ -198,17 +196,17 @@ const Page = () => {
       </div>
       <Separator orientation='horizontal' className='w-full bg-violet-500' />
       <div className='flex flex-row gap-4'>
-        <PersonaForm
+        <PersonalForm
           form={entrantForm}
           title={'Особисті дані'}
           onSubmit={onSubmit}
         />
-        <PersonaForm
+        <PersonalForm
           form={representativeForm}
           title={'Законний представник'}
           onSubmit={onSubmit}
         />
-        <PersonaForm
+        <PersonalForm
           form={customerForm}
           title={'Платник'}
           onSubmit={onSubmit}

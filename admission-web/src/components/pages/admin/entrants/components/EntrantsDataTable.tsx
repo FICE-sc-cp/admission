@@ -25,12 +25,12 @@ import { Button } from '@/components/ui/button';
 import { Trash2Icon } from 'lucide-react';
 import AdminEntrantsApi from '@/app/api/admin-entrants/admin-entrants-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
-import { User } from '@/app/api/admin-entrants/admin-entrants-api.types';
 import AdminAlertDialog from '../../common/components/AdminAlertDialog';
+import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
 
 interface DataTableProps {
-  columns: ColumnDef<User>[];
-  data: User[];
+  columns: ColumnDef<AdminUser>[];
+  data: AdminUser[];
   fetchData: () => Promise<void>;
 }
 

@@ -1,4 +1,4 @@
-import { EducationProgram } from '$/utils/src';
+import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
 
 export interface IPrioritySelect {
   label: string;

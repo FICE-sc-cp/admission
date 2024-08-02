@@ -1,1 +1,8 @@
-export * from "./enums";
+export * as EducationalProgramEnum from "./enums/EducationalProgramEnum";
+export * as RolesEnum from "./enums/RolesEnum";
+export * as EducationalDegreeEnum from "./enums/EducationalDegreeEnum";
+export * as EducationalProgramTypeEnum from "./enums/EducationalProgramTypeEnum";
+export * as StudyFormEnum from "./enums/StudyFormEnum";
+export * as FundingSourceEnum from "./enums/FundingSourceEnum";
+export * as PaymentTypeEnum from "./enums/PaymentTypeEnum";
+export * as DocumentStateEnum from "./enums/DocumentStateEnum";

@@ -1,11 +1,7 @@
-import { Representative } from '@/app/api/personal-data/personal-data-type';
+import { PersonalData } from '@/lib/types/entrant.types';
 import { ProfileHeader } from './ProfileHeader';
 
-export function StudentPayerBlock({
-  payerData,
-}: {
-  payerData: Representative;
-}) {
+export function StudentPayerBlock({ payerData }: { payerData: PersonalData }) {
   if (payerData === null) {
     return <></>;
   } else {

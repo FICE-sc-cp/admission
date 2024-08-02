@@ -12,8 +12,8 @@ export const EducationProgramAbbreviation: Record<EducationProgram, string> = {
 
 export const IPeduPrograms = [
   {
-    label: EducationProgramAbbreviation[EducationProgram.CSSE],
-    id: EducationProgram.CSSE,
+    label: EducationProgramAbbreviation[EducationProgram.ISRS],
+    id: EducationProgram.ISRS,
   },
   {
     label: EducationProgramAbbreviation[EducationProgram.ISSE],

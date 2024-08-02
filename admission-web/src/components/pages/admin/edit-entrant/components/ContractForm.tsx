@@ -310,7 +310,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value='QUARTERLY'>Щоквартально</SelectItem>
+                      <SelectItem value='QUARTERLY'>Щорічно</SelectItem>
                       <SelectItem value='SEMESTERLY'>Щосеместрово</SelectItem>
                       {studyForm !== StudyForm.PART_TIME && (
                         <SelectItem value='MONTHLY'>Щомісячно</SelectItem>
@@ -370,10 +370,8 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                       placeholder=''
                       className='w-[320px] md:w-[350px]'
                       value={field.value}
-                      disabled
                     />
                   </FormControl>
-
                   <FormMessage />
                 </FormItem>
               )}

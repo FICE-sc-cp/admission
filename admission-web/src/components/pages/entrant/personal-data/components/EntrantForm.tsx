@@ -48,6 +48,7 @@ const EntrantForm: FC = () => {
     setActiveStep,
     setIsContract,
     isContract,
+    setIsSubmittingInCorpus,
   } = usePersonalDataContext();
 
   const [adminCode, setAdminCode] = useState('');
@@ -153,7 +154,10 @@ const EntrantForm: FC = () => {
                   <FormControl>
                     <Checkbox
                       checked={field.value}
-                      onCheckedChange={field.onChange}
+                      onCheckedChange={(value) => {
+                        setIsSubmittingInCorpus(!!value);
+                        field.onChange(value);
+                      }}
                     />
                   </FormControl>
                   <FormLabel className='text-sm'>

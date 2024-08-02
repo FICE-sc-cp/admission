@@ -27,6 +27,7 @@ import AdminEntrantsApi from '@/app/api/admin-entrants/admin-entrants-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import AdminAlertDialog from '../../common/components/AdminAlertDialog';
 import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
+import Link from 'next/link';
 
 interface DataTableProps {
   columns: ColumnDef<AdminUser>[];
@@ -128,6 +129,11 @@ export function AdminEntrantDataTable({
                       description='Ви впевнені, що хочете видалити вступика? Вступник буде видалений разом із всіма його документами, цю дію неможливо буде відмінити!'
                       action={() => handleDelete(row.original.id)}
                     />
+                  </TableCell>
+                  <TableCell>
+                    <Link href={`/admin/entrants/${row.original.id}`}>
+                      <Button>На сторінку вступника</Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))

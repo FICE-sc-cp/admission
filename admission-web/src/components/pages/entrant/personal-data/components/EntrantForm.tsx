@@ -56,6 +56,7 @@ const EntrantForm: FC = () => {
     resolver: zodResolver(EntrantSchema),
     defaultValues: {
       ...(entrantData ?? {}),
+      oldPassportTemplate: false,
     },
     mode: 'onChange',
   });
@@ -357,7 +358,7 @@ const EntrantForm: FC = () => {
                     <Input
                       placeholder='м. Київ'
                       className='w-[320px] md:w-[360px]'
-                      value={field.value}
+                      value={field.value ?? ''}
                       onChange={field.onChange}
                     />
                   </FormControl>

@@ -1,4 +1,3 @@
-import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { Role } from '$/utils/src/enums/RolesEnum';
 
 export interface PersonalData {
@@ -14,7 +13,7 @@ export interface PersonalData {
   phoneNumber: string;
   idCode: string | null;
   region: string | null;
-  settlement: string;
+  settlement: string | null;
   address: string;
   index: string;
   createdAt: Date;

@@ -23,6 +23,7 @@ const RepresentativePage: FC = () => {
     resolver: zodResolver(PersonalDataSchema),
     defaultValues: {
       ...(representativeData ?? {}),
+      oldPassportTemplate: false,
     },
     mode: 'onChange',
   });

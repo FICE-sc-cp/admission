@@ -23,6 +23,7 @@ const CustomerPage: FC = () => {
     resolver: zodResolver(PersonalDataSchema),
     defaultValues: {
       ...(customerData ?? {}),
+      oldPassportTemplate: false,
     },
     mode: 'onChange',
   });

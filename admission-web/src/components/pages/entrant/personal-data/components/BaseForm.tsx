@@ -310,7 +310,7 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
                     <Input
                       placeholder='м. Київ'
                       className='w-[320px] md:w-[360px]'
-                      value={field.value}
+                      value={field.value ?? ''}
                       onChange={field.onChange}
                     />
                   </FormControl>

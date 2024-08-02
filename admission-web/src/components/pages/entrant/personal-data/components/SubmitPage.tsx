@@ -98,9 +98,7 @@ const SubmitPage: FC = () => {
               Орган видачі: {entrantData.passportInstitute}
             </p>
             {entrantData.idCode && (
-              <p className='text-base'>
-                РНОКПП: {entrantData.idCode}
-              </p>
+              <p className='text-base'>РНОКПП: {entrantData.idCode}</p>
             )}
             <p className='text-base'>Регіон: {entrantData.region}</p>
             <p className='text-base'>
@@ -141,9 +139,7 @@ const SubmitPage: FC = () => {
               Орган видачі: {representativeData.passportInstitute}
             </p>
             {representativeData.idCode && (
-              <p className='text-base'>
-                РНОКПП: {representativeData.idCode}
-              </p>
+              <p className='text-base'>РНОКПП: {representativeData.idCode}</p>
             )}
             <p className='text-base'>Регіон: {representativeData.region}</p>
             <p className='text-base'>
@@ -184,9 +180,7 @@ const SubmitPage: FC = () => {
               Орган видачі: {customerData.passportInstitute}
             </p>
             {customerData.idCode && (
-              <p className='text-base'>
-                РНОКПП: {customerData.idCode}
-              </p>
+              <p className='text-base'>РНОКПП: {customerData.idCode}</p>
             )}
             <p className='text-base'>Регіон: {customerData.region}</p>
             <p className='text-base'>

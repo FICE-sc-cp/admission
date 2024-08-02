@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import Docxtemplater from 'docxtemplater';
 import * as fs from 'fs';
-import { join, resolve as pathResolve } from 'path';
+import { join } from 'path';
 import PizZip from 'pizzip';
 
 @Injectable()
 export class FileService {
   fillTemplate (fileName: string, data: object) {
-    const path = join(pathResolve(), 'private/templates', fileName);
+    const path = join(__dirname, '..', 'private/templates', fileName);
     const zip = new PizZip(fs.readFileSync(path, 'binary'));
   
     const doc = new Docxtemplater(zip, {

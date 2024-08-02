@@ -55,6 +55,7 @@ export const DocumentsForm = () => {
   const fundingSource = form.watch('fundingSource');
   const priorities = form.watch('priorities');
   const programType = form.watch('programType');
+  const studyForm = form.watch('studyForm');
 
   const [prioritiesData, setPrioritiesData] = useState<TPriorities[] | null>(
     null
@@ -94,8 +95,11 @@ export const DocumentsForm = () => {
   };
 
   useEffect(() => {
-    setPrioritiesData(priorities as TPriorities[]);
-    if (specialty === '123') {
+    if (
+      specialty === '123' ||
+      degree === EducationalDegree.MASTER ||
+      (specialty === '121' && studyForm === StudyForm.PART_TIME)
+    ) {
       form.setValue('priorities', []);
     }
     if (degree === EducationalDegree.MASTER) {
@@ -105,8 +109,6 @@ export const DocumentsForm = () => {
           educationalProgram.split(' ')[0] as '121' | '123' | '126'
         );
       }
-
-      form.setValue('priorities', []);
     }
     if (fundingSource === FundingSource.BUDGET) {
       form.setValue('paymentType', null);
@@ -115,7 +117,13 @@ export const DocumentsForm = () => {
       form.setValue('educationalProgram', null);
       form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
+  }, [specialty, degree, fundingSource, studyForm, educationalProgram]);
+
+  useEffect(() => {
+    setPrioritiesData(priorities as TPriorities[]);
   }, [form.getValues()]);
+
+  console.log(form.getValues());
 
   return (
     <Form {...form}>
@@ -238,7 +246,9 @@ export const DocumentsForm = () => {
                       </FormControl>
                       <FormLabel>Щосеместрово</FormLabel>
                     </FormItem>
-                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                    <FormItem
+                      className={`${studyForm === StudyForm.PART_TIME ? 'hidden' : 'flex'} items-center space-x-3 space-y-0`}
+                    >
                       <FormControl>
                         <RadioGroupItem value='MONTHLY' />
                       </FormControl>
@@ -301,7 +311,7 @@ export const DocumentsForm = () => {
                         className='flex flex-col space-y-1'
                       >
                         {programType === EducationalProgramType.PROFESSIONAL &&
-                          Object.keys(PROFESSIONAL).map((program) => (
+                          PROFESSIONAL.map((program) => (
                             <FormItem
                               key={program}
                               className='flex items-center space-x-3 space-y-0'
@@ -313,7 +323,7 @@ export const DocumentsForm = () => {
                             </FormItem>
                           ))}
                         {programType === EducationalProgramType.SCIENTIFIC &&
-                          Object.keys(SCIENTIFIC).map((program) => (
+                          SCIENTIFIC.map((program) => (
                             <FormItem
                               key={program}
                               className='flex items-center space-x-3 space-y-0'
@@ -375,9 +385,11 @@ export const DocumentsForm = () => {
             )}
           />
         )}
-        {specialty === '121' && degree !== EducationalDegree.MASTER && (
-          <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
-        )}
+        {specialty === '121' &&
+          degree !== EducationalDegree.MASTER &&
+          studyForm !== StudyForm.PART_TIME && (
+            <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
+          )}
         {specialty === '126' && degree !== EducationalDegree.MASTER && (
           <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
         )}

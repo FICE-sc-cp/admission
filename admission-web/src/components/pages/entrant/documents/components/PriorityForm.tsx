@@ -51,14 +51,13 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
                 onValueChange={(value) => {
                   field.onChange({
                     number: index,
-                    program:
-                      EducationProgramAbbreviation[value as EducationProgram],
+                    program: value,
                   });
                 }}
                 value={
                   field.value
                     ? EducationProgramAbbreviation[
-                        field.value.program as EducationProgram
+                        field.value as EducationProgram
                       ]
                     : field.value
                 }

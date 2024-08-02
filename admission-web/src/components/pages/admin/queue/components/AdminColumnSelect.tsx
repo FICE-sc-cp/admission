@@ -45,7 +45,7 @@ export function AdminColumnSelect<TData>({
                 key={column.id}
                 className='w-[150px] cursor-pointer'
                 checked={column.getIsVisible()}
-                onCheckedChange={(value) => column.toggleVisibility(!value)}
+                onCheckedChange={(value) => column.toggleVisibility(value)}
               >
                 {(column.columnDef as any).meta}
               </DropdownMenuCheckboxItem>

@@ -43,6 +43,7 @@ export const QueueColumns: ColumnDef<PositionInQueue>[] = [
     header: ({ column }) => {
       return <AdminTableHeaderButton text='№' column={column} />;
     },
+    cell: ({ row }) => <div>{row.original.relativePosition || '-'} </div>,
   },
   {
     accessorKey: 'code',

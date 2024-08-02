@@ -54,13 +54,7 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
                     program: value,
                   });
                 }}
-                value={
-                  field.value
-                    ? EducationProgramAbbreviation[
-                        field.value as EducationProgram
-                      ]
-                    : field.value
-                }
+                value={field.value ? field.value.program : ''}
               >
                 <FormControl>
                   <SelectTrigger className='w-[320px] md:w-[350px]'>

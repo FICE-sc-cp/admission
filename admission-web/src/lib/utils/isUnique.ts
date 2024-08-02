@@ -1,5 +1,3 @@
-import { EducationProgram } from '$/utils';
-
 import { TPriorities } from '@/lib/types/documents.types';
 
 export const isUniquePriorities = (priorities: TPriorities[]): boolean => {

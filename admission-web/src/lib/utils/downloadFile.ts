@@ -4,7 +4,7 @@ import { User } from '../types/auth.types';
 
 export const downloadFile = (
   resData: mimeType,
-  user: User | null,
+  entrantText: string,
   data: DocumentsApiBody,
   text: string
 ) => {
@@ -16,10 +16,7 @@ export const downloadFile = (
 
   const tempLink = document.createElement('a');
   tempLink.href = url;
-  tempLink.setAttribute(
-    'download',
-    `${user?.lastName} ${user?.firstName} ${user?.middleName} ${data.specialty} ${text}`
-  );
+  tempLink.setAttribute('download', `${entrantText} ${text}`);
 
   document.body.appendChild(tempLink);
   tempLink.click();

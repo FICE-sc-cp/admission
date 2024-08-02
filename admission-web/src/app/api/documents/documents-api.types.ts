@@ -30,7 +30,7 @@ export interface DownloadDocument {
   data: mimeType;
 }
 
-interface Priorities {
+export interface Priorities {
   number: number;
   program: EducationProgram;
 }

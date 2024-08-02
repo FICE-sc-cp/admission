@@ -1,5 +1,8 @@
 import React, { FC, useEffect, useState } from 'react';
-import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
+import {
+  DocumentsApiBody,
+  Priorities,
+} from '@/app/api/documents/documents-api.types';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -43,18 +46,25 @@ import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
 import { isUniquePriorities } from '@/lib/utils/isUnique';
-import { useRouter } from 'next/navigation';
 import { TPriorities } from '@/lib/types/documents.types';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 interface ContractFormProps {
   data: DocumentsApiBody;
   number: number;
+  entrantFirstName: string;
+  entrantMiddleName: string | null;
+  entrantLastName: string;
 }
 
-export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
+export const ContractForm: FC<ContractFormProps> = ({
+  data,
+  number,
+  entrantMiddleName,
+  entrantFirstName,
+  entrantLastName,
+}) => {
   const { toastSuccess, toastError } = useCommonToast();
-  const { push } = useRouter();
 
   const form = useForm<TAdminDocumentsSchema>({
     resolver: zodResolver(AdminDocumentsSchema),
@@ -81,9 +91,11 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
   );
 
   const onSubmit = async (documents: TAdminDocumentsSchema) => {
-    if (prioritiesData) {
-      setPrioritiesData(priorities as TPriorities[]);
-      if (!isUniquePriorities(prioritiesData as TPriorities[])) {
+    if (
+      !isUniquePriorities(prioritiesData as TPriorities[]) ||
+      !data.priorities
+    ) {
+      if (prioritiesData) {
         for (let i = 0; i < prioritiesData.length; i++) {
           form.setError(`priorities.${i}`, {
             type: 'required',
@@ -91,16 +103,18 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
           });
         }
       }
-
       return;
     } else {
       try {
         await DocumentsApi.updateDocument(
-          documents as DocumentsApiBody,
+          {
+            ...(documents as DocumentsApiBody),
+            priorities: priorities,
+          },
           data.id as string
         );
         toastSuccess(`Зміни збережено!`);
-        location.reload();
+        // location.reload();
       } catch {
         toastError('Щось пішло не так!');
       }
@@ -121,18 +135,33 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
   const downloadDocuments = async () => {
     const res = await DocumentsApi.downloadContract(data.id as string);
 
-    downloadFile(res.data, user, data, 'Навчання');
+    downloadFile(
+      res.data,
+      `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ? entrantMiddleName : ''}`,
+      data,
+      'Навчання'
+    );
 
     if (data.fundingSource === 'CONTRACT') {
       const res = await DocumentsApi.downloadPayment(data.id as string);
 
-      downloadFile(res.data, user, data, 'Оплата');
+      downloadFile(
+        res.data,
+        `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ? entrantMiddleName : ''}`,
+        data,
+        'Оплата'
+      );
     }
 
     if (data.specialty === '121' || data.specialty === '126') {
       const res = await DocumentsApi.downloadPriority(data.id as string);
 
-      downloadFile(res.data, user, data, 'Приорітети');
+      downloadFile(
+        res.data,
+        `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ? entrantMiddleName : ''}`,
+        data,
+        'Приорітети'
+      );
     }
   };
 
@@ -173,8 +202,8 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
   }, [degree, fundingSource, educationalProgram, specialty]);
 
   useEffect(() => {
-    form.setValue('priorities', []);
-  }, [specialty]);
+    setPrioritiesData(priorities as TPriorities[]);
+  }, [priorities]);
 
   return (
     <div className='flex flex-col gap-6'>

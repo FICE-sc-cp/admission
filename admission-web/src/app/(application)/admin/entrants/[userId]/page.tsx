@@ -83,6 +83,7 @@ const Page = () => {
   }
   const deleteEntrant = async () => {
     await PersonalData.deletePersonalData(params.userId);
+    push('/');
   };
 
   const onSubmit = async (
@@ -227,6 +228,9 @@ const Page = () => {
               key={contract.id}
               data={contract}
               number={index + 1}
+              entrantFirstName={personalData.firstName}
+              entrantLastName={personalData.lastName}
+              entrantMiddleName={personalData.middleName}
             />
           ))}
       </div>

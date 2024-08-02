@@ -9,7 +9,7 @@ interface EnteredQueueProps {
 }
 
 export const EnteredQueue: FC<EnteredQueueProps> = ({
-  data: { position, id },
+  data: { relativePosition, code },
   user,
 }) => {
   return (
@@ -45,13 +45,15 @@ export const EnteredQueue: FC<EnteredQueueProps> = ({
           <h2 className='text-base font-medium text-white md:text-xl xl:text-2xl'>
             Поточний номер
           </h2>
-          <span className='text-6xl font-semibold text-white'>{position}</span>
+          <span className='text-6xl font-semibold text-white'>
+            {relativePosition}
+          </span>
         </div>
         <div className='flex h-fit flex-col items-center gap-4 rounded-2xl bg-gray-100 px-6 py-8 shadow-md shadow-neutral-400 sm:gap-7 sm:px-14 sm:py-8'>
           <h2 className='text-base font-semibold text-violet-800 md:text-xl xl:text-2xl'>
             ID
           </h2>
-          <span className='text-5xl font-semibold text-violet-800'>{id}</span>
+          <span className='text-5xl font-semibold text-violet-800'>{code}</span>
         </div>
       </div>
     </div>

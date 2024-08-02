@@ -45,7 +45,7 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
           render={({ field }) => (
             <FormItem>
               <FormLabel className='text-sm font-normal'>
-                Приорітет {index + 1}
+                Пріоритет {index + 1}
               </FormLabel>
               <Select
                 onValueChange={(value) => {

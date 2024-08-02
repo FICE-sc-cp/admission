@@ -23,7 +23,10 @@ async function bootstrap () {
     new FastifyAdapter(instance),
   );
   await app.register(fastifyCookie);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(new ValidationPipe({
+    transform: true,
+    whitelist: true,
+  }));
   app.useGlobalFilters(new HttpExceptionFilter());
 
   const config = new DocumentBuilder()

@@ -93,7 +93,6 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
               type='text'
               value={field.value}
               className='w-[320px] md:w-[350px]'
-              disabled
             />
           </FormItem>
         )}

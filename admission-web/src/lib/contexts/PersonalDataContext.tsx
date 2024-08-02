@@ -14,6 +14,8 @@ interface ContextProps {
   setIsContract: (value: boolean) => void;
   isAnotherPayer: boolean;
   setIsAnotherPayer: (value: boolean) => void;
+  isSubmittingInCorpus: boolean;
+  setIsSubmittingInCorpus: (value: boolean) => void;
   entrantData: Omit<Entrant, 'userId'> | null;
   setEntrantData: (value: Omit<Entrant, 'userId'>) => void;
   representativeData: Omit<PersonalData, 'userId'> | null;
@@ -33,6 +35,7 @@ const PersonalDataContextProvider: FC<{ children: ReactNode }> = ({
   const [isAnotherPayer, setIsAnotherPayer] = useState(false);
   const [activeStep, setActiveStep] = useState(1);
   const [isContract, setIsContract] = useState(true);
+  const [isSubmittingInCorpus, setIsSubmittingInCorpus] = useState(false);
 
   const [entrantData, setEntrantData] = useState<Omit<
     Entrant,
@@ -65,6 +68,8 @@ const PersonalDataContextProvider: FC<{ children: ReactNode }> = ({
         setCustomerData,
         isContract,
         setIsContract,
+        isSubmittingInCorpus,
+        setIsSubmittingInCorpus,
       }}
     >
       {children}

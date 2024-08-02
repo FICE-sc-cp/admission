@@ -22,6 +22,7 @@ const SubmitPage: FC = () => {
     setActiveStep,
     activeStep,
     isContract,
+    isSubmittingInCorpus,
   } = usePersonalDataContext();
 
   const [showPopup, setShowPopup] = useState(false);
@@ -30,7 +31,7 @@ const SubmitPage: FC = () => {
   const { push } = useRouter();
 
   const onSubmit = async () => {
-    if (entrantData?.submission_in_corpus) {
+    if (isSubmittingInCorpus) {
       setShowPopup(true);
     }
     try {
@@ -200,7 +201,7 @@ const SubmitPage: FC = () => {
         <Button
           className='w-[200px]'
           onClick={() => {
-            if (entrantData?.submission_in_corpus) {
+            if (isSubmittingInCorpus) {
               setShowPopup(true);
             } else {
               onSubmit();

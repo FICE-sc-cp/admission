@@ -19,7 +19,6 @@ export function convertToEntrantData(
     index: data.index,
     createdAt: new Date(),
     updatedAt: new Date(),
-    submission_in_corpus: data.submission_in_corpus,
     oldPassportTemplate: data.oldPassportTemplate,
   };
 }

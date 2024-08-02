@@ -15,7 +15,7 @@ export const EnteredQueue: FC<EnteredQueueProps> = ({
   return (
     <div className='my-[7%] flex flex-1 flex-col items-center gap-14'>
       <div className='flex flex-col items-center justify-center gap-5 leading-6'>
-        <h1 className='text-3xl font-medium'>Привіт {user.firstName}</h1>
+        <h1 className='text-3xl font-medium'>Привіт, {user.firstName}!</h1>
         <p className='text-2xl'>Дякуємо за очікування!</p>
         <div className='flex gap-3'>
           <Circle

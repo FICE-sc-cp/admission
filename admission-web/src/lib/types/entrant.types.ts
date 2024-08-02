@@ -37,6 +37,5 @@ export interface User extends Omit<PersonalData, 'userId'> {
 
 export interface Entrant
   extends Omit<PersonalData, 'middleName' | 'firstName' | 'lastName'> {
-  submission_in_corpus: boolean;
   oldPassportTemplate: boolean;
 }

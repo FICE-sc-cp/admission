@@ -230,7 +230,7 @@ export const DocumentsForm = () => {
                       <FormControl>
                         <RadioGroupItem value='QUARTERLY' />
                       </FormControl>
-                      <FormLabel>Щоквартально</FormLabel>
+                      <FormLabel>Щорічно</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>

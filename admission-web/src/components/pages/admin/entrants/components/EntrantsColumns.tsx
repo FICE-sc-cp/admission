@@ -1,5 +1,7 @@
 'use client';
+import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
+import { educationalDegreeLabels } from '@/lib/constants/educationalDegreeLabels';
 import { ColumnDef } from '@tanstack/react-table';
 
 export const EntrantsColumns: ColumnDef<AdminUser>[] = [
@@ -19,8 +21,11 @@ export const EntrantsColumns: ColumnDef<AdminUser>[] = [
     accessorKey: 'contracts',
     header: 'Освітній ступінь',
     cell: ({ row }) => {
-      const contracts = row.original.contracts;
-      return contracts.map((contract) => contract.degree);
+      return row.original.contracts.length
+        ? educationalDegreeLabels[
+            row.original.contracts[0].degree as EducationalDegree
+          ]
+        : '-';
     },
   },
   {

@@ -71,25 +71,24 @@ export function NoDocumentsPopUp({
                   ? FundingSourceLabels[contract.fundingSource]
                   : `${FundingSourceLabels[contract.fundingSource] || ''}${
                       contract.paymentType != null
-                        ? `(${PaymentTypeLabels[contract.paymentType] || ''})`
+                        ? ` (${PaymentTypeLabels[contract.paymentType] || ''})`
                         : ''
                     }`}
               </h6>
               <h2 className='font-medium'>
                 {contracts.some(
                   (contract) =>
-                    contract.specialty === '123' ||
-                    (contract.specialty === '121' &&
-                      contract.studyForm === 'PART_TIME')
+                    contract.specialty === '121' || contract.specialty === '126'
                 )
-                  ? ''
-                  : 'Пріоритети освітніх програм'}
+                  ? 'Пріоритети освітніх програм'
+                  : ''}
               </h2>
               {contract.priorities.map((priority) => (
                 <h6 key={priority.number}>
                   {priority.number +
                     1 +
                     '.' +
+                    ' ' +
                     EducationProgramAbbreviation[priority.program]}
                 </h6>
               ))}

@@ -62,6 +62,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
     defaultValues: {
       ...(data as TAdminDocumentsSchema),
     },
+    mode: 'onChange',
   });
 
   const { user } = useAuth();

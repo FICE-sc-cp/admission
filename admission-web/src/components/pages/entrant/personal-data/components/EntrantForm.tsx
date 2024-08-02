@@ -54,6 +54,7 @@ const EntrantForm: FC = () => {
   const form = useForm<TEntrantSchema>({
     resolver: zodResolver(EntrantSchema),
     defaultValues: entrantData !== null ? entrantData : {},
+    mode: 'onChange',
   });
 
   const { user } = useAuth();

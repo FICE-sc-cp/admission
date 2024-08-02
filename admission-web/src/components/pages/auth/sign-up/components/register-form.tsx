@@ -28,6 +28,7 @@ export const RegisterForm = () => {
       lastName: '',
       middleName: '',
     },
+    mode: 'onChange',
   });
   async function onSubmit(values: TSignUp) {
     try {

@@ -22,6 +22,7 @@ const RepresentativePage: FC = () => {
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
     defaultValues: representativeData !== null ? representativeData : {},
+    mode: 'onChange',
   });
 
   const onSubmit = (data: TPersonalDataSchema) => {

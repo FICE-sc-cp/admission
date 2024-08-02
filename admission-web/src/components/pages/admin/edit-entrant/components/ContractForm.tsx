@@ -158,7 +158,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
       form.setValue('educationalProgram', null);
       form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
-  }, [form.getValues()]);
+  }, [form.formState.isSubmitting]);
 
   useEffect(() => {
     form.setValue('priorities', []);

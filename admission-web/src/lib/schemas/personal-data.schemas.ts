@@ -37,15 +37,16 @@ const passportDateSchema = z
   .string({ required_error: "Обов'язкове поле" })
   .regex(dateRegex, 'Має бути формату dd.mm.yyyy');
 
-export const regionSchema = z.string({
-  required_error: 'Будь ласка оберіть регіон',
-});
+export const regionSchema = z
+  .string({
+    required_error: 'Будь ласка оберіть регіон',
+  })
+  .nullable();
 
 export const settlementSchema = z
   .string({ required_error: "Обов'язкове поле" })
   .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-  .transform(transformApostrophe)
-  .nullable();
+  .transform(transformApostrophe);
 
 export const addressSchema = z
   .string({ required_error: "Обов'язкове поле" })

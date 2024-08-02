@@ -32,6 +32,10 @@ interface BaseFormProps {
 export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
   const [adminCode, setAdminCode] = useState('');
   const { activeStep, setActiveStep } = usePersonalDataContext();
+
+  const region = form.watch('region');
+  const isOldPassport = form.watch('oldPassportTemplate');
+
   return (
     <Form {...form}>
       <form
@@ -143,7 +147,7 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
           />
           <div className='flex flex-col gap-3'>
             <div className='flex flex-row gap-3'>
-              {form.getValues('oldPassportTemplate') && (
+              {isOldPassport && (
                 <FormField
                   control={form.control}
                   name='passportSeries'
@@ -173,7 +177,7 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
                     <FormControl>
                       <Input
                         placeholder='Номер паспорту'
-                        className={`${form.getValues('oldPassportTemplate') ? 'w-[200px] md:w-[240px]' : 'w-[320px] md:w-[360px]'} `}
+                        className={`${isOldPassport ? 'w-[200px] md:w-[240px]' : 'w-[320px] md:w-[360px]'} `}
                         {...field}
                       />
                     </FormControl>
@@ -276,7 +280,7 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
                 <FormLabel>Регіон</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  defaultValue={field.value ?? ''}
                 >
                   <FormControl>
                     <SelectTrigger className='w-[320px] md:w-[360px]'>
@@ -295,24 +299,26 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name='settlement'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Населений пункт</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='м. Київ'
-                    className='w-[320px] md:w-[360px]'
-                    value={field.value as string}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {region !== 'м. Київ' && (
+            <FormField
+              control={form.control}
+              name='settlement'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Населений пункт</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='м. Київ'
+                      className='w-[320px] md:w-[360px]'
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <FormField
             control={form.control}
             name='address'
@@ -379,7 +385,7 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
           <Button
             className='w-[160px] md:w-[180px]'
             onClick={() => {
-              setActiveStep((prevState) => activeStep - 1);
+              setActiveStep(() => activeStep - 1);
             }}
             variant='outline'
           >

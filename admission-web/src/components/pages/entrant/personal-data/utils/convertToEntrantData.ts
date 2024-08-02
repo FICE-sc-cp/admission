@@ -4,6 +4,7 @@ import { Entrant } from '@/lib/types/entrant.types';
 export function convertToEntrantData(
   data: TEntrantSchema
 ): Omit<Entrant, 'userId'> {
+  const region = data.region;
   return {
     email: data.email,
     passportSeries: data.oldPassportTemplate ? data.passportSeries : null,
@@ -12,8 +13,8 @@ export function convertToEntrantData(
     passportDate: data.passportDate,
     phoneNumber: data.phoneNumber,
     idCode: data.idCode,
-    region: data.region,
-    settlement: data.settlement,
+    region: region === 'м. Київ' ? null : region,
+    settlement: region === 'м. Київ' ? region : data.settlement,
     address: data.address,
     index: data.index,
     createdAt: new Date(),

@@ -21,7 +21,9 @@ const RepresentativePage: FC = () => {
 
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
-    defaultValues: representativeData !== null ? representativeData : {},
+    defaultValues: {
+      ...(representativeData ?? {}),
+    },
     mode: 'onChange',
   });
 

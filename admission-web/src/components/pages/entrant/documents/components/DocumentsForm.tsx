@@ -49,6 +49,13 @@ export const DocumentsForm = () => {
     mode: 'onChange',
   });
 
+  const educationalProgram = form.watch('educationalProgram');
+  const specialty = form.watch('specialty');
+  const degree = form.watch('degree');
+  const fundingSource = form.watch('fundingSource');
+  const priorities = form.watch('priorities');
+  const programType = form.watch('programType');
+
   const [prioritiesData, setPrioritiesData] = useState<TPriorities[] | null>(
     null
   );
@@ -58,7 +65,10 @@ export const DocumentsForm = () => {
   const { user } = useAuth();
 
   const onSubmit = async (data: TDocumentsSchema) => {
-    if (!isUniquePriorities(prioritiesData as TPriorities[])) {
+    if (
+      !isUniquePriorities(prioritiesData as TPriorities[]) ||
+      !data.priorities
+    ) {
       if (prioritiesData) {
         for (let i = 0; i < prioritiesData.length; i++) {
           form.setError(`priorities.${i}`, {
@@ -67,12 +77,14 @@ export const DocumentsForm = () => {
           });
         }
       }
-
       return;
     } else {
       try {
-        //@ts-ignore
-        await DocumentsApi.createDocument({ ...data, userId: user?.id });
+        await DocumentsApi.createDocument({
+          ...data,
+          userId: user!.id,
+          priorities: data.priorities,
+        });
         push('/');
         toastSuccess('Договір успішно створений!');
       } catch {
@@ -82,12 +94,11 @@ export const DocumentsForm = () => {
   };
 
   useEffect(() => {
-    setPrioritiesData(form.getValues('priorities') as TPriorities[]);
-    if (form.getValues('specialty') === '123') {
+    setPrioritiesData(priorities as TPriorities[]);
+    if (specialty === '123') {
       form.setValue('priorities', []);
     }
-    const educationalProgram = form.getValues('educationalProgram');
-    if (form.getValues('degree') === EducationalDegree.MASTER) {
+    if (degree === EducationalDegree.MASTER) {
       if (educationalProgram) {
         form.setValue(
           'specialty',
@@ -97,10 +108,10 @@ export const DocumentsForm = () => {
 
       form.setValue('priorities', []);
     }
-    if (form.getValues('fundingSource') === FundingSource.BUDGET) {
+    if (fundingSource === FundingSource.BUDGET) {
       form.setValue('paymentType', null);
     }
-    if (form.getValues('degree') === EducationalDegree.BACHELOR) {
+    if (degree === EducationalDegree.BACHELOR) {
       form.setValue('educationalProgram', null);
       form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
@@ -202,7 +213,7 @@ export const DocumentsForm = () => {
             </FormItem>
           )}
         />
-        {form.getValues('fundingSource') === FundingSource.CONTRACT && (
+        {fundingSource === FundingSource.CONTRACT && (
           <FormField
             control={form.control}
             name='paymentType'
@@ -240,7 +251,7 @@ export const DocumentsForm = () => {
             )}
           />
         )}
-        {form.getValues('degree') === EducationalDegree.MASTER && (
+        {degree === EducationalDegree.MASTER && (
           <>
             <FormField
               control={form.control}
@@ -276,7 +287,7 @@ export const DocumentsForm = () => {
                 </FormItem>
               )}
             />
-            {form.getValues('programType') && (
+            {programType && (
               <FormField
                 control={form.control}
                 name='educationalProgram'
@@ -289,8 +300,7 @@ export const DocumentsForm = () => {
                         defaultValue={field.value as string}
                         className='flex flex-col space-y-1'
                       >
-                        {form.getValues('programType') ===
-                          EducationalProgramType.PROFESSIONAL &&
+                        {programType === EducationalProgramType.PROFESSIONAL &&
                           Object.keys(PROFESSIONAL).map((program) => (
                             <FormItem
                               key={program}
@@ -302,8 +312,7 @@ export const DocumentsForm = () => {
                               <FormLabel>{program}</FormLabel>
                             </FormItem>
                           ))}
-                        {form.getValues('programType') ===
-                          EducationalProgramType.SCIENTIFIC &&
+                        {programType === EducationalProgramType.SCIENTIFIC &&
                           Object.keys(SCIENTIFIC).map((program) => (
                             <FormItem
                               key={program}
@@ -324,7 +333,7 @@ export const DocumentsForm = () => {
             )}
           </>
         )}
-        {form.getValues('degree') !== EducationalDegree.MASTER && (
+        {degree !== EducationalDegree.MASTER && (
           <FormField
             control={form.control}
             name='specialty'
@@ -366,14 +375,12 @@ export const DocumentsForm = () => {
             )}
           />
         )}
-        {form.getValues('specialty') === '121' &&
-          form.getValues('degree') !== EducationalDegree.MASTER && (
-            <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
-          )}
-        {form.getValues('specialty') === '126' &&
-          form.getValues('degree') !== EducationalDegree.MASTER && (
-            <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
-          )}
+        {specialty === '121' && degree !== EducationalDegree.MASTER && (
+          <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
+        )}
+        {specialty === '126' && degree !== EducationalDegree.MASTER && (
+          <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
+        )}
         <Button type='submit' className='w-full md:w-[185px]'>
           Надіслати договір
         </Button>

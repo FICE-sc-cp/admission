@@ -4,13 +4,14 @@ import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
 import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
 import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
+import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
 
 export const prioritySchema = z.object(
   {
     number: z.number({
       required_error: "Обов'язкове поле",
     }),
-    program: z.string({
+    program: z.nativeEnum(EducationProgram, {
       required_error: "Обов'язкове поле",
     }),
   },

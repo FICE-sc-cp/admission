@@ -1,8 +1,5 @@
 import React, { FC, useEffect, useState } from 'react';
-import {
-  DocumentsApiBody,
-  State,
-} from '@/app/api/documents/documents-api.types';
+import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,15 +21,7 @@ import {
 } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import {
-  PROFESSIONAL,
-  SCIENTIFIC,
-} from '@/lib/constants/documents-educational-programs';
-import { Separator } from '@/components/ui/separator';
-import {
-  IPeduPrograms,
-  ISTeduPrograms,
-} from '@/lib/constants/priority-select-values';
+
 import DocumentsApi from '@/app/api/documents/documents-api';
 import useAuth from '@/lib/hooks/useAuth';
 import { downloadFile } from '@/lib/utils/downloadFile';
@@ -42,9 +31,19 @@ import {
 } from '@/lib/schemas/documents.schemas';
 import { DeletePopup } from './DeletePopup';
 import PriorityForm from '@/components/pages/entrant/documents/components/PriorityForm';
-import priorityForm from '@/components/pages/entrant/documents/components/PriorityForm';
+import {
+  IPeduPrograms,
+  ISTeduPrograms,
+  PROFESSIONAL,
+  SCIENTIFIC,
+} from '@/lib/constants/educational-programs';
+import { Separator } from '@/components/ui/separator';
+import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
+import { DocumentState } from '$/utils/src/enums/DocumentStateEnum';
+import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
+import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
+import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
 import { isUniquePriorities } from '@/lib/utils/isUnique';
-import { useToast } from '@/components/ui/toast/use-toast';
 import { useRouter } from 'next/navigation';
 import { TPriorities } from '@/lib/types/documents.types';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
@@ -133,14 +132,13 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
     if (form.getValues('specialty') === '123') {
       form.setValue('priorities', []);
     }
-    if (form.getValues('degree') === 'MASTER') {
-      //@ts-ignore
-      if (form.getValues('educationalProgram')) {
-        //@ts-ignore
+    const educationalProgram = form.getValues('educationalProgram');
+
+    if (form.getValues('degree') === EducationalDegree.MASTER) {
+      if (educationalProgram) {
         form.setValue(
           'specialty',
-          //@ts-ignore
-          form.getValues('educationalProgram').split(' ')[0]
+          educationalProgram.split(' ')[0] as '121' | '123' | '126'
         );
       }
 
@@ -151,7 +149,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
     }
     if (form.getValues('degree') === 'BACHELOR') {
       form.setValue('educationalProgram', null);
-      form.setValue('programType', 'PROFESSIONAL');
+      form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
   }, [form.getValues()]);
 
@@ -232,8 +230,12 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value='BACHELOR'>Бакалавр</SelectItem>
-                    <SelectItem value='MASTER'>Магістр</SelectItem>
+                    <SelectItem value={EducationalDegree.BACHELOR}>
+                      Бакалавр
+                    </SelectItem>
+                    <SelectItem value={EducationalDegree.MASTER}>
+                      Магістр
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -253,8 +255,10 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value='BUDGET'>Бюджет</SelectItem>
-                    <SelectItem value='CONTRACT'>Контракт</SelectItem>
+                    <SelectItem value={FundingSource.BUDGET}>Бюджет</SelectItem>
+                    <SelectItem value={FundingSource.CONTRACT}>
+                      Контракт
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -274,15 +278,15 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value='FULL_TIME'>Денна</SelectItem>
-                    <SelectItem value='PART_TIME'>Заочна</SelectItem>
+                    <SelectItem value={StudyForm.FULL_TIME}>Денна</SelectItem>
+                    <SelectItem value={StudyForm.PART_TIME}>Заочна</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
               </FormItem>
             )}
           />
-          {form.getValues('fundingSource') === 'CONTRACT' && (
+          {form.getValues('fundingSource') === FundingSource.CONTRACT && (
             <FormField
               control={form.control}
               name='paymentType'
@@ -301,7 +305,9 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                     <SelectContent>
                       <SelectItem value='QUARTERLY'>Щоквартально</SelectItem>
                       <SelectItem value='SEMESTERLY'>Щосеместрово</SelectItem>
-                      <SelectItem value='MONTHLY'>Щомісячно</SelectItem>
+                      {form.getValues('studyForm') !== StudyForm.PART_TIME && (
+                        <SelectItem value='MONTHLY'>Щомісячно</SelectItem>
+                      )}
                     </SelectContent>
                   </Select>
                   <FormMessage />
@@ -309,7 +315,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               )}
             />
           )}
-          {form.getValues('degree') !== 'MASTER' && (
+          {form.getValues('degree') !== EducationalDegree.MASTER && (
             <>
               <FormField
                 control={form.control}
@@ -346,7 +352,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
             </>
           )}
           {form.getValues('specialty') === '123' &&
-            form.getValues('degree') !== 'MASTER' && (
+            form.getValues('degree') !== EducationalDegree.MASTER && (
               <FormField
                 control={form.control}
                 name='priorityDate'
@@ -368,16 +374,16 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               />
             )}
           {form.getValues('specialty') === '121' &&
-            form.getValues('degree') !== 'MASTER' && (
+            form.getValues('degree') !== EducationalDegree.MASTER && (
               //@ts-ignore
               <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
             )}
           {form.getValues('specialty') === '126' &&
-            form.getValues('degree') !== 'MASTER' && (
+            form.getValues('degree') !== EducationalDegree.MASTER && (
               //@ts-ignore
               <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
             )}
-          {form.getValues('degree') === 'MASTER' && (
+          {form.getValues('degree') === EducationalDegree.MASTER && (
             <>
               <FormField
                 control={form.control}
@@ -397,10 +403,16 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            <SelectItem value='PROFESSIONAL'>
+                            <SelectItem
+                              value={EducationalProgramType.PROFESSIONAL}
+                            >
                               Професійна
                             </SelectItem>
-                            <SelectItem value='SCIENTIFIC'>Наукова</SelectItem>
+                            <SelectItem
+                              value={EducationalProgramType.SCIENTIFIC}
+                            >
+                              Наукова
+                            </SelectItem>
                           </SelectContent>
                         </FormItem>
                       </Select>
@@ -419,7 +431,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                       <FormControl>
                         <Select
                           onValueChange={field.onChange}
-                          value={field.value as string}
+                          value={field.value ?? ''}
                         >
                           <FormItem className='flex items-center space-x-3 space-y-0'>
                             <FormControl>
@@ -429,14 +441,15 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                             </FormControl>
                             <SelectContent>
                               {form.getValues('programType') ===
-                                'PROFESSIONAL' &&
-                                PROFESSIONAL.map((program) => (
+                                EducationalProgramType.PROFESSIONAL &&
+                                Object.keys(PROFESSIONAL).map((program) => (
                                   <SelectItem key={program} value={program}>
                                     {program}
                                   </SelectItem>
                                 ))}
-                              {form.getValues('programType') === 'SCIENTIFIC' &&
-                                SCIENTIFIC.map((program) => (
+                              {form.getValues('programType') ===
+                                EducationalProgramType.SCIENTIFIC &&
+                                Object.keys(SCIENTIFIC).map((program) => (
                                   <SelectItem key={program} value={program}>
                                     {program}
                                   </SelectItem>
@@ -457,14 +470,14 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               className='w-[360px]'
               type='button'
               onClick={downloadDocuments}
-              disabled={data.state !== State.APPROVED}
+              disabled={data.state !== DocumentState.APPROVED}
             >
               Завантажити
             </Button>
             <Button
               type='submit'
               className='w-[360px]'
-              disabled={data.state === State.APPROVED}
+              disabled={data.state === DocumentState.APPROVED}
             >
               Схвалити
             </Button>

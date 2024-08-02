@@ -8,6 +8,8 @@ import useAuth from '@/lib/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import SubmitPopup from './SubmitPopup';
 import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
+import { FundingSourceLabels } from '@/lib/constants/fundingSourceLabels';
+import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { useToast } from '@/components/ui/toast/use-toast';
 
 const SubmitPage: FC = () => {
@@ -19,6 +21,7 @@ const SubmitPage: FC = () => {
     customerData,
     setActiveStep,
     activeStep,
+    isContract,
   } = usePersonalDataContext();
 
   const [showPopup, setShowPopup] = useState(false);
@@ -27,65 +30,18 @@ const SubmitPage: FC = () => {
   const { push } = useRouter();
 
   const onSubmit = async () => {
+    if (entrantData?.submission_in_corpus) {
+      setShowPopup(true);
+    }
     try {
       await PersonalDataApi.updatePersonalData(
         {
-          email: user?.email || '',
-          firstName: user?.firstName || '',
-          middleName: user?.middleName || '',
-          lastName: user?.lastName || '',
-          role: user?.role || '',
-          entrantData: {
-            passportDate: entrantData?.passportDate || '',
-            passportInstitute: entrantData?.passportInstitute || '',
-            email: entrantData?.email || '',
-            idCode: entrantData?.idCode || '',
-            address: entrantData?.address || '',
-            passportNumber: entrantData?.passportNumber || '',
-            index: entrantData?.index || '',
-            passportSeries: entrantData?.passportSeries || '',
-            phoneNumber: entrantData?.phoneNumber || '',
-            region: entrantData?.region || '',
-            settlement: entrantData?.settlement || '',
-          },
-          customerData: customerData
-            ? {
-                passportDate: customerData?.passportDate || '',
-                passportInstitute: customerData?.passportInstitute || '',
-                email: customerData?.email || '',
-                idCode: customerData?.idCode || '',
-                address: customerData?.address || '',
-                passportNumber: customerData?.passportNumber || '',
-                index: customerData?.index || '',
-                passportSeries: customerData?.passportSeries || '',
-                phoneNumber: customerData?.phoneNumber || '',
-                region: customerData?.region || '',
-                settlement: customerData?.settlement || '',
-                firstName: customerData?.firstName || '',
-                middleName: customerData?.middleName || '',
-                lastName: customerData?.lastName || '',
-              }
-            : null,
-          representativeData: representativeData
-            ? {
-                passportDate: representativeData?.passportDate || '',
-                passportInstitute: representativeData?.passportInstitute || '',
-                email: representativeData?.email || '',
-                idCode: representativeData?.idCode || '',
-                address: representativeData?.address || '',
-                passportNumber: representativeData?.passportNumber || '',
-                index: representativeData?.index || '',
-                passportSeries: representativeData?.passportSeries || '',
-                phoneNumber: representativeData?.phoneNumber || '',
-                region: representativeData?.region || '',
-                settlement: representativeData?.settlement || '',
-                firstName: representativeData?.firstName || '',
-                middleName: representativeData?.middleName || '',
-                lastName: representativeData?.lastName || '',
-              }
-            : null,
+          ...user!,
+          entrantData,
+          customerData,
+          representativeData,
         },
-        user?.id || ''
+        user!.id
       );
       toast({
         title: 'Особисті дані оновлено!',
@@ -122,7 +78,12 @@ const SubmitPage: FC = () => {
           </div>
           <div className='flex flex-col gap-[5px]'>
             <p className='text-base'>
-              Форма навчання: {entrantData.study_form}
+              Форма навчання:{' '}
+              {
+                FundingSourceLabels[
+                  isContract ? FundingSource.CONTRACT : FundingSource.CONTRACT
+                ]
+              }
             </p>
             <p className='text-base'>
               Номер телефону: {entrantData.phoneNumber}

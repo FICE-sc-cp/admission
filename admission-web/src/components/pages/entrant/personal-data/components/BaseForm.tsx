@@ -18,11 +18,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { regions } from '@/lib/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
 import { UseFormReturn } from 'react-hook-form';
 import { TPersonalDataSchema } from '@/lib/schemas/personal-data.schemas';
 import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
+import { regions } from '@/lib/constants/regions';
 
 interface BaseFormProps {
   form: UseFormReturn<TPersonalDataSchema, any, undefined>;

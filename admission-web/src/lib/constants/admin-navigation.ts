@@ -1,8 +1,5 @@
-import { authApi } from '@/app/api/auth/auth-api';
-
 import {
   BetweenHorizonalStart,
-  LogOut,
   UsersIcon,
   ListOrderedIcon,
 } from 'lucide-react';

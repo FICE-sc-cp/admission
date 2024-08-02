@@ -20,17 +20,17 @@ import {
 import { Input } from '@/components/ui/input';
 
 import {
-  EducationProgramAbbreviation,
-  EducationProgramLabels,
-} from '@/lib/constants/documents-educational-programs';
-import {
   TAdminDocumentsSchema,
   TDocumentsSchema,
 } from '@/lib/schemas/documents.schemas';
-import { IPrioritySelect } from '@/lib/types/documents.types';
+import { EducationProgramAbbreviation } from '@/lib/constants/educational-programs';
+import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
 
 interface PriorityFormProps {
-  educationalPrograms: IPrioritySelect[];
+  educationalPrograms: {
+    label: string;
+    id: EducationProgram;
+  }[];
   form: UseFormReturn<TAdminDocumentsSchema | TDocumentsSchema, any, undefined>;
 }
 
@@ -51,13 +51,15 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
                 onValueChange={(value) => {
                   field.onChange({
                     number: index,
-                    //@ts-ignore
-                    program: EducationProgramLabels[value],
+                    program:
+                      EducationProgramAbbreviation[value as EducationProgram],
                   });
                 }}
                 value={
                   field.value
-                    ? EducationProgramAbbreviation[field.value.program]
+                    ? EducationProgramAbbreviation[
+                        field.value.program as EducationProgram
+                      ]
                     : field.value
                 }
               >
@@ -68,7 +70,7 @@ const PriorityForm: FC<PriorityFormProps> = ({ educationalPrograms, form }) => {
                 </FormControl>
                 <SelectContent className='w-[320px] md:w-auto'>
                   {educationalPrograms.map((priority) => (
-                    <SelectItem value={priority.label} key={priority.id}>
+                    <SelectItem value={priority.id} key={priority.id}>
                       {priority.label}
                     </SelectItem>
                   ))}

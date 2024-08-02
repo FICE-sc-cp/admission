@@ -1,8 +1,8 @@
 'use client';
+import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
 import { ColumnDef } from '@tanstack/react-table';
-import { User } from '@/app/api/admin-entrants/admin-entrants-api.types';
 
-export const EntrantsColumns: ColumnDef<User>[] = [
+export const EntrantsColumns: ColumnDef<AdminUser>[] = [
   {
     accessorKey: 'lastName',
     header: 'ПІБ',

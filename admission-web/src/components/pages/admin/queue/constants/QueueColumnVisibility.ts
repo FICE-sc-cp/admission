@@ -1,4 +1,4 @@
-export const initialColumnVisibility = {
+export const QueueInitialColumnVisibility = {
   relativePosition: true,
   lastName: true,
   firstName: true,

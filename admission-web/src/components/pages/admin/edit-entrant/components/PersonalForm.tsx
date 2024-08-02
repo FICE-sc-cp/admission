@@ -17,18 +17,18 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { regions } from '@/lib/constants/personal-data-select';
 import { UseFormReturn } from 'react-hook-form';
 import { Separator } from '@/components/ui/separator';
 import { TPersonalDataSchema } from '@/lib/schemas/personal-data.schemas';
+import { regions } from '@/lib/constants/regions';
 
-interface PersonaFormProps {
+interface PersonalFormProps {
   title: string;
   onSubmit: () => void;
   form: UseFormReturn<TPersonalDataSchema, any, undefined>;
 }
 
-export const PersonaForm: FC<PersonaFormProps> = ({
+export const PersonalForm: FC<PersonalFormProps> = ({
   title,
   onSubmit,
   form,

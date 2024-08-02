@@ -12,16 +12,9 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import {
-  IPeduPrograms,
-  ISTeduPrograms,
-} from '@/lib/constants/priority-select-values';
+
 import { getCurrentDate } from '@/lib/utils/getCurrentDate';
 import { useEffect, useState } from 'react';
-import {
-  PROFESSIONAL,
-  SCIENTIFIC,
-} from '@/lib/constants/documents-educational-programs';
 import DocumentsApi from '@/app/api/documents/documents-api';
 import useAuth from '@/lib/hooks/useAuth';
 import { useRouter } from 'next/navigation';
@@ -30,11 +23,19 @@ import {
   DocumentsSchema,
 } from '@/lib/schemas/documents.schemas';
 import PriorityForm from './PriorityForm';
-import { useToast } from '@/components/ui/toast/use-toast';
-import { isUniquePriorities } from '@/lib/utils/isUnique';
-import priorityForm from './PriorityForm';
+import {
+  PROFESSIONAL,
+  SCIENTIFIC,
+  IPeduPrograms,
+  ISTeduPrograms,
+} from '@/lib/constants/educational-programs';
+import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
+import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { TPriorities } from '@/lib/types/documents.types';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { isUniquePriorities } from '@/lib/utils/isUnique';
+import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
+import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
 
 export const DocumentsForm = () => {
   const { toastError, toastSuccess } = useCommonToast();
@@ -84,25 +85,23 @@ export const DocumentsForm = () => {
     if (form.getValues('specialty') === '123') {
       form.setValue('priorities', []);
     }
-    if (form.getValues('degree') === 'MASTER') {
-      //@ts-ignore
-      if (form.getValues('educationalProgram')) {
-        //@ts-ignore
+    const educationalProgram = form.getValues('educationalProgram');
+    if (form.getValues('degree') === EducationalDegree.MASTER) {
+      if (educationalProgram) {
         form.setValue(
           'specialty',
-          //@ts-ignore
-          form.getValues('educationalProgram').split(' ')[0] as string
+          educationalProgram.split(' ')[0] as '121' | '123' | '126'
         );
       }
 
       form.setValue('priorities', []);
     }
-    if (form.getValues('fundingSource') === 'BUDGET') {
+    if (form.getValues('fundingSource') === FundingSource.BUDGET) {
       form.setValue('paymentType', null);
     }
-    if (form.getValues('degree') === 'BACHELOR') {
+    if (form.getValues('degree') === EducationalDegree.BACHELOR) {
       form.setValue('educationalProgram', null);
-      form.setValue('programType', 'PROFESSIONAL');
+      form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
   }, [form.getValues()]);
 
@@ -126,13 +125,13 @@ export const DocumentsForm = () => {
                 >
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
-                      <RadioGroupItem value='BACHELOR' />
+                      <RadioGroupItem value={EducationalDegree.BACHELOR} />
                     </FormControl>
                     <FormLabel>Бакалавр</FormLabel>
                   </FormItem>
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
-                      <RadioGroupItem value='MASTER' />
+                      <RadioGroupItem value={EducationalDegree.MASTER} />
                     </FormControl>
                     <FormLabel>Магістр</FormLabel>
                   </FormItem>
@@ -156,13 +155,13 @@ export const DocumentsForm = () => {
                 >
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
-                      <RadioGroupItem value='BUDGET' />
+                      <RadioGroupItem value={FundingSource.BUDGET} />
                     </FormControl>
                     <FormLabel>Бюджет</FormLabel>
                   </FormItem>
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
-                      <RadioGroupItem value='CONTRACT' />
+                      <RadioGroupItem value={FundingSource.CONTRACT} />
                     </FormControl>
                     <FormLabel>Контракт</FormLabel>
                   </FormItem>
@@ -186,13 +185,13 @@ export const DocumentsForm = () => {
                 >
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
-                      <RadioGroupItem value='FULL_TIME' />
+                      <RadioGroupItem value={StudyForm.FULL_TIME} />
                     </FormControl>
                     <FormLabel>Денна</FormLabel>
                   </FormItem>
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
-                      <RadioGroupItem value='PART_TIME' />
+                      <RadioGroupItem value={StudyForm.PART_TIME} />
                     </FormControl>
                     <FormLabel>Заочна</FormLabel>
                   </FormItem>
@@ -202,7 +201,7 @@ export const DocumentsForm = () => {
             </FormItem>
           )}
         />
-        {form.getValues('fundingSource') === 'CONTRACT' && (
+        {form.getValues('fundingSource') === FundingSource.CONTRACT && (
           <FormField
             control={form.control}
             name='paymentType'
@@ -240,7 +239,7 @@ export const DocumentsForm = () => {
             )}
           />
         )}
-        {form.getValues('degree') === 'MASTER' && (
+        {form.getValues('degree') === EducationalDegree.MASTER && (
           <>
             <FormField
               control={form.control}
@@ -256,13 +255,17 @@ export const DocumentsForm = () => {
                     >
                       <FormItem className='flex items-center space-x-3 space-y-0'>
                         <FormControl>
-                          <RadioGroupItem value='PROFESSIONAL' />
+                          <RadioGroupItem
+                            value={EducationalProgramType.PROFESSIONAL}
+                          />
                         </FormControl>
                         <FormLabel>Професійна</FormLabel>
                       </FormItem>
                       <FormItem className='flex items-center space-x-3 space-y-0'>
                         <FormControl>
-                          <RadioGroupItem value='SCIENTIFIC' />
+                          <RadioGroupItem
+                            value={EducationalProgramType.SCIENTIFIC}
+                          />
                         </FormControl>
                         <FormLabel>Наукова</FormLabel>
                       </FormItem>
@@ -285,8 +288,9 @@ export const DocumentsForm = () => {
                         defaultValue={field.value as string}
                         className='flex flex-col space-y-1'
                       >
-                        {form.getValues('programType') === 'PROFESSIONAL' &&
-                          PROFESSIONAL.map((program) => (
+                        {form.getValues('programType') ===
+                          EducationalProgramType.PROFESSIONAL &&
+                          Object.keys(PROFESSIONAL).map((program) => (
                             <FormItem
                               key={program}
                               className='flex items-center space-x-3 space-y-0'
@@ -297,8 +301,9 @@ export const DocumentsForm = () => {
                               <FormLabel>{program}</FormLabel>
                             </FormItem>
                           ))}
-                        {form.getValues('programType') === 'SCIENTIFIC' &&
-                          SCIENTIFIC.map((program) => (
+                        {form.getValues('programType') ===
+                          EducationalProgramType.SCIENTIFIC &&
+                          Object.keys(SCIENTIFIC).map((program) => (
                             <FormItem
                               key={program}
                               className='flex items-center space-x-3 space-y-0'
@@ -318,7 +323,7 @@ export const DocumentsForm = () => {
             )}
           </>
         )}
-        {form.getValues('degree') !== 'MASTER' && (
+        {form.getValues('degree') !== EducationalDegree.MASTER && (
           <FormField
             control={form.control}
             name='specialty'
@@ -361,11 +366,11 @@ export const DocumentsForm = () => {
           />
         )}
         {form.getValues('specialty') === '121' &&
-          form.getValues('degree') !== 'MASTER' && (
+          form.getValues('degree') !== EducationalDegree.MASTER && (
             <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
           )}
         {form.getValues('specialty') === '126' &&
-          form.getValues('degree') !== 'MASTER' && (
+          form.getValues('degree') !== EducationalDegree.MASTER && (
             <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
           )}
         <Button type='submit' className='w-full md:w-[185px]'>

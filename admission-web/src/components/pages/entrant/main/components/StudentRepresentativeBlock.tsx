@@ -1,10 +1,10 @@
-import { Representative } from '@/app/api/personal-data/personal-data-type';
+import { PersonalData } from '@/lib/types/entrant.types';
 import { ProfileHeader } from './ProfileHeader';
 
 export function StudentRepresentativeBlock({
   representativeData,
 }: {
-  representativeData: Representative;
+  representativeData: PersonalData;
 }) {
   if (representativeData === null) {
     return <></>;

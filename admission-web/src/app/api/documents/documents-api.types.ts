@@ -1,15 +1,22 @@
 import { mimeType } from '@/lib/types/documents.types';
+import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
+import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
+import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
+import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
+import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
+import { DocumentState } from '$/utils/src/enums/DocumentStateEnum';
+import { Specialities } from '@/lib/types/specialities.types';
 
 export interface DocumentsApiBody {
-  id?: string;
-  state?: State;
-  number?: string;
-  date?: string | null;
-  degree: Degree;
+  id: string;
+  state: DocumentState;
+  number: string;
+  date: string | null;
+  degree: EducationalDegree;
   educationalProgram: string | null;
-  programType: ProgramType | null;
+  programType: EducationalProgramType | null;
   paymentType: PaymentType | null;
-  specialty: string | null;
+  specialty: Specialities | null;
   studyForm: StudyForm;
   fundingSource: FundingSource;
   priorityDate: string;
@@ -24,34 +31,4 @@ export interface DownloadDocument {
 interface Priorities {
   number: number;
   program: string;
-}
-
-enum Degree {
-  BACHELOR = 'BACHELOR',
-  MASTER = 'MASTER',
-}
-enum ProgramType {
-  PROFESSIONAL = 'PROFESSIONAL',
-  SCIENTIFIC = 'SCIENTIFIC',
-}
-
-enum PaymentType {
-  QUARTERLY = 'QUARTERLY',
-  SEMESTERLY = 'SEMESTERLY',
-  MONTHLY = 'MONTHLY',
-}
-
-enum StudyForm {
-  FULL_TIME = 'FULL_TIME',
-  PART_TIME = 'PART_TIME',
-}
-
-enum FundingSource {
-  BUDGET = 'BUDGET',
-  CONTRACT = 'CONTRACT',
-}
-
-export enum State {
-  PENDING = 'PENDING',
-  APPROVED = 'APPROVED',
 }

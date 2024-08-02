@@ -13,8 +13,8 @@ export interface PersonalData {
   passportDate: string;
   phoneNumber: string;
   idCode: string | null;
-  region: string;
-  settlement: string | null;
+  region: string | null;
+  settlement: string;
   address: string;
   index: string;
   createdAt: Date;

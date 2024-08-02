@@ -65,6 +65,14 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
     mode: 'onChange',
   });
 
+  const educationalProgram = form.watch('educationalProgram');
+  const specialty = form.watch('specialty');
+  const degree = form.watch('degree');
+  const fundingSource = form.watch('fundingSource');
+  const priorities = form.watch('priorities');
+  const programType = form.watch('programType');
+  const studyForm = form.watch('studyForm');
+
   const { user } = useAuth();
 
   const [showDeletePopup, setShowDeletePopup] = useState(false);
@@ -74,7 +82,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
   );
 
   const onSubmit = async (documents: TAdminDocumentsSchema) => {
-    setPrioritiesData(form.getValues('priorities') as TPriorities[]);
+    setPrioritiesData(priorities as TPriorities[]);
     if (!isUniquePriorities(prioritiesData as TPriorities[])) {
       if (prioritiesData) {
         for (let i = 0; i < prioritiesData.length; i++) {
@@ -130,12 +138,10 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
   };
 
   useEffect(() => {
-    if (form.getValues('specialty') === '123') {
+    if (specialty === '123') {
       form.setValue('priorities', []);
     }
-    const educationalProgram = form.getValues('educationalProgram');
-
-    if (form.getValues('degree') === EducationalDegree.MASTER) {
+    if (degree === EducationalDegree.MASTER) {
       if (educationalProgram) {
         form.setValue(
           'specialty',
@@ -145,10 +151,10 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
 
       form.setValue('priorities', []);
     }
-    if (form.getValues('fundingSource') === 'BUDGET') {
+    if (fundingSource === 'BUDGET') {
       form.setValue('paymentType', null);
     }
-    if (form.getValues('degree') === 'BACHELOR') {
+    if (degree === 'BACHELOR') {
       form.setValue('educationalProgram', null);
       form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
@@ -156,7 +162,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
 
   useEffect(() => {
     form.setValue('priorities', []);
-  }, [form.getValues('specialty')]);
+  }, [specialty]);
 
   useEffect(() => {
     if (!data.date) {
@@ -287,7 +293,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               </FormItem>
             )}
           />
-          {form.getValues('fundingSource') === FundingSource.CONTRACT && (
+          {fundingSource === FundingSource.CONTRACT && (
             <FormField
               control={form.control}
               name='paymentType'
@@ -306,7 +312,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                     <SelectContent>
                       <SelectItem value='QUARTERLY'>Щоквартально</SelectItem>
                       <SelectItem value='SEMESTERLY'>Щосеместрово</SelectItem>
-                      {form.getValues('studyForm') !== StudyForm.PART_TIME && (
+                      {studyForm !== StudyForm.PART_TIME && (
                         <SelectItem value='MONTHLY'>Щомісячно</SelectItem>
                       )}
                     </SelectContent>
@@ -316,7 +322,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               )}
             />
           )}
-          {form.getValues('degree') !== EducationalDegree.MASTER && (
+          {degree !== EducationalDegree.MASTER && (
             <>
               <FormField
                 control={form.control}
@@ -352,39 +358,36 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               <Separator className='bg-slate-300' orientation='horizontal' />
             </>
           )}
-          {form.getValues('specialty') === '123' &&
-            form.getValues('degree') !== EducationalDegree.MASTER && (
-              <FormField
-                control={form.control}
-                name='priorityDate'
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Дата заповнення</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder=''
-                        className='w-[320px] md:w-[350px]'
-                        value={field.value}
-                        disabled
-                      />
-                    </FormControl>
+          {specialty === '123' && degree !== EducationalDegree.MASTER && (
+            <FormField
+              control={form.control}
+              name='priorityDate'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Дата заповнення</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder=''
+                      className='w-[320px] md:w-[350px]'
+                      value={field.value}
+                      disabled
+                    />
+                  </FormControl>
 
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            )}
-          {form.getValues('specialty') === '121' &&
-            form.getValues('degree') !== EducationalDegree.MASTER && (
-              //@ts-ignore
-              <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
-            )}
-          {form.getValues('specialty') === '126' &&
-            form.getValues('degree') !== EducationalDegree.MASTER && (
-              //@ts-ignore
-              <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
-            )}
-          {form.getValues('degree') === EducationalDegree.MASTER && (
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
+          {specialty === '121' && degree !== EducationalDegree.MASTER && (
+            //@ts-ignore
+            <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
+          )}
+          {specialty === '126' && degree !== EducationalDegree.MASTER && (
+            //@ts-ignore
+            <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
+          )}
+          {degree === EducationalDegree.MASTER && (
             <>
               <FormField
                 control={form.control}
@@ -422,7 +425,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                   </FormItem>
                 )}
               />
-              {form.getValues('programType') && (
+              {programType && (
                 <FormField
                   control={form.control}
                   name='educationalProgram'
@@ -441,14 +444,14 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              {form.getValues('programType') ===
+                              {programType ===
                                 EducationalProgramType.PROFESSIONAL &&
                                 Object.keys(PROFESSIONAL).map((program) => (
                                   <SelectItem key={program} value={program}>
                                     {program}
                                   </SelectItem>
                                 ))}
-                              {form.getValues('programType') ===
+                              {programType ===
                                 EducationalProgramType.SCIENTIFIC &&
                                 Object.keys(SCIENTIFIC).map((program) => (
                                   <SelectItem key={program} value={program}>

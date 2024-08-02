@@ -14,17 +14,18 @@ import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { convertToPersonalData } from '../utils/convertToPersonalData';
 
 const CustomerPage: FC = () => {
-  const { customerData, setCustomerData, activeStep, setActiveStep } =
+  const { customerData, setCustomerData, setActiveStep } =
     usePersonalDataContext();
 
   const { toastSuccess } = useCommonToast();
 
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
-    defaultValues: customerData !== null ? customerData : {},
+    defaultValues: {
+      ...(customerData ?? {}),
+    },
     mode: 'onChange',
   });
-  const [adminCode, setAdminCode] = useState('');
 
   const onSubmit = (data: TPersonalDataSchema) => {
     const personalData = convertToPersonalData(data);

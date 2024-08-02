@@ -6,6 +6,7 @@ import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramType
 import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { DocumentState } from '$/utils/src/enums/DocumentStateEnum';
 import { Specialities } from '@/lib/types/specialities.types';
+import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
 
 export interface DocumentsApiBody {
   id: string;
@@ -30,5 +31,5 @@ export interface DownloadDocument {
 
 interface Priorities {
   number: number;
-  program: string;
+  program: EducationProgram;
 }

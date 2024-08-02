@@ -53,9 +53,13 @@ const EntrantForm: FC = () => {
   const [adminCode, setAdminCode] = useState('');
   const form = useForm<TEntrantSchema>({
     resolver: zodResolver(EntrantSchema),
-    defaultValues: entrantData !== null ? entrantData : {},
+    defaultValues: {
+      ...(entrantData ?? {}),
+    },
     mode: 'onChange',
   });
+  const isOldPassport = form.watch('oldPassportTemplate');
+  const region = form.watch('region');
 
   const { user } = useAuth();
 
@@ -69,7 +73,7 @@ const EntrantForm: FC = () => {
     const personalData = convertToEntrantData(data);
     setEntrantData(personalData);
     toastSuccess('Дані вступника збережено!');
-    setActiveStep((prevState) => 2);
+    setActiveStep(() => 2);
   };
 
   return (
@@ -101,13 +105,13 @@ const EntrantForm: FC = () => {
                     defaultValue={FundingSource.BUDGET}
                     className='flex flex-col'
                   >
-                    <FormItem className='flex items-center gap-[8px] space-y-0'>
+                    <FormItem className='flex items-center gap-2 space-y-0'>
                       <FormControl>
                         <RadioGroupItem value={FundingSource.BUDGET} />
                       </FormControl>
                       <FormLabel className='text-sm'>Бюджет</FormLabel>
                     </FormItem>
-                    <FormItem className='flex items-center gap-[8px] space-y-0'>
+                    <FormItem className='flex items-center gap-2 space-y-0'>
                       <FormControl>
                         <RadioGroupItem value={FundingSource.CONTRACT} />
                       </FormControl>
@@ -120,18 +124,16 @@ const EntrantForm: FC = () => {
             )}
           />
           <div className='flex flex-col gap-[10px]'>
-            <div className='flex flex-row items-center gap-[8px] space-y-0'>
+            <div className='flex flex-row items-center gap-2 space-y-0'>
               <Checkbox
                 checked={isAdult}
-                onCheckedChange={(value) => {
-                  setIsAdult(!!value);
-                }}
+                onCheckedChange={(value) => setIsAdult(!!value)}
               />
               <FormLabel className='text-sm'>Є 18 років</FormLabel>
             </div>
 
             {isContract && (
-              <div className='flex flex-row items-center gap-[8px] space-y-0'>
+              <div className='flex flex-row items-center gap-2 space-y-0'>
                 <Checkbox
                   checked={isAnotherPayer}
                   onCheckedChange={(value) => {
@@ -147,7 +149,7 @@ const EntrantForm: FC = () => {
               control={form.control}
               name='submission_in_corpus'
               render={({ field }) => (
-                <FormItem className='flex flex-row items-center gap-[8px] space-y-0'>
+                <FormItem className='flex flex-row items-center gap-2 space-y-0'>
                   <FormControl>
                     <Checkbox
                       checked={field.value}
@@ -188,7 +190,7 @@ const EntrantForm: FC = () => {
           />
           <div className='flex flex-col gap-3'>
             <div className='flex flex-row gap-3'>
-              {form.getValues('oldPassportTemplate') && (
+              {isOldPassport && (
                 <FormField
                   control={form.control}
                   name='passportSeries'
@@ -218,7 +220,7 @@ const EntrantForm: FC = () => {
                     <FormControl>
                       <Input
                         placeholder='Номер паспорту'
-                        className={`${form.getValues('oldPassportTemplate') ? 'w-[200px] md:w-[240px]' : 'w-[320px] md:w-[360px]'} `}
+                        className={`${isOldPassport ? 'w-[200px] md:w-[240px]' : 'w-[320px] md:w-[360px]'} `}
                         {...field}
                       />
                     </FormControl>
@@ -321,7 +323,7 @@ const EntrantForm: FC = () => {
                 <FormLabel>Регіон</FormLabel>
                 <Select
                   onValueChange={field.onChange}
-                  defaultValue={field.value}
+                  defaultValue={field.value ?? ''}
                 >
                   <FormControl>
                     <SelectTrigger className='w-[320px] md:w-[360px]'>
@@ -340,24 +342,26 @@ const EntrantForm: FC = () => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name='settlement'
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Населений пункт</FormLabel>
-                <FormControl>
-                  <Input
-                    placeholder='м. Київ'
-                    className='w-[320px] md:w-[360px]'
-                    value={field.value ?? ''}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          {region !== 'м. Київ' && (
+            <FormField
+              control={form.control}
+              name='settlement'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Населений пункт</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='м. Київ'
+                      className='w-[320px] md:w-[360px]'
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          )}
           <FormField
             control={form.control}
             name='address'

@@ -33,6 +33,9 @@ export const PersonalForm: FC<PersonalFormProps> = ({
   onSubmit,
   form,
 }) => {
+  const isOldPassport = form.watch('oldPassportTemplate');
+  const region = form.watch('region');
+
   return (
     <div className='flex flex-col gap-3'>
       <p className='text-xl font-semibold'>{title}</p>
@@ -153,7 +156,7 @@ export const PersonalForm: FC<PersonalFormProps> = ({
             </div>
             <div className='flex flex-col gap-3'>
               <div className='flex flex-row gap-3'>
-                {form.getValues('oldPassportTemplate') && (
+                {isOldPassport && (
                   <FormField
                     control={form.control}
                     name='passportSeries'
@@ -183,7 +186,11 @@ export const PersonalForm: FC<PersonalFormProps> = ({
                       <FormControl>
                         <Input
                           placeholder='Номер паспорту'
-                          className={`${form.getValues('oldPassportTemplate') ? 'w-[200px] md:w-[230px]' : 'w-[320px] md:w-[350px]'} `}
+                          className={
+                            isOldPassport
+                              ? 'w-[200px] md:w-[230px]'
+                              : 'w-[320px] md:w-[350px]'
+                          }
                           {...field}
                         />
                       </FormControl>
@@ -286,11 +293,10 @@ export const PersonalForm: FC<PersonalFormProps> = ({
                   <FormLabel>Регіон</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    // defaultValue={field.value}
-                    value={field.value}
+                    defaultValue={field.value ?? ''}
                   >
                     <FormControl>
-                      <SelectTrigger className='w-[320px] md:w-[350px]'>
+                      <SelectTrigger className='w-[320px] md:w-[360px]'>
                         <SelectValue placeholder='Вибери зі списку' />
                       </SelectTrigger>
                     </FormControl>
@@ -306,24 +312,26 @@ export const PersonalForm: FC<PersonalFormProps> = ({
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name='settlement'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Населений пункт</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='м. Київ'
-                      className='w-[320px] md:w-[350px]'
-                      value={field.value as string}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {region !== 'м. Київ' && (
+              <FormField
+                control={form.control}
+                name='settlement'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Населений пункт</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='м. Київ'
+                        className='w-[320px] md:w-[360px]'
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
             <FormField
               control={form.control}
               name='address'

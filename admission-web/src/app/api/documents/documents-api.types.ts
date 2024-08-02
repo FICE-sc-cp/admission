@@ -10,7 +10,7 @@ import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
 
 export interface DocumentsApiBody {
   id: string;
-  state: DocumentState;
+  priorityState: DocumentState;
   number: string;
   date: string | null;
   degree: EducationalDegree;

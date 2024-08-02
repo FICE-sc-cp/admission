@@ -65,13 +65,13 @@ export const PersonalForm: FC<PersonalFormProps> = ({
               />
               <FormField
                 control={form.control}
-                name='firstName'
+                name='lastName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Ім’я</FormLabel>
+                    <FormLabel>Прізвище</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Ім’я'
+                        placeholder='Прізвище'
                         className='w-[320px] md:w-[350px]'
                         {...field}
                       />
@@ -82,13 +82,13 @@ export const PersonalForm: FC<PersonalFormProps> = ({
               />
               <FormField
                 control={form.control}
-                name='lastName'
+                name='firstName'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Прізвище</FormLabel>
+                    <FormLabel>Ім’я</FormLabel>
                     <FormControl>
                       <Input
-                        placeholder='Прізвище'
+                        placeholder='Ім’я'
                         className='w-[320px] md:w-[350px]'
                         {...field}
                       />

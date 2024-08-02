@@ -1,8 +1,5 @@
 'use client';
-
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-
+import React, { FC, useState } from 'react';
 import {
   Form,
   FormControl,
@@ -12,12 +9,8 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { Checkbox } from '@/components/ui/checkbox';
-import { FC, useEffect, useState } from 'react';
-import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
-import { Separator } from '@/components/ui/separator';
 import { Input } from '@/components/ui/input';
+import { Checkbox } from '@/components/ui/checkbox';
 import {
   Select,
   SelectContent,
@@ -27,145 +20,110 @@ import {
 } from '@/components/ui/select';
 import { regions } from '@/lib/constants/personal-data-select';
 import { Button } from '@/components/ui/button';
-import useAuth from '@/lib/hooks/useAuth';
-import {
-  TEntrantSchema,
-  EntrantSchema,
-} from '@/lib/schemas/personal-data.schemas';
-import { useToast } from '@/components/ui/toast/use-toast';
-import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { UseFormReturn } from 'react-hook-form';
+import { TPersonalDataSchema } from '@/lib/schemas/personal-data.schemas';
+import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
 
-const EntrantForm: FC = () => {
-  const [isContract, setIsContract] = useState(true);
-  const { toastSuccess } = useCommonToast();
-  const {
-    isAdult,
-    isAnotherPayer,
-    setIsAdult,
-    setIsAnotherPayer,
-    setEntrantData,
-    entrantData,
-    setActiveStep,
-  } = usePersonalDataContext();
+interface BaseFormProps {
+  form: UseFormReturn<TPersonalDataSchema, any, undefined>;
+  onSubmit: (data: TPersonalDataSchema) => void;
+}
 
+export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
   const [adminCode, setAdminCode] = useState('');
-  const form = useForm<TEntrantSchema>({
-    resolver: zodResolver(EntrantSchema),
-    //@ts-ignore
-    defaultValues: entrantData !== null ? entrantData : {},
-  });
-
-  const { user } = useAuth();
-
-  useEffect(() => {
-    if (user) {
-      form.setValue('email', user.email);
-    }
-  }, [user]);
-
-  const onSubmit = (data: TEntrantSchema) => {
-    setEntrantData(data);
-    toastSuccess('Дані вступника збережено!');
-    setActiveStep((prevState) => 2);
-  };
-
+  const { activeStep, setActiveStep } = usePersonalDataContext();
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className='mx-auto flex w-full max-w-[360px] flex-col items-center md:items-start'
+        className='mx-auto flex w-full max-w-[360px] flex-col items-center gap-6 md:items-start'
       >
-        <div className='flex flex-col items-start gap-[24px]'>
-          <FormField
-            control={form.control}
-            name='study_form'
-            render={({ field }) => (
-              <FormItem className='space-y-3'>
-                <FormLabel className='text-base'>
-                  Вступаю на форму навчання
-                </FormLabel>
-                <FormControl>
-                  <RadioGroup
-                    onValueChange={(value) => {
-                      field.onChange(value);
-                      if (value === 'Бюджет') {
-                        setIsContract(false);
-                        setIsAnotherPayer(false);
-                      } else {
-                        setIsContract(true);
-                      }
-                    }}
-                    defaultValue='Контракт'
-                    className='flex flex-col'
-                  >
-                    <FormItem className='flex items-center gap-[8px] space-y-0'>
-                      <FormControl>
-                        <RadioGroupItem value='Бюджет' />
-                      </FormControl>
-                      <FormLabel className='text-sm'>Бюджет</FormLabel>
-                    </FormItem>
-                    <FormItem className='flex items-center gap-[8px] space-y-0'>
-                      <FormControl>
-                        <RadioGroupItem value='Контракт' />
-                      </FormControl>
-                      <FormLabel className='text-sm'>Контракт</FormLabel>
-                    </FormItem>
-                  </RadioGroup>
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <div className='flex flex-col gap-[10px]'>
-            <div className='flex flex-row items-center gap-[8px] space-y-0'>
-              <Checkbox
-                checked={isAdult}
-                onCheckedChange={(value) => {
-                  setIsAdult(!!value);
-                }}
-              />
-              <FormLabel className='text-sm'>Є 18 років</FormLabel>
-            </div>
-
-            {isContract && (
-              <div className='flex flex-row items-center gap-[8px] space-y-0'>
-                <Checkbox
-                  checked={isAnotherPayer}
-                  onCheckedChange={(value) => {
-                    setIsAnotherPayer(!!value);
-                  }}
-                />
-                <FormLabel className='max-w-[327px] text-sm'>
-                  Інший платник
-                </FormLabel>
-              </div>
-            )}
+        <div className='flex flex-col items-center gap-4 md:items-start'>
+          <div className='flex flex-col gap-2'>
             <FormField
               control={form.control}
-              name='submission_in_corpus'
+              name='email'
               render={({ field }) => (
-                <FormItem className='flex flex-row items-center gap-[8px] space-y-0'>
+                <FormItem>
+                  <FormLabel>Пошта</FormLabel>
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                    <Input
+                      placeholder='example@example.com'
+                      className='w-[320px] md:w-[360px]'
+                      {...field}
                     />
                   </FormControl>
-                  <FormLabel className='text-sm'>
-                    Подача документів в корпусі
-                  </FormLabel>
                   <FormMessage />
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name='firstName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Ім’я</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='Ім’я'
+                      className='w-[320px] md:w-[360px]'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='lastName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Прізвище</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder='Прізвище'
+                      className='w-[320px] md:w-[360px]'
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name='middleName'
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>По батькові</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={field.value === null}
+                      placeholder='По батькові'
+                      className='w-[320px] md:w-[360px]'
+                      value={field.value === null ? '' : field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  <div className='flex flex-row items-center gap-2'>
+                    <Checkbox
+                      checked={field.value === null}
+                      onCheckedChange={() =>
+                        field.onChange({
+                          target: { value: field.value !== null ? null : '' },
+                        })
+                      }
+                    />
+                    <label className='text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70'>
+                      Немає по батькові
+                    </label>
+                  </div>
+                </FormItem>
+              )}
+            />
           </div>
-          <Separator
-            className='w-[360px] bg-slate-300'
-            orientation='horizontal'
-          />
-        </div>
-
-        <div className='mt-6 flex flex-col items-center gap-4 md:items-start'>
           <FormField
             control={form.control}
             name='phoneNumber'
@@ -196,7 +154,7 @@ const EntrantForm: FC = () => {
                         <Input
                           placeholder='Серія'
                           className={'w-[120px]'}
-                          value={field.value ?? ''}
+                          value={field.value as string}
                           onChange={field.onChange}
                         />
                       </FormControl>
@@ -390,7 +348,7 @@ const EntrantForm: FC = () => {
             )}
           />
           <FormItem className='flex flex-col items-center md:items-start'>
-            <FormLabel className='text-start'>Код адміністратора</FormLabel>
+            <FormLabel>Код адміністратора</FormLabel>
             <Input
               placeholder=''
               className='w-[320px] md:w-[360px]'
@@ -401,24 +359,34 @@ const EntrantForm: FC = () => {
               Якщо ви ввели всі дані правильно, але система видає помилку,
               підійдіть до волонтера для перевірки
             </FormDescription>
-            <FormMessage className='text-center' />
+            <FormMessage />
           </FormItem>
         </div>
-        <Button
-          className='mt-7 w-full'
-          onClick={() => {
-            if (adminCode === '000') {
-              onSubmit(form.getValues());
-            } else {
-              form.handleSubmit(onSubmit);
-            }
-          }}
-        >
-          Далі
-        </Button>
+        <div className='flex gap-4'>
+          <Button
+            className='w-[160px] md:w-[180px]'
+            onClick={() => {
+              if (adminCode === '000') {
+                onSubmit(form.getValues());
+                setAdminCode('');
+              } else {
+                form.handleSubmit(onSubmit);
+              }
+            }}
+          >
+            Далі
+          </Button>
+          <Button
+            className='w-[160px] md:w-[180px]'
+            onClick={() => {
+              setActiveStep((prevState) => activeStep - 1);
+            }}
+            variant='outline'
+          >
+            Назад
+          </Button>
+        </div>
       </form>
     </Form>
   );
 };
-
-export default EntrantForm;

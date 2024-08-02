@@ -1,6 +1,9 @@
 import { z } from 'zod';
 import { dateRegex, kirillicRegex, ukRegex } from '@/lib/constants/regex';
-import { transformApostrophe, transformNullableApostrophe } from '@/lib/utils/transformApostrophe';
+import {
+  transformApostrophe,
+  transformNullableApostrophe,
+} from '@/lib/utils/transformApostrophe';
 import {
   emailSchema,
   firstNameSchema,
@@ -47,7 +50,7 @@ export const settlementSchema = z
   .string({ required_error: "Обов'язкове поле" })
   .nullable()
   .refine((value) => value === null || ukRegex.test(value), {
-    message: 'Має містити українські літери, апостроф або дефіс'
+    message: 'Має містити українські літери, апостроф або дефіс',
   })
   .transform(transformNullableApostrophe)
   .default(null);
@@ -85,58 +88,60 @@ export const commonSchema = {
   settlement: settlementSchema,
   address: addressSchema,
   index: indexSchema,
-}
+};
 
 export const commonEntrantSchema = {
   ...commonSchema,
   study_type: z.nativeEnum(FundingSource).default(FundingSource.BUDGET),
   study_form: z.nativeEnum(StudyForm).default(StudyForm.FULL_TIME),
   submission_in_corpus: z.boolean().default(false),
-}
+};
 
-export const oldPassportTemplate = z
-  .object({
-    ...commonEntrantSchema,
-    passportNumber: oldPassportNumberTemplate,
-    passportInstitute: z.string({ required_error: "Обов'язкове поле" }),
-    oldPassportTemplate: z.literal(true),
-  })
+export const oldPassportTemplate = z.object({
+  ...commonEntrantSchema,
+  passportNumber: oldPassportNumberTemplate,
+  passportInstitute: z.string({ required_error: "Обов'язкове поле" }),
+  oldPassportTemplate: z.literal(true),
+});
 
-export const newPassportTemplate = z
-  .object({
-    ...commonEntrantSchema,
-    passportNumber: newPassportNumberTemplate,
-    passportInstitute: newPassportInstituteSchema,
-    oldPassportTemplate: z.literal(false),
-  })
+export const newPassportTemplate = z.object({
+  ...commonEntrantSchema,
+  passportNumber: newPassportNumberTemplate,
+  passportInstitute: newPassportInstituteSchema,
+  oldPassportTemplate: z.literal(false),
+});
 
-export const EntrantSchema = z.discriminatedUnion('oldPassportTemplate', [oldPassportTemplate, newPassportTemplate]);
+export const EntrantSchema = z.discriminatedUnion('oldPassportTemplate', [
+  oldPassportTemplate,
+  newPassportTemplate,
+]);
 
 export const commonPersonalDataSchema = {
   ...commonSchema,
   firstName: firstNameSchema,
   lastName: lastNameSchema,
   middleName: middleNameSchema,
-}
+};
 
-export const oldPassportPersonalTemplate = z
-  .object({
-    ...commonPersonalDataSchema,
-    passportNumber: oldPassportNumberTemplate,
-    passportInstitute: z.string({ required_error: "Обов'язкове поле" }),
-    oldPassportTemplate: z.literal(true),
-  });
+export const oldPassportPersonalTemplate = z.object({
+  ...commonPersonalDataSchema,
+  passportNumber: oldPassportNumberTemplate,
+  passportInstitute: z.string({ required_error: "Обов'язкове поле" }),
+  oldPassportTemplate: z.literal(true),
+});
 
-export const newPassportPersonalTemplate = z
-  .object({
-    ...commonPersonalDataSchema,
-    passportNumber: newPassportNumberTemplate,
-    passportInstitute: newPassportInstituteSchema,
-    oldPassportTemplate: z.literal(false),
-  });
+export const newPassportPersonalTemplate = z.object({
+  ...commonPersonalDataSchema,
+  passportNumber: newPassportNumberTemplate,
+  passportInstitute: newPassportInstituteSchema,
+  oldPassportTemplate: z.literal(false),
+});
 
 // personal data schema for both representative and customer
-export const PersonalDataSchema = z.discriminatedUnion('oldPassportTemplate', [oldPassportPersonalTemplate, newPassportPersonalTemplate]);
+export const PersonalDataSchema = z.discriminatedUnion('oldPassportTemplate', [
+  oldPassportPersonalTemplate,
+  newPassportPersonalTemplate,
+]);
 
 export type TEntrantSchema = z.infer<typeof EntrantSchema>;
 export type TPersonalDataSchema = z.infer<typeof PersonalDataSchema>;

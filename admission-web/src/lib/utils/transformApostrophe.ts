@@ -3,7 +3,9 @@ export function transformApostrophe(input: string): string {
   return input.replace(regex, '`');
 }
 
-export function transformNullableApostrophe(input: string | null): string | null {
+export function transformNullableApostrophe(
+  input: string | null
+): string | null {
   const regex = /['’]/g;
   return input ? input.replace(regex, '`') : null;
 }

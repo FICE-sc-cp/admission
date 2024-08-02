@@ -5,7 +5,7 @@ import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { AdminEntrantDataTable } from '@/components/pages/admin/entrants/components/EntrantsDataTable';
 import { EntrantsColumns } from '@/components/pages/admin/entrants/components/EntrantsColumns';
 import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
-import {Loader} from "@/components/common/components/Loader";
+import { Loader } from '@/components/common/components/Loader';
 
 export default function AdminEntrantsPage() {
   const [data, setData] = useState<AdminUser[]>([]);

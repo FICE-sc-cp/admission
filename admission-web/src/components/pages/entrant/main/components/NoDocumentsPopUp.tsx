@@ -8,6 +8,11 @@ import useAuth from '@/lib/hooks/useAuth';
 import { ProfileHeader } from './ProfileHeader';
 import { educationalDegreeLabels } from '@/lib/constants/educationalDegreeLabels';
 import { studyFormLabels } from '@/lib/constants/studyFormLabels';
+import {
+  FundingSourceLabels,
+  PaymentTypeLabels,
+} from '@/lib/constants/fundingSourceLabels';
+import { EducationProgramAbbreviation } from '@/lib/constants/educational-programs';
 
 export function NoDocumentsPopUp({
   contracts,
@@ -60,10 +65,32 @@ export function NoDocumentsPopUp({
               </h6>
               <h6>Спеціальність: {contract.specialty}</h6>
               <h6>Форма навчання: {studyFormLabels[contract.studyForm]}</h6>
-              <h2 className='font-medium'>Пріоритети освітніх програм</h2>
+              <h6>
+                Джерело фінансування:{' '}
+                {contract.fundingSource === 'BUDGET'
+                  ? FundingSourceLabels[contract.fundingSource]
+                  : `${FundingSourceLabels[contract.fundingSource] || ''}${
+                      contract.paymentType != null
+                        ? `(${PaymentTypeLabels[contract.paymentType] || ''})`
+                        : ''
+                    }`}
+              </h6>
+              <h2 className='font-medium'>
+                {contracts.some(
+                  (contract) =>
+                    contract.specialty === '123' ||
+                    (contract.specialty === '121' &&
+                      contract.studyForm === 'PART_TIME')
+                )
+                  ? ''
+                  : 'Пріоритети освітніх програм'}
+              </h2>
               {contract.priorities.map((priority) => (
                 <h6 key={priority.number}>
-                  {priority.number + '.' + priority.program}
+                  {priority.number +
+                    1 +
+                    '.' +
+                    EducationProgramAbbreviation[priority.program]}
                 </h6>
               ))}
             </div>

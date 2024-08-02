@@ -43,6 +43,7 @@ const Page = () => {
         ? true
         : false,
     } as TPersonalDataSchema,
+    mode: 'onChange',
   });
 
   const representativeForm = useForm<TPersonalDataSchema>({
@@ -57,6 +58,7 @@ const Page = () => {
         ? true
         : false,
     } as TPersonalDataSchema,
+    mode: 'onChange',
   });
 
   const customerForm = useForm<TPersonalDataSchema>({
@@ -71,6 +73,7 @@ const Page = () => {
         ? true
         : false,
     } as TPersonalDataSchema,
+    mode: 'onChange',
   });
 
   async function fetchPersonalData() {

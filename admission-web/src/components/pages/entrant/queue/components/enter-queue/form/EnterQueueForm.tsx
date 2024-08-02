@@ -47,6 +47,7 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
       phone: '',
       expectedSpecialities: '',
     },
+    mode: 'onChange',
   });
 
   const onSubmit = async (data: TEnterQueueForm) => {

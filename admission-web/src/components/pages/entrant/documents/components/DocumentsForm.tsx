@@ -46,6 +46,7 @@ export const DocumentsForm = () => {
       priorityDate: getCurrentDate(),
       priorities: [],
     },
+    mode: 'onChange',
   });
 
   const [prioritiesData, setPrioritiesData] = useState<TPriorities[] | null>(

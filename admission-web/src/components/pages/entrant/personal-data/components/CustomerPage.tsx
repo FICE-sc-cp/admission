@@ -22,6 +22,7 @@ const CustomerPage: FC = () => {
   const form = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
     defaultValues: customerData !== null ? customerData : {},
+    mode: 'onChange',
   });
   const [adminCode, setAdminCode] = useState('');
 

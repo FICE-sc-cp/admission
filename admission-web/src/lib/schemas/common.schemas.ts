@@ -36,7 +36,7 @@ export const phoneNumberSchema = z
     message:
       'Будь ласка, введіть дійсний номер телефону у форматі +380 12 345 6789.',
   })
-  .transform((val) => val.replace(/[^0-9]/g, ''))
+  .transform((val) => val.replace(/[^+0-9]/g, ''))
   .refine((val) => val.length === 12, {
     message:
       'Будь ласка, введіть дійсний номер телефону у форматі +380 12 345 6789.',

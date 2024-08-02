@@ -99,7 +99,7 @@ const SubmitPage: FC = () => {
             </p>
             {entrantData.idCode && (
               <p className='text-base'>
-                Індифікаційний код: {entrantData.idCode}
+                РНОКПП: {entrantData.idCode}
               </p>
             )}
             <p className='text-base'>Регіон: {entrantData.region}</p>
@@ -142,7 +142,7 @@ const SubmitPage: FC = () => {
             </p>
             {representativeData.idCode && (
               <p className='text-base'>
-                Індифікаційний код: {representativeData.idCode}
+                РНОКПП: {representativeData.idCode}
               </p>
             )}
             <p className='text-base'>Регіон: {representativeData.region}</p>
@@ -185,7 +185,7 @@ const SubmitPage: FC = () => {
             </p>
             {customerData.idCode && (
               <p className='text-base'>
-                Індифікаційний код: {customerData.idCode}
+                РНОКПП: {customerData.idCode}
               </p>
             )}
             <p className='text-base'>Регіон: {customerData.region}</p>

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { dateRegex, kirillicRegex, ukRegex } from '@/lib/constants/regex';
-import { transformApostrophe } from '@/lib/utils/transformApostrophe';
+import { transformApostrophe, transformNullableApostrophe } from '@/lib/utils/transformApostrophe';
 import {
   emailSchema,
   firstNameSchema,
@@ -12,7 +12,7 @@ import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
 
 // common schemas for both entrant and personal data
-const passportInstituteSchema = z
+const newPassportInstituteSchema = z
   .string({ required_error: "Обов'язкове поле" })
   .regex(/^\d{4}$/, 'Орган видачі має містити 4 цифри');
 
@@ -45,8 +45,12 @@ export const regionSchema = z
 
 export const settlementSchema = z
   .string({ required_error: "Обов'язкове поле" })
-  .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-  .transform(transformApostrophe);
+  .nullable()
+  .refine((value) => value === null || ukRegex.test(value), {
+    message: 'Має містити українські літери, апостроф або дефіс'
+  })
+  .transform(transformNullableApostrophe)
+  .default(null);
 
 export const addressSchema = z
   .string({ required_error: "Обов'язкове поле" })
@@ -59,87 +63,80 @@ export const indexSchema = z
     message: 'Має містити 5 цифр',
   });
 
-// entrant schema
-export const EntrantSchema = z
+export const oldPassportNumberTemplate = z
+  .string({ required_error: "Обов'язкове поле" })
+  .refine((value) => /^[0-9]{6}$/.test(value), {
+    message: 'Має містити 6 цифр',
+  });
+
+export const newPassportNumberTemplate = z
+  .string({ required_error: "Обов'язкове поле" })
+  .refine((value) => /^[0-9]{9}$/.test(value), {
+    message: 'Має містити 9 цифр',
+  });
+
+export const commonSchema = {
+  email: emailSchema,
+  phoneNumber: phoneNumberSchema,
+  passportDate: passportDateSchema,
+  passportSeries: passportSeriesSchema,
+  idCode: idCodeSchema,
+  region: regionSchema,
+  settlement: settlementSchema,
+  address: addressSchema,
+  index: indexSchema,
+}
+
+export const commonEntrantSchema = {
+  ...commonSchema,
+  study_type: z.nativeEnum(FundingSource).default(FundingSource.BUDGET),
+  study_form: z.nativeEnum(StudyForm).default(StudyForm.FULL_TIME),
+  submission_in_corpus: z.boolean().default(false),
+}
+
+export const oldPassportTemplate = z
   .object({
-    phoneNumber: phoneNumberSchema,
-    email: emailSchema,
-    passportNumber: z.string({ required_error: "Обов'язкове поле" }),
-    passportDate: passportDateSchema,
-    passportInstitute: passportInstituteSchema,
-    passportSeries: passportSeriesSchema,
-    idCode: idCodeSchema,
-    region: regionSchema,
-    settlement: settlementSchema,
-    address: addressSchema,
-    index: indexSchema,
-    study_type: z.nativeEnum(FundingSource).default(FundingSource.BUDGET),
-    study_form: z.nativeEnum(StudyForm).default(StudyForm.FULL_TIME),
-    submission_in_corpus: z.boolean().default(false),
-    oldPassportTemplate: z.boolean().default(false),
+    ...commonEntrantSchema,
+    passportNumber: oldPassportNumberTemplate,
+    passportInstitute: z.string({ required_error: "Обов'язкове поле" }),
+    oldPassportTemplate: z.literal(true),
   })
-  .superRefine((data, ctx) => {
-    const passportNumber = data.passportNumber;
-    const oldPassportTemplate = data.oldPassportTemplate;
-    const length = passportNumber.length;
 
-    if (oldPassportTemplate && length !== 6) {
-      return ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Номер паспорту має містити 6 цифр',
-        path: ['passportNumber'],
-      });
-    } else if (!oldPassportTemplate && length !== 9) {
-      return ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Номер паспорту має містити 9 цифр',
-        path: ['passportNumber'],
-      });
-    }
+export const newPassportTemplate = z
+  .object({
+    ...commonEntrantSchema,
+    passportNumber: newPassportNumberTemplate,
+    passportInstitute: newPassportInstituteSchema,
+    oldPassportTemplate: z.literal(false),
+  })
 
-    return ctx;
+export const EntrantSchema = z.discriminatedUnion('oldPassportTemplate', [oldPassportTemplate, newPassportTemplate]);
+
+export const commonPersonalDataSchema = {
+  ...commonSchema,
+  firstName: firstNameSchema,
+  lastName: lastNameSchema,
+  middleName: middleNameSchema,
+}
+
+export const oldPassportPersonalTemplate = z
+  .object({
+    ...commonPersonalDataSchema,
+    passportNumber: oldPassportNumberTemplate,
+    passportInstitute: z.string({ required_error: "Обов'язкове поле" }),
+    oldPassportTemplate: z.literal(true),
+  });
+
+export const newPassportPersonalTemplate = z
+  .object({
+    ...commonPersonalDataSchema,
+    passportNumber: newPassportNumberTemplate,
+    passportInstitute: newPassportInstituteSchema,
+    oldPassportTemplate: z.literal(false),
   });
 
 // personal data schema for both representative and customer
-export const PersonalDataSchema = z
-  .object({
-    firstName: firstNameSchema,
-    lastName: lastNameSchema,
-    middleName: middleNameSchema,
-    email: emailSchema,
-    phoneNumber: phoneNumberSchema,
-    passportNumber: z.string({ required_error: "Обов'язкове поле" }),
-    passportDate: passportDateSchema,
-    passportInstitute: passportInstituteSchema,
-    passportSeries: passportSeriesSchema,
-    idCode: idCodeSchema,
-    region: regionSchema,
-    settlement: settlementSchema,
-    address: addressSchema,
-    index: indexSchema,
-    oldPassportTemplate: z.boolean().default(false),
-  })
-  .superRefine((data, ctx) => {
-    const passportNumber = data.passportNumber;
-    const oldPassportTemplate = data.oldPassportTemplate;
-    const length = passportNumber.length;
-
-    if (oldPassportTemplate && length !== 6) {
-      return ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Номер паспорту має містити 6 цифр',
-        path: ['passportNumber'],
-      });
-    } else if (!oldPassportTemplate && length !== 9) {
-      return ctx.addIssue({
-        code: z.ZodIssueCode.custom,
-        message: 'Номер паспорту має містити 9 цифр',
-        path: ['passportNumber'],
-      });
-    }
-
-    return ctx;
-  });
+export const PersonalDataSchema = z.discriminatedUnion('oldPassportTemplate', [oldPassportPersonalTemplate, newPassportPersonalTemplate]);
 
 export type TEntrantSchema = z.infer<typeof EntrantSchema>;
 export type TPersonalDataSchema = z.infer<typeof PersonalDataSchema>;

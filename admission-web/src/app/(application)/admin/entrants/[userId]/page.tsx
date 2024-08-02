@@ -50,11 +50,11 @@ const Page = () => {
     resolver: zodResolver(PersonalDataSchema),
     values: {
       ...personalData?.representativeData,
-      firstName: personalData?.representativeData.firstName as string,
-      lastName: personalData?.representativeData.lastName as string,
-      middleName: personalData?.representativeData.middleName || null,
-      idCode: personalData?.representativeData.idCode || null,
-      oldPassportTemplate: personalData?.representativeData.passportSeries
+      firstName: personalData?.representativeData?.firstName as string,
+      lastName: personalData?.representativeData?.lastName as string,
+      middleName: personalData?.representativeData?.middleName || null,
+      idCode: personalData?.representativeData?.idCode || null,
+      oldPassportTemplate: personalData?.representativeData?.passportSeries
         ? true
         : false,
     } as TPersonalDataSchema,
@@ -65,11 +65,11 @@ const Page = () => {
     resolver: zodResolver(PersonalDataSchema),
     values: {
       ...personalData?.customerData,
-      firstName: personalData?.customerData.firstName as string,
-      lastName: personalData?.customerData.lastName as string,
-      middleName: personalData?.customerData.middleName || null,
-      idCode: personalData?.customerData.idCode || null,
-      oldPassportTemplate: personalData?.customerData.passportSeries
+      firstName: personalData?.customerData?.firstName as string,
+      lastName: personalData?.customerData?.lastName as string,
+      middleName: personalData?.customerData?.middleName || null,
+      idCode: personalData?.customerData?.idCode || null,
+      oldPassportTemplate: personalData?.customerData?.passportSeries
         ? true
         : false,
     } as TPersonalDataSchema,

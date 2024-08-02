@@ -75,7 +75,7 @@ export const DocumentsForm = () => {
         for (let i = 0; i < prioritiesData.length; i++) {
           form.setError(`priorities.${i}`, {
             type: 'required',
-            message: 'Приорітети мають бути унікальними!',
+            message: 'Пріоритети мають бути унікальними!',
           });
         }
       }

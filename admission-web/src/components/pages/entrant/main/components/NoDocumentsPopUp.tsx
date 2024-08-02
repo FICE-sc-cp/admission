@@ -35,35 +35,42 @@ export function NoDocumentsPopUp({
   };
 
   return contracts.length > 0 ? (
-    contracts.map((contract: DocumentsApiBody) => (
-      <div key={contract.number} className='m-5 flex flex-col'>
-        <ProfileHeader className='mb-3' label='Заповнені договори' />
-        <div className='flex w-auto flex-col rounded-lg bg-violet-100 p-5'>
-          <div className='flex flex-col-reverse border-b border-violet-600 sm:flex-row sm:justify-between'>
-            <h2 className='m-2 ml-0 whitespace-nowrap text-xl font-normal'>
-              Договір № {contract.number}
-            </h2>
-            <Button
-              className='mb-2 w-fit'
-              onClick={() => downloadDocument(contract)}
-            >
-              Завантажити
-            </Button>
-          </div>
-          <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
-            <h6>Освітній рівень: {educationalDegreeLabels[contract.degree]}</h6>
-            <h6>Спеціальність: {contract.specialty}</h6>
-            <h6>Форма навчання: {studyFormLabels[contract.studyForm]}</h6>
-            <h2 className='font-medium'>Пріоритети освітніх програм</h2>
-            {contract.priorities.map((priority) => (
-              <h6 key={priority.number}>
-                {priority.number + '.' + priority.program}
+    <>
+      <ProfileHeader className='mb-3' label='Заповнені договори' />
+      {contracts.map((contract: DocumentsApiBody) => (
+        <div key={contract.number} className='m-5 flex flex-col'>
+          <div className='flex w-auto flex-col rounded-lg bg-violet-100 p-5'>
+            <div className='flex flex-col-reverse border-b border-violet-600 sm:flex-row sm:justify-between'>
+              <h2 className='m-2 ml-0 whitespace-nowrap text-xl font-normal'>
+                Договір{' '}
+                {contract.number
+                  ? `№ ${contract.number}`
+                  : '(не зареєстровано)'}
+              </h2>
+              <Button
+                className='mb-2 w-fit'
+                onClick={() => downloadDocument(contract)}
+              >
+                Завантажити
+              </Button>
+            </div>
+            <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
+              <h6>
+                Освітній рівень: {educationalDegreeLabels[contract.degree]}
               </h6>
-            ))}
+              <h6>Спеціальність: {contract.specialty}</h6>
+              <h6>Форма навчання: {studyFormLabels[contract.studyForm]}</h6>
+              <h2 className='font-medium'>Пріоритети освітніх програм</h2>
+              {contract.priorities.map((priority) => (
+                <h6 key={priority.number}>
+                  {priority.number + '.' + priority.program}
+                </h6>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
-    ))
+      ))}
+    </>
   ) : (
     <div className='m-5 flex flex-col'>
       <ProfileHeader label='Заповнені договори' />

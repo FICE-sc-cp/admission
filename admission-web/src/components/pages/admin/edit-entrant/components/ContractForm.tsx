@@ -82,9 +82,9 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
   );
 
   const onSubmit = async (documents: TAdminDocumentsSchema) => {
-    setPrioritiesData(priorities as TPriorities[]);
-    if (!isUniquePriorities(prioritiesData as TPriorities[])) {
-      if (prioritiesData) {
+    if (prioritiesData) {
+      setPrioritiesData(priorities as TPriorities[]);
+      if (!isUniquePriorities(prioritiesData as TPriorities[])) {
         for (let i = 0; i < prioritiesData.length; i++) {
           form.setError(`priorities.${i}`, {
             type: 'required',
@@ -97,11 +97,11 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
     } else {
       try {
         await DocumentsApi.updateDocument(
-          { state: 'APPROVED', ...documents } as DocumentsApiBody,
+          documents as DocumentsApiBody,
           data.id as string
         );
-        toastSuccess(`Договір ${number} підтверджено!`);
-        push(`/admin/entrants/${user?.id as string}`);
+        toastSuccess(`Зміни збережено!`);
+        location.reload();
       } catch {
         toastError('Щось пішло не так!');
       }
@@ -113,7 +113,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
       await DocumentsApi.deleteDocument(data.id as string);
       toastSuccess(`Договір №${number} видалено!`);
       setShowDeletePopup(false);
-      push(`/admin/entrants/${user?.id as string}`);
+      location.reload();
     } catch {
       toastError('Щось пішло не так!');
     }
@@ -134,6 +134,19 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
       const res = await DocumentsApi.downloadPriority(data.id as string);
 
       downloadFile(res.data, user, data, 'Приорітети');
+    }
+  };
+
+  const approvePriority = async () => {
+    try {
+      await DocumentsApi.updateDocument(
+        { priorityState: 'APPROVED' } as DocumentsApiBody,
+        data.id as string
+      );
+      toastSuccess(`Пріоритети договору №${number} підтверджено!`);
+      location.reload();
+    } catch {
+      toastError('Щось пішло не так!');
     }
   };
 
@@ -158,17 +171,11 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
       form.setValue('educationalProgram', null);
       form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
-  }, [form.formState.isSubmitting]);
+  }, [degree, fundingSource, educationalProgram, specialty]);
 
   useEffect(() => {
     form.setValue('priorities', []);
   }, [specialty]);
-
-  useEffect(() => {
-    if (!data.date) {
-      form.setValue('date', getCurrentDate());
-    }
-  }, []);
 
   return (
     <div className='flex flex-col gap-6'>
@@ -197,7 +204,8 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                   <Input
                     placeholder=''
                     className='w-[320px] md:w-[350px]'
-                    {...field}
+                    value={field.value as string}
+                    onChange={field.onChange}
                   />
                 </FormControl>
 
@@ -213,10 +221,10 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                 <FormLabel>Дата реєстрації договору</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder=''
+                    placeholder='01.08.2024'
                     className='w-[320px] md:w-[350px]'
-                    value={field.value}
-                    disabled
+                    value={field.value as string}
+                    onChange={field.onChange}
                   />
                 </FormControl>
 
@@ -444,14 +452,14 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                             <SelectContent>
                               {programType ===
                                 EducationalProgramType.PROFESSIONAL &&
-                                Object.keys(PROFESSIONAL).map((program) => (
+                                PROFESSIONAL.map((program) => (
                                   <SelectItem key={program} value={program}>
                                     {program}
                                   </SelectItem>
                                 ))}
                               {programType ===
                                 EducationalProgramType.SCIENTIFIC &&
-                                Object.keys(SCIENTIFIC).map((program) => (
+                                SCIENTIFIC.map((program) => (
                                   <SelectItem key={program} value={program}>
                                     {program}
                                   </SelectItem>
@@ -469,23 +477,30 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
           )}
           <div className='flex flex-col gap-3'>
             <Button
-              className='w-[360px]'
+              className='w-[350px]'
               type='button'
               onClick={downloadDocuments}
-              disabled={data.state !== DocumentState.APPROVED}
             >
               Завантажити
             </Button>
             <Button
-              type='submit'
-              className='w-[360px]'
-              disabled={data.state === DocumentState.APPROVED}
+              onClick={approvePriority}
+              type='button'
+              className={`w-[350px] ${
+                data.priorityState === DocumentState.APPROVED ||
+                !data.priorities
+                  ? 'hidden'
+                  : ''
+              } `}
             >
-              Схвалити
+              Схвалити пріоритети
+            </Button>
+            <Button type='submit' className='w-[350px]'>
+              Зберегти зміни
             </Button>
             <Button
               type='button'
-              className='w-[360px]'
+              className='w-[350px]'
               variant='outline'
               onClick={() => setShowDeletePopup(true)}
             >

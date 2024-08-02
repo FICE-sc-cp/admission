@@ -5,6 +5,7 @@ import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
 import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
 import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
+import { dateRegex } from '@/lib/constants/regex';
 
 export const prioritySchema = z.object(
   {
@@ -46,7 +47,9 @@ export const DocumentsSchema = z.object({
     })
     .max(3, "Обов'язкове поле")
     .nullable(),
-  priorityDate: z.string().readonly(),
+  priorityDate: z
+    .string({ required_error: "Обов'язкове поле" })
+    .regex(dateRegex),
   programType: z
     .nativeEnum(EducationalProgramType, {
       required_error: "Обов'язкове поле",
@@ -60,8 +63,15 @@ export const DocumentsSchema = z.object({
 });
 
 export const AdminDocumentsSchema = DocumentsSchema.extend({
-  date: z.string({ required_error: "Обов'язкове поле" }).readonly(),
-  number: z.string({ required_error: "Обов'язкове поле" }),
+  date: z
+    .string({ required_error: "Обов'язкове поле" })
+    .regex(dateRegex)
+    .optional()
+    .nullable(),
+  number: z
+    .string({ required_error: "Обов'язкове поле" })
+    .optional()
+    .nullable(),
 });
 
 export type TAdminDocumentsSchema = z.infer<typeof AdminDocumentsSchema>;

@@ -33,6 +33,7 @@ const Page = () => {
 
   const entrantForm = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
+    defaultValues: {},
     values: {
       ...personalData?.entrantData,
       firstName: personalData?.firstName as string,
@@ -112,38 +113,38 @@ const Page = () => {
           },
           customerData: customerData
             ? {
-                passportDate: customerData?.passportDate || '',
-                passportInstitute: customerData?.passportInstitute || '',
-                email: customerData?.email || '',
-                idCode: customerData?.idCode || '',
-                address: customerData?.address || '',
-                passportNumber: customerData?.passportNumber || '',
-                index: customerData?.index || '',
-                passportSeries: customerData?.passportSeries || '',
-                phoneNumber: customerData?.phoneNumber || '',
-                region: customerData?.region || '',
-                settlement: customerData?.settlement || '',
-                firstName: customerData?.firstName || '',
-                middleName: customerData?.middleName || '',
-                lastName: customerData?.lastName || '',
+                passportDate: customerData?.passportDate,
+                passportInstitute: customerData?.passportInstitute,
+                email: customerData?.email,
+                idCode: customerData?.idCode,
+                address: customerData?.address,
+                passportNumber: customerData?.passportNumber,
+                index: customerData?.index,
+                passportSeries: customerData?.passportSeries,
+                phoneNumber: customerData?.phoneNumber,
+                region: customerData?.region,
+                settlement: customerData?.settlement,
+                firstName: customerData?.firstName,
+                middleName: customerData?.middleName,
+                lastName: customerData?.lastName,
               }
             : null,
           representativeData: representativeData
             ? {
-                passportDate: representativeData?.passportDate || '',
-                passportInstitute: representativeData?.passportInstitute || '',
-                email: representativeData?.email || '',
-                idCode: representativeData?.idCode || '',
-                address: representativeData?.address || '',
-                passportNumber: representativeData?.passportNumber || '',
-                index: representativeData?.index || '',
-                passportSeries: representativeData?.passportSeries || '',
-                phoneNumber: representativeData?.phoneNumber || '',
-                region: representativeData?.region || '',
-                settlement: representativeData?.settlement || '',
-                firstName: representativeData?.firstName || '',
-                middleName: representativeData?.middleName || '',
-                lastName: representativeData?.lastName || '',
+                passportDate: representativeData?.passportDate,
+                passportInstitute: representativeData?.passportInstitute,
+                email: representativeData?.email,
+                idCode: representativeData?.idCode,
+                address: representativeData?.address,
+                passportNumber: representativeData?.passportNumber,
+                index: representativeData?.index,
+                passportSeries: representativeData?.passportSeries,
+                phoneNumber: representativeData?.phoneNumber,
+                region: representativeData?.region,
+                settlement: representativeData?.settlement,
+                firstName: representativeData?.firstName,
+                middleName: representativeData?.middleName,
+                lastName: representativeData?.lastName,
               }
             : null,
         } as PersonalDataBody,
@@ -177,7 +178,7 @@ const Page = () => {
             {personalData?.lastName} {personalData?.middleName}{' '}
             {personalData?.firstName}
           </p>
-          <p className='text-sm'>{personalData?.expectedSpecialities}</p>
+          <p className='text-sm'> </p>
         </div>
 
         <div className='flex flex-row gap-3'>

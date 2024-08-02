@@ -36,6 +36,7 @@ import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { isUniquePriorities } from '@/lib/utils/isUnique';
 import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
+import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
 
 export const DocumentsForm = () => {
   const { toastError, toastSuccess } = useCommonToast();
@@ -85,7 +86,7 @@ export const DocumentsForm = () => {
           ...data,
           userId: user!.id,
           priorities: data.priorities,
-        });
+        } as DocumentsApiBody);
         push('/');
         toastSuccess('Договір успішно створений!');
       } catch {

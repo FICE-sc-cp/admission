@@ -38,8 +38,8 @@ const Page = () => {
       ...personalData?.entrantData,
       firstName: personalData?.firstName as string,
       lastName: personalData?.lastName as string,
-      middleName: personalData?.middleName || null,
-      idCode: personalData?.entrantData.idCode || null,
+      middleName: personalData?.middleName || '',
+      idCode: personalData?.entrantData.idCode || '',
       oldPassportTemplate: personalData?.entrantData.passportSeries
         ? true
         : false,
@@ -53,8 +53,8 @@ const Page = () => {
       ...personalData?.representativeData,
       firstName: personalData?.representativeData?.firstName as string,
       lastName: personalData?.representativeData?.lastName as string,
-      middleName: personalData?.representativeData?.middleName || null,
-      idCode: personalData?.representativeData?.idCode || null,
+      middleName: personalData?.representativeData?.middleName || '',
+      idCode: personalData?.representativeData?.idCode || '',
       oldPassportTemplate: personalData?.representativeData?.passportSeries
         ? true
         : false,
@@ -68,8 +68,8 @@ const Page = () => {
       ...personalData?.customerData,
       firstName: personalData?.customerData?.firstName as string,
       lastName: personalData?.customerData?.lastName as string,
-      middleName: personalData?.customerData?.middleName || null,
-      idCode: personalData?.customerData?.idCode || null,
+      middleName: personalData?.customerData?.middleName || '',
+      idCode: personalData?.customerData?.idCode || '',
       oldPassportTemplate: personalData?.customerData?.passportSeries
         ? true
         : false,

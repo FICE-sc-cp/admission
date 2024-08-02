@@ -3,7 +3,6 @@ import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
 import { useForm } from 'react-hook-form';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { getCurrentDate } from '@/lib/utils/getCurrentDate';
 import {
   Form,
   FormControl,
@@ -26,8 +25,8 @@ import DocumentsApi from '@/app/api/documents/documents-api';
 import useAuth from '@/lib/hooks/useAuth';
 import { downloadFile } from '@/lib/utils/downloadFile';
 import {
-  TAdminDocumentsSchema,
   AdminDocumentsSchema,
+  TAdminDocumentsSchema,
 } from '@/lib/schemas/documents.schemas';
 import { DeletePopup } from './DeletePopup';
 import PriorityForm from '@/components/pages/entrant/documents/components/PriorityForm';
@@ -206,6 +205,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                     className='w-[320px] md:w-[350px]'
                     value={field.value as string}
                     onChange={field.onChange}
+                    disabled={data.state === DocumentState.APPROVED}
                   />
                 </FormControl>
 
@@ -225,6 +225,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                     className='w-[320px] md:w-[350px]'
                     value={field.value as string}
                     onChange={field.onChange}
+                    disabled={data.state === DocumentState.APPROVED}
                   />
                 </FormControl>
 
@@ -238,7 +239,11 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Освітній рівень(бакалавр/магістр)</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={data.state === DocumentState.APPROVED}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder='Вибери зі списку' />
@@ -263,7 +268,11 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Джелело фінансування</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={data.state === DocumentState.APPROVED}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder='Вибери зі списку' />
@@ -286,7 +295,11 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Форма навчання (денна/заочна)</FormLabel>
-                <Select onValueChange={field.onChange} value={field.value}>
+                <Select
+                  onValueChange={field.onChange}
+                  value={field.value}
+                  disabled={data.state === DocumentState.APPROVED}
+                >
                   <FormControl>
                     <SelectTrigger>
                       <SelectValue placeholder='Вибери зі списку' />
@@ -311,6 +324,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                   <Select
                     onValueChange={field.onChange}
                     value={field.value as string}
+                    disabled={data.state === DocumentState.APPROVED}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -341,6 +355,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                     <Select
                       onValueChange={field.onChange}
                       value={field.value as string}
+                      disabled={data.state === DocumentState.APPROVED}
                     >
                       <FormControl>
                         <SelectTrigger>
@@ -366,32 +381,21 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               <Separator className='bg-slate-300' orientation='horizontal' />
             </>
           )}
-          {specialty === '123' && degree !== EducationalDegree.MASTER && (
-            <FormField
-              control={form.control}
-              name='priorityDate'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Дата заповнення</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder=''
-                      className='w-[320px] md:w-[350px]'
-                      value={field.value}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
           {specialty === '121' && degree !== EducationalDegree.MASTER && (
             //@ts-ignore
-            <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
+            <PriorityForm
+              priorityState={data.priorityState}
+              educationalPrograms={IPeduPrograms}
+              form={form}
+            />
           )}
           {specialty === '126' && degree !== EducationalDegree.MASTER && (
             //@ts-ignore
-            <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
+            <PriorityForm
+              priorityState={data.priorityState}
+              educationalPrograms={ISTeduPrograms}
+              form={form}
+            />
           )}
           {degree === EducationalDegree.MASTER && (
             <>
@@ -405,6 +409,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                       <Select
                         onValueChange={field.onChange}
                         value={field.value as string}
+                        disabled={data.state === DocumentState.APPROVED}
                       >
                         <FormItem className='flex items-center space-x-3 space-y-0'>
                           <FormControl>
@@ -442,6 +447,7 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
                         <Select
                           onValueChange={field.onChange}
                           value={field.value ?? ''}
+                          disabled={data.state === DocumentState.APPROVED}
                         >
                           <FormItem className='flex items-center space-x-3 space-y-0'>
                             <FormControl>
@@ -488,7 +494,8 @@ export const ContractForm: FC<ContractFormProps> = ({ data, number }) => {
               type='button'
               className={`w-[350px] ${
                 data.priorityState === DocumentState.APPROVED ||
-                !data.priorities
+                !data.priorities ||
+                data.specialty === '123'
                   ? 'hidden'
                   : ''
               } `}

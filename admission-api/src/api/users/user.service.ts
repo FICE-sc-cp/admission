@@ -39,7 +39,15 @@ export class UserService {
   }
 
   getAll (query: GetUsersQuery) {
-    return this.userRepo.findMany({}, query.take, query.skip);
+    return this.userRepo.findMany({}, query.take, query.skip, [{
+      role: 'desc',
+    }, {
+      lastName: 'asc',
+    }, {
+      firstName: 'asc',
+    }, {
+      middleName: 'asc',
+    }]);
   }
 
   deleteById (id: string) {

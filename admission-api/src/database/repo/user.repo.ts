@@ -31,12 +31,13 @@ export class UserRepo {
     });
   }
 
-  async findMany (where: Prisma.UserWhereInput, take?: number, skip?: number): Promise<UserDto[]> {
+  async findMany (where: Prisma.UserWhereInput, take?: number, skip?: number, sort?: Prisma.UserOrderByWithRelationInput[]): Promise<UserDto[]> {
     return this.prisma.user.findMany({
       where,
       include: this.include,
       take,
       skip,
+      orderBy: sort,
     });
   }
 

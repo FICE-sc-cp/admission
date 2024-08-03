@@ -78,4 +78,5 @@ jobs:
       - name: Build and push app Docker image
         uses: docker/build-push-action@v2
         with:
-          tags: fictadvisor/admission-api
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/admission-api:latest

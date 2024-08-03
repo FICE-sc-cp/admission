@@ -132,7 +132,7 @@ export function AdminEntrantDataTable({
                   </TableCell>
                   <TableCell>
                     <Link href={`/admin/entrants/${row.original.id}`}>
-                      <Button>На сторінку вступника</Button>
+                      <Button>Відкрити</Button>
                     </Link>
                   </TableCell>
                 </TableRow>

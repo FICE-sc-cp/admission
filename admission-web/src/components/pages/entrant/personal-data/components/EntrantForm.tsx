@@ -98,7 +98,7 @@ const EntrantForm: FC = () => {
                   <RadioGroup
                     onValueChange={(value) => {
                       field.onChange(value);
-                      if (value === 'Бюджет') {
+                      if (value === FundingSource.BUDGET) {
                         setIsContract(false);
                         setIsAnotherPayer(false);
                       } else {

@@ -82,7 +82,7 @@ const SubmitPage: FC = () => {
               Форма навчання:{' '}
               {
                 FundingSourceLabels[
-                  isContract ? FundingSource.CONTRACT : FundingSource.CONTRACT
+                  isContract ? FundingSource.CONTRACT : FundingSource.BUDGET
                 ]
               }
             </p>

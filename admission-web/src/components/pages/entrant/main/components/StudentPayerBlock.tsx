@@ -22,14 +22,16 @@ export function StudentPayerBlock({ payerData }: { payerData: PersonalData }) {
             <h6>Номер паспорту: {payerData.passportNumber}</h6>
             <h6>Дата видачі: {payerData.passportDate}</h6>
             <h6>Орган видачі: {payerData.passportInstitute}</h6>
-            <h6>Ідентифікаційний код: {payerData.idCode}</h6>
+            <h6>РНОКПП: {payerData.idCode}</h6>
             <h6>
               Місце реєстрації:{' '}
               {payerData.region +
-                ',' +
+                ', ' +
                 payerData.settlement +
-                ',' +
-                payerData.address}
+                ', ' +
+                payerData.address +
+                ', ' +
+                payerData.index}
             </h6>
           </div>
         </div>

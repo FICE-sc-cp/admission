@@ -24,7 +24,7 @@ export const EnterQueue: FC<EnteredQueueProps> = ({ userId, setData }) => {
   useEffect(() => {
     if (location) {
       const distance = vincentyDistance(location);
-      if (distance < 2000) {
+      if (distance < 2) {
         setIsNearby(true);
       } else {
         push('/queue/error?type=' + QueueErorr.NOT_NEARBY);

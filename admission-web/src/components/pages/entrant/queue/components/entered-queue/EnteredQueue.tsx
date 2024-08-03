@@ -1,6 +1,8 @@
+import { Button } from '@/components/ui/button';
 import { User } from '@/lib/types/auth.types';
 import { QueueUser } from '@/lib/types/queue.types';
 import { Circle } from 'lucide-react';
+import Link from 'next/link';
 import { FC } from 'react';
 
 interface EnteredQueueProps {
@@ -55,6 +57,14 @@ export const EnteredQueue: FC<EnteredQueueProps> = ({
           </h2>
           <span className='text-5xl font-semibold text-violet-800'>{code}</span>
         </div>
+      </div>
+      <div className='flex flex-col items-center justify-center gap-2'>
+        <p className='my-2 text-center text-2xl'>
+          Ще не заповнив персональні дані?
+        </p>
+        <Link href='/personal-data'>
+          <Button variant='outline'>Заповнити дані</Button>
+        </Link>
       </div>
     </div>
   );

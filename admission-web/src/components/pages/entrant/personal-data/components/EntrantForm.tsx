@@ -297,7 +297,7 @@ const EntrantForm: FC = () => {
                   <FormControl>
                     <Input
                       disabled={field.value === null}
-                      placeholder='РНОКПП'
+                      placeholder='0000000000'
                       className='w-[320px] md:w-[360px]'
                       value={field.value === null ? '' : field.value}
                       onChange={field.onChange}

@@ -261,7 +261,7 @@ export const PersonalForm: FC<PersonalFormProps> = ({
                     <FormControl>
                       <Input
                         disabled={field.value === null}
-                        placeholder='Індифікаційний код'
+                        placeholder='0000000000'
                         className='w-[320px] md:w-[350px]'
                         value={field.value === null ? '' : field.value}
                         onChange={field.onChange}

@@ -39,8 +39,8 @@ const Page = () => {
       firstName: personalData?.firstName as string,
       lastName: personalData?.lastName as string,
       middleName: personalData?.middleName || '',
-      idCode: personalData?.entrantData.idCode || '',
-      oldPassportTemplate: personalData?.entrantData.passportSeries
+      idCode: personalData?.entrantData?.idCode || '',
+      oldPassportTemplate: personalData?.entrantData?.passportSeries
         ? true
         : false,
     } as TPersonalDataSchema,

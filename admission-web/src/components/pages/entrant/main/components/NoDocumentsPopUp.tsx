@@ -103,7 +103,6 @@ export function NoDocumentsPopUp({
               {contract.priorities.map((priority) => (
                 <h6 key={priority.number}>
                   {priority.number +
-                    1 +
                     '.' +
                     ' ' +
                     EducationProgramAbbreviation[priority.program]}

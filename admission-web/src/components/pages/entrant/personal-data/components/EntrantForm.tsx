@@ -62,6 +62,7 @@ const EntrantForm: FC = () => {
   });
   const isOldPassport = form.watch('oldPassportTemplate');
   const region = form.watch('region');
+  const study_type = form.watch('study_type');
 
   const { user } = useAuth();
 
@@ -96,7 +97,7 @@ const EntrantForm: FC = () => {
                 <FormControl>
                   <RadioGroup
                     onValueChange={(value) => {
-                      field.onChange(FundingSource.BUDGET);
+                      field.onChange(value);
                       if (value === 'Бюджет') {
                         setIsContract(false);
                         setIsAnotherPayer(false);
@@ -134,7 +135,7 @@ const EntrantForm: FC = () => {
               <FormLabel className='text-sm'>Є 18 років</FormLabel>
             </div>
 
-            {isContract && (
+            {study_type === FundingSource.CONTRACT && (
               <div className='flex flex-row items-center gap-2 space-y-0'>
                 <Checkbox
                   checked={isAnotherPayer}

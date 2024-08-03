@@ -109,7 +109,7 @@ export class DocumentService {
 
     const priorities = {};
     contract.priorities.forEach((priority) => {
-      priorities[priority.program] = priority.number;
+      priorities[priority.program] = priority.number + 1;
     });
 
     const priorityFile = this.fileService.fillTemplate(`Пріоритетка_${contract.specialty}.docx`, {

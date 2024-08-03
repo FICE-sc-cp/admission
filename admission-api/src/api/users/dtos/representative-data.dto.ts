@@ -34,8 +34,8 @@ export class RepresentativeDataDto {
   @Optional()
     idCode?: string;
 
-  @Required()
-    region: string;
+  @Optional()
+    region?: string;
 
   @Required()
     settlement: string;

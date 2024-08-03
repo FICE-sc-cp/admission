@@ -107,7 +107,7 @@ model EntrantData {
   phoneNumber       String   @map("phone_number")
   idCode            String?  @map("id_code")
   email             String
-  region            String
+  region            String?
   settlement        String
   address           String
   index             String
@@ -131,7 +131,7 @@ model RepresentativeData {
   passportDate      String   @map("passport_date")
   phoneNumber       String   @map("phone_number")
   idCode            String?  @map("id_code")
-  region            String
+  region            String?
   settlement        String
   address           String
   index             String
@@ -155,7 +155,7 @@ model CustomerData {
   passportDate      String   @map("passport_date")
   phoneNumber       String   @map("phone_number")
   idCode            String?  @map("id_code")
-  region            String
+  region            String?
   settlement        String
   address           String
   index             String

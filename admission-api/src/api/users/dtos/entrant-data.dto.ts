@@ -25,8 +25,8 @@ export class EntrantDataDto {
   @Required()
     email: string;
 
-  @Required()
-    region: string;
+  @Optional()
+    region?: string;
 
   @Required()
     settlement: string;

@@ -45,7 +45,7 @@ async function bootstrap () {
     credentials: true,
   });
 
-  await app.listen(port, () => console.info(`Server started on PORT: ${port}`));
+  await app.listen(port, '0.0.0.0', () => console.info(`Server started on PORT: ${port}`));
 }
 
 bootstrap();

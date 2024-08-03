@@ -26,14 +26,16 @@ export function StudentRepresentativeBlock({
             <h6>Номер паспорту: {representativeData.passportNumber}</h6>
             <h6>Дата видачі: {representativeData.passportDate}</h6>
             <h6>Орган видачі: {representativeData.passportInstitute}</h6>
-            <h6>Ідентифікаційний код: {representativeData.idCode}</h6>
+            <h6>РНОКПП: {representativeData.idCode}</h6>
             <h6>
               Місце реєстрації:{' '}
               {representativeData.region +
-                ',' +
+                ', ' +
                 representativeData.settlement +
-                ',' +
-                representativeData.address}
+                ', ' +
+                representativeData.address +
+                ', ' +
+                representativeData.index}
             </h6>
           </div>
         </div>

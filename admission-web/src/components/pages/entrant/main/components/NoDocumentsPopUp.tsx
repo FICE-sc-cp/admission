@@ -55,10 +55,10 @@ export function NoDocumentsPopUp({
   };
 
   return contracts.length > 0 ? (
-    <>
+    <div className='m-5 flex flex-col'>
       <ProfileHeader className='mb-3' label='Заповнені договори' />
       {contracts.map((contract: DocumentsApiBody) => (
-        <div key={contract.number} className='m-5 flex flex-col'>
+        <div key={contract.number} className='mb-5 flex flex-col'>
           <div className='flex w-auto flex-col rounded-lg bg-violet-100 p-5'>
             <div className='flex flex-col-reverse border-b border-violet-600 sm:flex-row sm:justify-between'>
               <h2 className='m-2 ml-0 whitespace-nowrap text-xl font-normal'>
@@ -93,10 +93,12 @@ export function NoDocumentsPopUp({
               <h2 className='font-medium'>
                 {contracts.some(
                   (contract) =>
-                    contract.specialty === '121' || contract.specialty === '126'
+                    (contract.specialty === '121' &&
+                      contract.studyForm === 'PART_TIME') ||
+                    contract.specialty === '123'
                 )
-                  ? 'Пріоритети освітніх програм'
-                  : ''}
+                  ? ''
+                  : 'Пріоритети освітніх програм'}
               </h2>
               {contract.priorities.map((priority) => (
                 <h6 key={priority.number}>
@@ -111,7 +113,7 @@ export function NoDocumentsPopUp({
           </div>
         </div>
       ))}
-    </>
+    </div>
   ) : (
     <div className='m-5 flex flex-col'>
       <ProfileHeader label='Заповнені договори' />

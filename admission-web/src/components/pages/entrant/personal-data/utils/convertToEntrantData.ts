@@ -13,7 +13,7 @@ export function convertToEntrantData(
     passportDate: data.passportDate,
     phoneNumber: data.phoneNumber,
     idCode: data.idCode,
-    region: region === 'м. Київ' ? null : region,
+    region: region === 'м. Київ' ? '' : region,
     settlement: region === 'м. Київ' ? region : data.settlement,
     address: data.address,
     index: data.index,

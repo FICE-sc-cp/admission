@@ -2,9 +2,9 @@ import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
 
 export const EducationProgramAbbreviation: Record<EducationProgram, string> = {
   [EducationProgram.CSSE]:
-    'Інженерія програмного забезпечення інформаційних систем',
+      "Інженерія програмного забезпечення комп'ютерних систем",
   [EducationProgram.ISSE]:
-    "Інженерія програмного забезпечення комп'ютерних систем",
+      'Інженерія програмного забезпечення інформаційних систем',
   [EducationProgram.IIS]: 'Інтегровані інформаційні системи',
   [EducationProgram.ISRS]: 'Інформаційне забезпечення робототехнічних систем',
   [EducationProgram.IMST]: 'Інформаційні управляючі системи та технології',

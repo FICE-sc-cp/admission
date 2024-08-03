@@ -8,7 +8,7 @@ import { Badge } from '@/components/ui/badge';
 
 export const EntrantsColumns: ColumnDef<AdminUser>[] = [
   {
-    accessorKey: 'fullName',
+    accessorKey: 'lastName',
     header: 'ПІБ',
     cell: ({ row }) => {
       const { lastName, firstName, middleName } = row.original;

@@ -93,7 +93,7 @@ export class DocumentService {
     const paymentFile = this.fileService.fillTemplate(`${contract.degree}_${contract.specialty}_${contract.programType}_${contract.studyForm}_${contract.paymentType}.docx`, {
       entrant: entrantData,
       representative: representativeData,
-      customer: this.formatPersonalData(user.customerData),
+      customer: user.customerData ? this.formatPersonalData(user.customerData) : user.representativeData ? representativeData : {},
     });
 
     return {

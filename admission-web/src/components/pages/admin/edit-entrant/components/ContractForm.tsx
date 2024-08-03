@@ -109,7 +109,6 @@ export const ContractForm: FC<ContractFormProps> = ({
         await DocumentsApi.updateDocument(
           {
             ...(documents as DocumentsApiBody),
-            priorities: priorities,
           },
           data.id as string
         );
@@ -204,6 +203,8 @@ export const ContractForm: FC<ContractFormProps> = ({
   useEffect(() => {
     setPrioritiesData(priorities as TPriorities[]);
   }, [priorities]);
+
+  console.log(priorities);
 
   return (
     <div className='flex flex-col gap-6'>

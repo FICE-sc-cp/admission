@@ -7,7 +7,7 @@ export function convertToPersonalData(
   const region = data.region;
   return {
     ...data,
-    region: region === 'м. Київ' ? '' : region,
+    region: region === 'м. Київ' ? ' ' : region,
     settlement: region === 'м. Київ' ? region : data.settlement,
     createdAt: new Date(),
     updatedAt: new Date(),

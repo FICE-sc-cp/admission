@@ -30,12 +30,14 @@ interface EnterQueueProps {
   userId: string;
   setIsUserAllowed: (value: boolean) => void;
   setData: (data: QueueUser | null) => void;
+  setSkipChecking: (skipChecking: boolean) => void;
 }
 
 export const EnterQueueForm: FC<EnterQueueProps> = ({
   userId,
   setIsUserAllowed,
   setData,
+  setSkipChecking,
 }) => {
   const { refresh, push, replace } = useRouter();
   const form = useForm<TEnterQueueForm>({
@@ -162,8 +164,12 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
             Увійти в чергу
           </Button>
           <Button
-            onClick={() => setIsUserAllowed(false)}
+            onClick={() => {
+              setIsUserAllowed(false);
+              setSkipChecking(false);
+            }}
             variant='outline'
+            type='button'
             className='w-full'
           >
             Скасувати

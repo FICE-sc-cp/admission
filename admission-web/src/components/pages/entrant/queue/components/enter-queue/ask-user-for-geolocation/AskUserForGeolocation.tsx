@@ -1,14 +1,27 @@
-import { FC } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { QueueErorr } from '../../../types/QueueEntrant';
+import { Input } from '@/components/ui/input';
 
 interface Props {
   setIsUserAllowed: (isUserAllowed: boolean) => void;
+  setSkipChecking: (skipChecking: boolean) => void;
 }
 
-export const AskUserForGeolocation: FC<Props> = ({ setIsUserAllowed }) => {
+export const AskUserForGeolocation: FC<Props> = ({
+  setIsUserAllowed,
+  setSkipChecking,
+}) => {
+  const [adminCode, setAdminCode] = useState('');
+
+  useEffect(() => {
+    const timer = setTimeout(() => setSkipChecking(adminCode === '000'), 300);
+
+    return () => clearTimeout(timer);
+  }, [adminCode]);
+
   return (
     <div className='flex w-full flex-col items-center gap-4 rounded-md border border-violet-300 bg-violet-50 px-6 py-5 shadow-md shadow-slate-600'>
       <h2 className='mb-2 text-center text-2xl font-semibold leading-6 text-black'>
@@ -37,6 +50,12 @@ export const AskUserForGeolocation: FC<Props> = ({ setIsUserAllowed }) => {
           Не дозволяти
         </Button>
       </Link>
+      <Input
+        placeholder='Введіть код, щоб пропустити перевірку геолокації'
+        className='w-[320px] md:w-[360px]'
+        value={adminCode}
+        onChange={(e) => setAdminCode(e.target.value)}
+      />
     </div>
   );
 };

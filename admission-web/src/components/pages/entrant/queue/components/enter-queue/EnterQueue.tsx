@@ -18,11 +18,11 @@ export const EnterQueue: FC<EnteredQueueProps> = ({ userId, setData }) => {
   const [isUserAllowed, setIsUserAllowed] = useState(false);
   const [location, setLocation] = useState<Location | null>(null);
   const [isNearby, setIsNearby] = useState(false);
-
-  const isPassed = isUserAllowed && location && isNearby;
+  const [skipChecking, setSkipChecking] = useState(false);
+  const isPassed = (isUserAllowed && location && isNearby) || skipChecking;
 
   useEffect(() => {
-    if (location) {
+    if (location && !skipChecking) {
       const distance = vincentyDistance(location);
       if (distance < 2) {
         setIsNearby(true);
@@ -30,20 +30,24 @@ export const EnterQueue: FC<EnteredQueueProps> = ({ userId, setData }) => {
         push('/queue/error?type=' + QueueErorr.NOT_NEARBY);
       }
     }
-  }, [location]);
+  }, [location, skipChecking]);
 
   return (
     <section className='flex h-full items-center justify-center p-4'>
       {!isPassed ? (
-        <AskUserForGeolocation setIsUserAllowed={setIsUserAllowed} />
+        <AskUserForGeolocation
+          setIsUserAllowed={setIsUserAllowed}
+          setSkipChecking={setSkipChecking}
+        />
       ) : (
         <EnterQueueForm
           userId={userId}
           setIsUserAllowed={setIsUserAllowed}
           setData={setData}
+          setSkipChecking={setSkipChecking}
         />
       )}
-      {isUserAllowed && (
+      {isUserAllowed && !skipChecking && (
         <CheckGeolocation location={location} setLocation={setLocation} />
       )}
     </section>

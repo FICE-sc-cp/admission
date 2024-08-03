@@ -31,7 +31,7 @@ const PersonalDataContext = createContext<ContextProps | null>(null);
 const PersonalDataContextProvider: FC<{ children: ReactNode }> = ({
   children,
 }) => {
-  const [isAdult, setIsAdult] = useState(true);
+  const [isAdult, setIsAdult] = useState(false);
   const [isAnotherPayer, setIsAnotherPayer] = useState(false);
   const [activeStep, setActiveStep] = useState(1);
   const [isContract, setIsContract] = useState(true);

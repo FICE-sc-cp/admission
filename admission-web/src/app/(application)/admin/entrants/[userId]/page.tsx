@@ -47,14 +47,14 @@ const Page = () => {
     mode: 'onChange',
   });
 
-  const representativeForm = useForm<TPersonalDataSchema>({
+  const representativeForm = useForm<TPersonalDataSchema | null>({
     resolver: zodResolver(PersonalDataSchema),
     values: {
       ...personalData?.representativeData,
       firstName: personalData?.representativeData?.firstName as string,
       lastName: personalData?.representativeData?.lastName as string,
-      middleName: personalData?.representativeData?.middleName || '',
-      idCode: personalData?.representativeData?.idCode || '',
+      middleName: personalData?.representativeData?.middleName,
+      idCode: personalData?.representativeData?.idCode,
       oldPassportTemplate: personalData?.representativeData?.passportSeries
         ? true
         : false,
@@ -62,14 +62,14 @@ const Page = () => {
     mode: 'onChange',
   });
 
-  const customerForm = useForm<TPersonalDataSchema>({
+  const customerForm = useForm<TPersonalDataSchema | null>({
     resolver: zodResolver(PersonalDataSchema),
     values: {
       ...personalData?.customerData,
       firstName: personalData?.customerData?.firstName as string,
       lastName: personalData?.customerData?.lastName as string,
-      middleName: personalData?.customerData?.middleName || '',
-      idCode: personalData?.customerData?.idCode || '',
+      middleName: personalData?.customerData?.middleName,
+      idCode: personalData?.customerData?.idCode,
       oldPassportTemplate: personalData?.customerData?.passportSeries
         ? true
         : false,
@@ -112,42 +112,38 @@ const Page = () => {
             region: entrantData?.region || '',
             settlement: entrantData?.settlement || '',
           },
-          customerData: customerData
-            ? {
-                passportDate: customerData?.passportDate,
-                passportInstitute: customerData?.passportInstitute,
-                email: customerData?.email,
-                idCode: customerData?.idCode,
-                address: customerData?.address,
-                passportNumber: customerData?.passportNumber,
-                index: customerData?.index,
-                passportSeries: customerData?.passportSeries,
-                phoneNumber: customerData?.phoneNumber,
-                region: customerData?.region,
-                settlement: customerData?.settlement,
-                firstName: customerData?.firstName,
-                middleName: customerData?.middleName,
-                lastName: customerData?.lastName,
-              }
-            : null,
-          representativeData: representativeData
-            ? {
-                passportDate: representativeData?.passportDate,
-                passportInstitute: representativeData?.passportInstitute,
-                email: representativeData?.email,
-                idCode: representativeData?.idCode,
-                address: representativeData?.address,
-                passportNumber: representativeData?.passportNumber,
-                index: representativeData?.index,
-                passportSeries: representativeData?.passportSeries,
-                phoneNumber: representativeData?.phoneNumber,
-                region: representativeData?.region,
-                settlement: representativeData?.settlement,
-                firstName: representativeData?.firstName,
-                middleName: representativeData?.middleName,
-                lastName: representativeData?.lastName,
-              }
-            : null,
+          customerData: customerData?.email && {
+            passportDate: customerData?.passportDate,
+            passportInstitute: customerData?.passportInstitute,
+            email: customerData?.email,
+            idCode: customerData?.idCode,
+            address: customerData?.address,
+            passportNumber: customerData?.passportNumber,
+            index: customerData?.index,
+            passportSeries: customerData?.passportSeries,
+            phoneNumber: customerData?.phoneNumber,
+            region: customerData?.region,
+            settlement: customerData?.settlement,
+            firstName: customerData?.firstName,
+            middleName: customerData?.middleName,
+            lastName: customerData?.lastName,
+          },
+          representativeData: representativeData?.email && {
+            passportDate: representativeData?.passportDate,
+            passportInstitute: representativeData?.passportInstitute,
+            email: representativeData?.email,
+            idCode: representativeData?.idCode,
+            address: representativeData?.address,
+            passportNumber: representativeData?.passportNumber,
+            index: representativeData?.index,
+            passportSeries: representativeData?.passportSeries,
+            phoneNumber: representativeData?.phoneNumber,
+            region: representativeData?.region,
+            settlement: representativeData?.settlement,
+            firstName: representativeData?.firstName,
+            middleName: representativeData?.middleName,
+            lastName: representativeData?.lastName,
+          },
         } as PersonalDataBody,
         personalData?.id as string
       );

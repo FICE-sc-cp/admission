@@ -47,7 +47,7 @@ const Page = () => {
     mode: 'onChange',
   });
 
-  const representativeForm = useForm<TPersonalDataSchema | null>({
+  const representativeForm = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
     values: {
       ...personalData?.representativeData,
@@ -62,7 +62,7 @@ const Page = () => {
     mode: 'onChange',
   });
 
-  const customerForm = useForm<TPersonalDataSchema | null>({
+  const customerForm = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
     values: {
       ...personalData?.customerData,

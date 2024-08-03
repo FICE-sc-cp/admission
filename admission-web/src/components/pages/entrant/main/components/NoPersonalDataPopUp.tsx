@@ -18,9 +18,12 @@ export function NoPersonalDataPopUp() {
         <CardContent className='text-center text-xl font-normal sm:text-2xl'>
           Заповніть особисті дані для відображення їх в профілі
         </CardContent>
-        <CardFooter>
-          <Button asChild>
+        <CardFooter className='flex-col gap-3'>
+          <Button asChild variant='outline'>
             <Link href='/personal-data'>Заповнити особисті дані</Link>
+          </Button>
+          <Button asChild>
+            <Link href='/queue'>Відразу увійти в чергу</Link>
           </Button>
         </CardFooter>
       </Card>

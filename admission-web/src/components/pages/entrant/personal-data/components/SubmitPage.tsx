@@ -122,8 +122,8 @@ const SubmitPage: FC = () => {
           </div>
           <div className='flex flex-col gap-[5px]'>
             <p className='text-base'>
-              ПІБ: {representativeData.lastName} {representativeData.firstName}{' '}
-              {representativeData?.middleName}
+              ПІБ:{' '}
+              {`${representativeData.lastName} ${representativeData.firstName} ${representativeData.middleName ?? ''}`}
             </p>
             <p className='text-base'>
               Номер телефону: {representativeData.phoneNumber}
@@ -163,8 +163,8 @@ const SubmitPage: FC = () => {
           </div>
           <div className='flex flex-col gap-[5px]'>
             <p className='text-base'>
-              ПІБ: {customerData.lastName} {customerData.firstName}{' '}
-              {customerData?.middleName}
+              ПІБ:{' '}
+              {`${customerData.lastName} ${customerData.firstName} ${customerData.middleName ?? ''}`}
             </p>
             <p className='text-base'>
               Номер телефону: {customerData.phoneNumber}
@@ -205,7 +205,7 @@ const SubmitPage: FC = () => {
           Схвалити
         </Button>
         <Button
-          onClick={() => setActiveStep((prevState) => activeStep - 1)}
+          onClick={() => setActiveStep(() => activeStep - 1)}
           variant='outline'
           className='w-[160px]'
         >

@@ -46,11 +46,7 @@ export function StudentPersonalDataBlock({ userId }: { userId: string }) {
           <ProfileHeader className='mb-3' label='Особисті дані' />
           <div className='sm:rounded-sm sm:bg-gray-50 sm:p-5 sm:shadow-lg'>
             <h2 className='text-xl font-normal'>
-              {userData.lastName +
-                ' ' +
-                userData.firstName +
-                ' ' +
-                userData.middleName}
+              {`${userData.lastName} ${userData.firstName} ${userData.middleName ?? ''}`}
             </h2>
             <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
               <h6>Номер телефону: {userData.entrantData.phoneNumber}</h6>

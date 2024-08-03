@@ -10,11 +10,7 @@ export function StudentPayerBlock({ payerData }: { payerData: PersonalData }) {
         <ProfileHeader className='mb-3' label='Платник' />
         <div className='sm:rounded-sm sm:bg-gray-50 sm:p-5 sm:shadow-lg'>
           <h2 className='text-xl font-normal'>
-            {payerData.lastName +
-              ' ' +
-              payerData.firstName +
-              ' ' +
-              payerData.middleName}
+            {`${payerData.lastName} ${payerData.firstName} ${payerData.middleName ?? ''}`}
           </h2>
           <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
             <h6>Номер телефону: {payerData.phoneNumber}</h6>

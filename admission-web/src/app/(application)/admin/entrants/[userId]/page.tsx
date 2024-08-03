@@ -176,7 +176,7 @@ const Page = () => {
       <div className='flex flex-row justify-between'>
         <div className='flex flex-col gap-1'>
           <p className='text-2xl font-semibold'>
-            {personalData?.lastName} {personalData?.middleName}{' '}
+            {personalData?.lastName} {personalData?.middleName ?? ''}{' '}
             {personalData?.firstName}
           </p>
           <p className='text-sm'> </p>

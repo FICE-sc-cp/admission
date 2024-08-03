@@ -40,7 +40,7 @@ export class UserService {
 
   getAll (query: GetUsersQuery) {
     return this.userRepo.findMany({}, query.take, query.skip, [{
-      role: 'desc',
+      role: 'asc',
     }, {
       lastName: 'asc',
     }, {

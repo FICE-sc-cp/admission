@@ -9,16 +9,13 @@ export function StudentRepresentativeBlock({
   if (representativeData === null) {
     return <></>;
   } else {
+    console.log(representativeData.middleName || '');
     return (
       <div className='m-5 flex flex-col sm:w-1/2'>
         <ProfileHeader className='mb-3' label='Законний представник' />
         <div className='sm:rounded-sm sm:bg-gray-50 sm:p-5 sm:shadow-lg'>
           <h2 className='text-xl font-normal'>
-            {representativeData.lastName +
-              ' ' +
-              representativeData.firstName +
-              ' ' +
-              representativeData.middleName}
+            {`${representativeData.lastName} ${representativeData.firstName} ${representativeData.middleName ?? ''}`}
           </h2>
           <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
             <h6>Номер телефону: {representativeData.phoneNumber}</h6>

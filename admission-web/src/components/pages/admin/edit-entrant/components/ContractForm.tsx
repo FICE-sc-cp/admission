@@ -136,7 +136,7 @@ export const ContractForm: FC<ContractFormProps> = ({
 
     downloadFile(
       res.data,
-      `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ? entrantMiddleName : ''}`,
+      `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ?? ''}`,
       data,
       'Навчання'
     );
@@ -146,7 +146,7 @@ export const ContractForm: FC<ContractFormProps> = ({
 
       downloadFile(
         res.data,
-        `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ? entrantMiddleName : ''}`,
+        `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ?? ''}`,
         data,
         'Оплата'
       );

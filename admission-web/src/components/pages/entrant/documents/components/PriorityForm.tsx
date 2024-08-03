@@ -55,7 +55,7 @@ const PriorityForm: FC<PriorityFormProps> = ({
               <Select
                 onValueChange={(value) => {
                   field.onChange({
-                    number: index,
+                    number: index + 1,
                     program: value,
                   });
                 }}

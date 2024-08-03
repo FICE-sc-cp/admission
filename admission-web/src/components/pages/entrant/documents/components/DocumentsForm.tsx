@@ -124,8 +124,6 @@ export const DocumentsForm = () => {
     setPrioritiesData(priorities as TPriorities[]);
   }, [form.getValues()]);
 
-  console.log(form.getValues());
-
   return (
     <Form {...form}>
       <form

@@ -4,13 +4,15 @@ import { transformApostrophe } from '../utils/transformApostrophe';
 
 export const emailSchema = z
   .string({ required_error: 'Введіть пошту' })
-  .email({ message: 'Це не є поштовою адресою' });
+  .email({ message: 'Це не є поштовою адресою' })
+  .transform((value) => value.trim());
 
 export const firstNameSchema = z
   .string({ required_error: `Введіть ім'я` })
   .min(2, 'Не коротше 2 символів')
   .max(40, 'Не довше 40 символів')
   .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
+  .transform((value) => value.trim())
   .transform(transformApostrophe);
 
 export const lastNameSchema = z
@@ -18,6 +20,7 @@ export const lastNameSchema = z
   .min(2, 'Не коротше 2 символів')
   .max(40, 'Не довше 40 символів')
   .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
+  .transform((value) => value.trim())
   .transform(transformApostrophe);
 
 export const middleNameSchema = z
@@ -26,6 +29,7 @@ export const middleNameSchema = z
   .max(40, 'Не довше 40 символів')
   .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
   .transform(transformApostrophe)
+  .transform((value) => value.trim())
   .nullable();
 
 export const phoneNumberSchema = z

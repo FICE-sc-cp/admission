@@ -340,7 +340,7 @@ export const PersonalForm: FC<PersonalFormProps> = ({
                   <FormLabel>Адреса</FormLabel>
                   <FormControl>
                     <Input
-                      placeholder='вул. Академіка Янгеля 20'
+                      placeholder='вул. Янгеля, буд. 5, кв. 102'
                       className='w-[320px] md:w-[350px]'
                       {...field}
                     />

@@ -26,6 +26,7 @@ const passportSeriesSchema = z
     kirillicRegex,
     'Серія паспорту має містити кириличні літери верхнього регістру'
   )
+  .transform((value) => value.trim())
   .nullable()
   .default(null);
 
@@ -48,35 +49,40 @@ export const regionSchema = z
 
 export const settlementSchema = z
   .string({ required_error: "Обов'язкове поле" })
-  .nullable()
   .refine((value) => value === null || ukRegex.test(value), {
     message: 'Має містити українські літери, апостроф або дефіс',
   })
   .transform(transformNullableApostrophe)
+  .transform((value) => (value ? value.trim() : null))
+  .nullable()
   .default(null);
 
 export const addressSchema = z
   .string({ required_error: "Обов'язкове поле" })
   .regex(ukRegex, 'Має містити українські літери, апостроф або дефіс')
-  .transform(transformApostrophe);
+  .transform(transformApostrophe)
+  .transform((value) => value.trim());
 
 export const indexSchema = z
   .string({ required_error: "Обов'язкове поле" })
   .refine((value) => /^[0-9]{5}$/.test(value), {
     message: 'Має містити 5 цифр',
-  });
+  })
+  .transform((value) => value.trim());
 
 export const oldPassportNumberTemplate = z
   .string({ required_error: "Обов'язкове поле" })
   .refine((value) => /^[0-9]{6}$/.test(value), {
     message: 'Має містити 6 цифр',
-  });
+  })
+  .transform((value) => value.trim());
 
 export const newPassportNumberTemplate = z
   .string({ required_error: "Обов'язкове поле" })
   .refine((value) => /^[0-9]{9}$/.test(value), {
     message: 'Має містити 9 цифр',
-  });
+  })
+  .transform((value) => value.trim());
 
 export const commonSchema = {
   email: emailSchema,

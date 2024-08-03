@@ -24,18 +24,33 @@ export function NoDocumentsPopUp({
   const downloadDocument = async (contract: DocumentsApiBody) => {
     const res = await DocumentsApi.downloadContract(contract.id as string);
 
-    downloadFile(res.data, user, contract, 'Навчання');
+    downloadFile(
+      res.data,
+      `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
+      contract,
+      'Навчання'
+    );
 
     if (contract.fundingSource === 'CONTRACT') {
       const res = await DocumentsApi.downloadPayment(contract.id as string);
 
-      downloadFile(res.data, user, contract, 'Оплата');
+      downloadFile(
+        res.data,
+        `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
+        contract,
+        'Оплата'
+      );
     }
 
     if (contract.specialty === '121' || contract.specialty === '126') {
       const res = await DocumentsApi.downloadPriority(contract.id as string);
 
-      downloadFile(res.data, user, contract, 'Пріоритети');
+      downloadFile(
+        res.data,
+        `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
+        contract,
+        'Пріоритети'
+      );
     }
   };
 

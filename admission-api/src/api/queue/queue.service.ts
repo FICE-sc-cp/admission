@@ -36,7 +36,7 @@ export class QueueService implements OnModuleInit {
   ) {}
 
   lastPosition: number = 0;
-  opened: boolean = false;
+  opened: boolean = true;
   include = {
     user: true,
   };

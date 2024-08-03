@@ -20,7 +20,7 @@ export default function NavMenuItem({
   const pathname = usePathname();
 
   const notIndexPageAndPathnameMatches =
-    item.href !== '/' && pathname.includes(item.href);
+    item.href !== '/' && pathname === item.href;
 
   const isIndexPageAndPathnameMatches = item.href === '/' && pathname === '/';
 

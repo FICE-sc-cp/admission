@@ -14,7 +14,7 @@ export const adminNavigationItems = [
   },
   {
     title: 'Черга',
-    href: BASE_URL + '/queue',
+    href: BASE_URL,
     icon: BetweenHorizonalStart,
   },
   {

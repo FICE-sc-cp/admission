@@ -3,8 +3,9 @@ import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
 import { educationalDegreeLabels } from '@/lib/constants/educationalDegreeLabels';
 import { ColumnDef } from '@tanstack/react-table';
-import { userRoles } from '@/lib/constants/userRoles';
 import { Badge } from '@/components/ui/badge';
+import { FundingSourceLabels } from '@/lib/constants/fundingSourceLabels';
+import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 
 export const EntrantsColumns: ColumnDef<AdminUser>[] = [
   {
@@ -14,13 +15,6 @@ export const EntrantsColumns: ColumnDef<AdminUser>[] = [
       const { lastName, firstName, middleName } = row.original;
       const rowMiddleName = middleName || '';
       return `${lastName} ${firstName} ${rowMiddleName}`;
-    },
-  },
-  {
-    accessorKey: 'role',
-    header: 'Роль',
-    cell: ({ row }) => {
-      return userRoles[row.original.role];
     },
   },
   {
@@ -35,8 +29,36 @@ export const EntrantsColumns: ColumnDef<AdminUser>[] = [
     },
   },
   {
+    accessorKey: 'fundingSource',
+    header: 'Форма фінансування',
+    cell: ({ row }) => {
+      return row.original.contracts.length > 0
+        ? FundingSourceLabels[
+            row.original.contracts[0].fundingSource as FundingSource
+          ]
+        : '-';
+    },
+  },
+  {
     accessorKey: 'expectedSpecialities',
     header: 'Спеціальність',
+    cell: ({ row }) => {
+      const { contracts, expectedSpecialities } = row.original;
+      if (contracts.length > 0) {
+        const approvedContract = contracts.find(
+          (contract) => contract.state === 'APPROVED'
+        );
+        if (approvedContract) {
+          return approvedContract.specialty;
+        } else {
+          return expectedSpecialities === ''
+            ? contracts[0].specialty
+            : expectedSpecialities;
+        }
+      } else {
+        return '-';
+      }
+    },
   },
   {
     accessorKey: 'contracts',

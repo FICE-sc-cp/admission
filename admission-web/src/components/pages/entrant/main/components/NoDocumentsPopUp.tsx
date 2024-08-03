@@ -100,13 +100,16 @@ export function NoDocumentsPopUp({
                   ? ''
                   : 'Пріоритети освітніх програм'}
               </h2>
-                {contract.priorities
-                    .sort((a, b) => a.number - b.number)
-                    .map((priority) => (
-                        <h6 key={priority.number}>
-                            {priority.number + '.' + ' ' + EducationProgramAbbreviation[priority.program]}
-                        </h6>
-                    ))}
+              {contract.priorities
+                .sort((a, b) => a.number - b.number)
+                .map((priority) => (
+                  <h6 key={priority.number}>
+                    {priority.number +
+                      '.' +
+                      ' ' +
+                      EducationProgramAbbreviation[priority.program]}
+                  </h6>
+                ))}
             </div>
           </div>
         </div>

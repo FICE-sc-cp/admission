@@ -3,7 +3,7 @@
 .turbo
 /env/postgres-dev.env
 /env/postgres.env
-./out
+out
 
 **/.env**
 .serverless

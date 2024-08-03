@@ -42,6 +42,9 @@ provider:
     FRONTEND_URL: ${param:FRONTEND_URL}
     NODE_ENV: ${param:NODE_ENV}
 
+    ADMISSION_BOT_TOKEN: ${param:ADMISSION_BOT_TOKEN}
+    ADMISSION_BOT_API: ${param:ADMISSION_BOT_API}
+
 functions:
   main:
     handler: admission-api/dist/serverless.handler

@@ -34,7 +34,7 @@ const PersonalDataContextProvider: FC<{ children: ReactNode }> = ({
   const [isAdult, setIsAdult] = useState(false);
   const [isAnotherPayer, setIsAnotherPayer] = useState(false);
   const [activeStep, setActiveStep] = useState(1);
-  const [isContract, setIsContract] = useState(true);
+  const [isContract, setIsContract] = useState(false);
   const [isSubmittingInCorpus, setIsSubmittingInCorpus] = useState(false);
 
   const [entrantData, setEntrantData] = useState<Omit<

@@ -70,7 +70,6 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
       return push('/queue/error');
     }
   };
-
   return (
     <div className='flex w-full max-w-96 flex-col gap-4 rounded-md border border-violet-300 bg-violet-50 px-6 py-5 shadow-md shadow-slate-600'>
       <h2 className='text-2xl font-semibold leading-6 text-black'>
@@ -116,9 +115,13 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
             name='isDorm'
             render={({ field }) => (
               <FormItem className='flex items-center gap-2 space-y-0'>
-                <Checkbox onChange={field.onChange} id='isDorm' />
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  id='isDorm'
+                />
                 <FormLabel className='text-sm font-normal' htmlFor='isDorm'>
-                  Планую селитися
+                  Планую селитися в гуртожиток
                 </FormLabel>
                 <FormMessage />
               </FormItem>
@@ -129,7 +132,11 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
             name='printedEdbo'
             render={({ field }) => (
               <FormItem className='flex items-center gap-2 space-y-0'>
-                <Checkbox onChange={field.onChange} id='isDorm' />
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  id='printedEdbo'
+                />
                 <FormLabel
                   className='mt-0 text-sm font-normal'
                   htmlFor='printedEdbo'
@@ -145,7 +152,11 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
             name='confirmedStudyPlace'
             render={({ field }) => (
               <FormItem className='flex items-center gap-2 space-y-0'>
-                <Checkbox onChange={field.onChange} id='confirmedStudyPlace' />
+                <Checkbox
+                  checked={field.value}
+                  onCheckedChange={field.onChange}
+                  id='confirmedStudyPlace'
+                />
                 <FormLabel
                   className='mt-0 text-sm font-normal'
                   htmlFor='confirmedStudyPlace'

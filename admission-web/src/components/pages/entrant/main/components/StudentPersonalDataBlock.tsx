@@ -1,41 +1,26 @@
 'use client';
 import PersonalDataApi from '@/app/api/personal-data/personal-data';
-import { useEffect, useState } from 'react';
-import { GetPersonalData } from '@/app/api/personal-data/personal-data-type';
 import { NoPersonalDataPopUp } from '@/components/pages/entrant/main/components/NoPersonalDataPopUp';
 import { StudentRepresentativeBlock } from '@/components/pages/entrant/main/components/StudentRepresentativeBlock';
-import { Loader } from '@/components/common/components/Loader';
 import { ProfileHeader } from './ProfileHeader';
 import { StudentPayerBlock } from './StudentPayerBlock';
 import { NoDocumentsPopUp } from './NoDocumentsPopUp';
+import { useQuery } from '@tanstack/react-query';
+import { LoadingPage } from '@/components/common/components/LoadingPage';
 
 export function StudentPersonalDataBlock({ userId }: { userId: string }) {
-  const [userData, setUserData] = useState<GetPersonalData>(
-    {} as GetPersonalData
-  );
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
+  const { data: userData, isLoading } = useQuery({
+    queryKey: ['personal-data', userId],
+    queryFn: () => PersonalDataApi.getPersonalData(userId),
+    select: (data) => data.data,
+    throwOnError: true,
+  });
 
-  const getUserPersonalData = async () => {
-    try {
-      const { data } = await PersonalDataApi.getPersonalData(userId);
-      setUserData(data);
-    } catch (error) {
-      setError(true);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    getUserPersonalData();
-  }, []);
-
-  if (loading) {
-    return <Loader />;
+  if (isLoading) {
+    return <LoadingPage />;
   }
 
-  if (error || userData.entrantData === null) {
+  if (!userData || !userData.entrantData) {
     return <NoPersonalDataPopUp />;
   }
 

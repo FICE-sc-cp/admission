@@ -1,6 +1,5 @@
 'use client';
 
-import { Loader } from '@/components/common/components/Loader';
 import CustomerPage from '@/components/pages/entrant/personal-data/components/CustomerPage';
 import EntrantForm from '@/components/pages/entrant/personal-data/components/EntrantForm';
 import ProgressStepper from '@/components/pages/entrant/personal-data/components/ProgressStepper';
@@ -10,33 +9,14 @@ import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
 import useAuth from '@/lib/hooks/useAuth';
 import { useState, useEffect } from 'react';
 import PersonalDataApi from '@/app/api/personal-data/personal-data';
-import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import DataAlreadyExist from '@/components/pages/entrant/personal-data/components/DataAlreadyExist';
+import { LoadingPage } from '@/components/common/components/LoadingPage';
+import { useQuery } from '@tanstack/react-query';
 
 const PersonalDataPage = () => {
   const { isAdult, isAnotherPayer, activeStep } = usePersonalDataContext();
   const [steps, setSteps] = useState<string[]>([]);
-  const { toastError } = useCommonToast();
-  const [loading, setLoading] = useState(true);
-  const [isAlreadyFilled, setIsAlreadyFilled] = useState(true);
-
-  const { user, loading: userLoading } = useAuth();
-
-  const getUserPersonalData = async (userId: string) => {
-    try {
-      const { data } = await PersonalDataApi.getPersonalData(userId);
-      setIsAlreadyFilled(data.entrantData !== null);
-    } catch (error) {
-      toastError(error);
-    } finally {
-      setLoading(false);
-    }
-  };
-  useEffect(() => {
-    if (user) {
-      getUserPersonalData(user.id);
-    }
-  }, [user]);
+  const { user } = useAuth();
 
   useEffect(() => {
     const stepsArr = ['Інформація про вступника', 'Підтвердження даних'];
@@ -53,15 +33,24 @@ const PersonalDataPage = () => {
     setSteps(stepsArr);
   }, [isAdult, isAnotherPayer]);
 
-  if (loading || userLoading) {
-    return <Loader />;
+  if (!user) {
+    return <LoadingPage />;
+  }
+
+  const { data: userData, isLoading } = useQuery({
+    queryKey: ['personal-data', user.id],
+    queryFn: () => PersonalDataApi.getPersonalData(user.id),
+    select: (data) => data.data,
+    throwOnError: false,
+  });
+
+  if (isLoading) {
+    return <LoadingPage />;
   }
 
   return (
     <main className='flex flex-1 flex-col items-center gap-4 p-4 lg:gap-6 lg:p-6'>
-      {isAlreadyFilled ? (
-        <DataAlreadyExist />
-      ) : (
+      {userData?.entrantData === null ? (
         <>
           <ProgressStepper activeStep={activeStep} steps={steps} />
           {activeStep === 1 && <EntrantForm />}
@@ -73,6 +62,8 @@ const PersonalDataPage = () => {
           )}
           {activeStep === steps.length && <SubmitPage />}
         </>
+      ) : (
+        <DataAlreadyExist />
       )}
     </main>
   );

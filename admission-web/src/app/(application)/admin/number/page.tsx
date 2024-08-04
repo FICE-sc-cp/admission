@@ -1,42 +1,20 @@
 'use client';
 import { queueApi } from '@/app/api/queue/queue-api';
-import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { Expand, Shrink } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { QueueNumberItem } from '../../../../components/pages/admin/number/components/queue-number-item/QueueNumberItem';
 import { Button } from '@/components/ui/button';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { PositionInQueue } from '@/lib/types/queue.types';
-import { Loader } from '@/components/common/components/Loader';
+import { useQuery } from '@tanstack/react-query';
+import { LoadingPage } from '@/components/common/components/LoadingPage';
 
 export default function AdminCurrentNumberPage() {
   const params = useSearchParams();
   const { replace } = useRouter();
   const pathname = usePathname();
-  const [data, setData] = useState<PositionInQueue[] | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
   const [isExpanded, setIsExpanded] = useState(
     params.get('fullscreen') === 'enable'
   );
-
-  const { toastError } = useCommonToast();
-
-  const fetchQueueUser = async () => {
-    try {
-      const { data } = await queueApi.getUsers('WAITING', 5, 0);
-      setData(data.positions);
-    } catch (error) {
-      toastError(error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchQueueUser();
-    const intervalId = setInterval(fetchQueueUser, 5000);
-    return () => clearInterval(intervalId);
-  }, []);
 
   useEffect(() => {
     if (document && isExpanded) {
@@ -45,14 +23,22 @@ export default function AdminCurrentNumberPage() {
         queueLink.scrollIntoView({ behavior: 'smooth' });
       }
     }
-  }, [document, isExpanded, isLoading]);
+  }, [isExpanded]);
+
+  const { data, isLoading } = useQuery({
+    queryKey: ['active-users-in-queue', 'WAITING', 5, 0],
+    queryFn: () => queueApi.getUsers('WAITING', 5, 0),
+    throwOnError: true,
+    refetchInterval: 15000,
+    select: (data) => data.data.positions,
+  });
 
   if (isLoading || !data) {
-    return <Loader />;
+    return <LoadingPage />;
   }
 
   const firstRow = data.slice(0, 3);
-  const secondRow = data.slice(3);
+  const secondRow = data.slice(3, 5);
 
   return (
     <div

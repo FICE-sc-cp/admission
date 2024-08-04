@@ -6,11 +6,8 @@ export function StudentRepresentativeBlock({
 }: {
   representativeData: PersonalData;
 }) {
-  if (representativeData === null) {
-    return <></>;
-  } else {
-    console.log(representativeData.middleName || '');
-    return (
+  return (
+    representativeData && (
       <div className='m-5 flex flex-col sm:w-1/2'>
         <ProfileHeader className='mb-3' label='Законний представник' />
         <div className='sm:rounded-sm sm:bg-gray-50 sm:p-5 sm:shadow-lg'>
@@ -37,6 +34,6 @@ export function StudentRepresentativeBlock({
           </div>
         </div>
       </div>
-    );
-  }
+    )
+  );
 }

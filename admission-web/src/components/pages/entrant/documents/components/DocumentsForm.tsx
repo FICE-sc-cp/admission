@@ -121,8 +121,8 @@ export const DocumentsForm = () => {
   }, [specialty, degree, fundingSource, studyForm, educationalProgram]);
 
   useEffect(() => {
-    setPrioritiesData(priorities as TPriorities[]);
-  }, [form.getValues()]);
+    setPrioritiesData(priorities);
+  }, [form.getValues().priorities]);
 
   return (
     <Form {...form}>

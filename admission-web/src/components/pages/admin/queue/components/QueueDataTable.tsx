@@ -39,9 +39,7 @@ interface AdminQueueDataTableProps {
   data: PositionInQueue[];
   refetch: (
     options?: RefetchOptions
-  ) => Promise<
-    QueryObserverResult<AxiosResponse<GetQueueUsersRes, any>, Error>
-  >;
+  ) => Promise<QueryObserverResult<PositionInQueue[], Error>>;
 }
 
 export function AdminQueueDataTable({

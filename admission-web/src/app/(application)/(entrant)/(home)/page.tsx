@@ -2,10 +2,13 @@
 import { authApi } from '@/app/api/auth/auth-api';
 import { useRouter } from 'next/navigation';
 import { StudentPersonalDataBlock } from '@/components/pages/entrant/main/components/StudentPersonalDataBlock';
-import { useSuspenseQuery } from '@tanstack/react-query';
+import { useQuery } from '@tanstack/react-query';
+import { LoadingPage } from '@/components/common/components/LoadingPage';
 
 export default function Dashboard() {
-  const { data: user } = useSuspenseQuery({
+  const { replace } = useRouter();
+
+  const { data: user } = useQuery({
     queryKey: ['get-me'],
     queryFn: authApi.getMe,
     staleTime: Infinity,
@@ -13,7 +16,9 @@ export default function Dashboard() {
     select: (data) => data.data,
   });
 
-  if (user.role === 'ADMIN') useRouter().replace('/admin');
+  if (!user) return <LoadingPage />;
+
+  if (user.role === 'ADMIN') replace('/admin');
 
   return <StudentPersonalDataBlock userId={user.id} />;
 }

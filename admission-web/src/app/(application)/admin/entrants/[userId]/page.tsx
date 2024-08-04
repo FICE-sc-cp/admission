@@ -20,16 +20,27 @@ import { ContractForm } from '@/components/pages/admin/edit-entrant/components/C
 import { DeletePopup } from '@/components/pages/admin/edit-entrant/components/DeletePopup';
 import { PersonalForm } from '@/components/pages/admin/edit-entrant/components/PersonalForm';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import PersonalDataApi from '@/app/api/personal-data/personal-data';
+import { useQuery } from '@tanstack/react-query';
+import { LoadingPage } from '@/components/common/components/LoadingPage';
 
 const Page = () => {
   const { toastSuccess, toastError } = useCommonToast();
   const { push } = useRouter();
-
-  const [personalData, setPersonalData] = useState<GetPersonalData | null>(
-    null
-  );
-  const params = useParams<{ userId: string }>();
+  const { userId } = useParams<{ userId: string }>();
   const [showDeletePopup, setShowDeletePopup] = useState(false);
+
+  const { data: personalData, isLoading } = useQuery({
+    queryKey: ['personal-data', userId],
+    enabled: !!userId,
+    queryFn: () => PersonalDataApi.getPersonalData(userId),
+    throwOnError: true,
+    select: (data) => data.data,
+  });
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   const entrantForm = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
@@ -77,12 +88,8 @@ const Page = () => {
     mode: 'onChange',
   });
 
-  async function fetchPersonalData() {
-    const data = await PersonalData.getPersonalData(params.userId);
-    setPersonalData(data.data);
-  }
   const deleteEntrant = async () => {
-    await PersonalData.deletePersonalData(params.userId);
+    await PersonalData.deletePersonalData(userId);
     push('/');
   };
 
@@ -148,15 +155,11 @@ const Page = () => {
         personalData?.id as string
       );
       toastSuccess('Дані оновлено!');
-      push(`/admin/entrants/${params.userId}`);
+      push(`/admin/entrants/${userId}`);
     } catch {
       toastError('Щось пішло не так!');
     }
   };
-
-  useEffect(() => {
-    fetchPersonalData();
-  }, []);
 
   return (
     <main className='flex flex-1 flex-col gap-3 p-6'>

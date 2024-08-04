@@ -2,10 +2,8 @@ import { PersonalData } from '@/lib/types/entrant.types';
 import { ProfileHeader } from './ProfileHeader';
 
 export function StudentPayerBlock({ payerData }: { payerData: PersonalData }) {
-  if (payerData === null) {
-    return <></>;
-  } else {
-    return (
+  return (
+    payerData && (
       <div className='m-5 flex flex-col sm:w-1/2'>
         <ProfileHeader className='mb-3' label='Платник' />
         <div className='sm:rounded-sm sm:bg-gray-50 sm:p-5 sm:shadow-lg'>
@@ -32,6 +30,6 @@ export function StudentPayerBlock({ payerData }: { payerData: PersonalData }) {
           </div>
         </div>
       </div>
-    );
-  }
+    )
+  );
 }

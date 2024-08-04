@@ -3,18 +3,15 @@ import React from 'react';
 import AdminQueueApi from '@/app/api/admin-queue/admin-queue-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import AdminAlertDialog from '../../common/components/AdminAlertDialog';
-import { GetQueueUsersRes } from '@/app/api/queue/queue-api.types';
 import { RefetchOptions, QueryObserverResult } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
+import { PositionInQueue } from '@/lib/types/queue.types';
 
 export function AdminQueueCleanUp({
   refetch,
 }: {
   refetch: (
     options?: RefetchOptions
-  ) => Promise<
-    QueryObserverResult<AxiosResponse<GetQueueUsersRes, any>, Error>
-  >;
+  ) => Promise<QueryObserverResult<PositionInQueue[], Error>>;
 }) {
   const { toastError } = useCommonToast();
   return (

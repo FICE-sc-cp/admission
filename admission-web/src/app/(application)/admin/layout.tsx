@@ -1,6 +1,6 @@
 'use client';
-import { LoadingPage } from '@/components/common/components/LoadingPage';
-import useAuth from '@/lib/hooks/useAuth';
+import { authApi } from '@/app/api/auth/auth-api';
+import { useQuery } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
 
@@ -10,13 +10,15 @@ interface AuthLayoutProps {
 
 const AdminLayout: FC<AuthLayoutProps> = ({ children }) => {
   const { replace } = useRouter();
-  const { user } = useAuth();
+  const { data: user } = useQuery({
+    queryKey: ['get-me'],
+    queryFn: authApi.getMe,
+    select: (data) => data.data,
+    staleTime: Infinity,
+    retry: false,
+  });
 
-  if (!user) {
-    return <LoadingPage />;
-  }
-
-  if (user.role !== 'ADMIN') {
+  if (user && user.role !== 'ADMIN') {
     replace('/auth/sign-up');
   }
 

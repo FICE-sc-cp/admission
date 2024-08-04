@@ -12,9 +12,7 @@ export const prioritySchema = z.object(
     number: z.number({
       required_error: "Обов'язкове поле",
     }),
-    program: z.string({
-      required_error: "Обов'язкове поле",
-    }),
+    program: z.nativeEnum(EducationProgram),
   },
   {
     required_error: "Обов'язкове поле",

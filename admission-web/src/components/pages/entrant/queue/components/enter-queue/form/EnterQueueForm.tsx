@@ -24,22 +24,23 @@ import {
   TEnterQueueForm,
   enterQueueFormSchema,
 } from '@/lib/schemas/queue-entrant.schemas';
-import { QueueUser } from '@/lib/types/queue.types';
+import { useQueryClient } from '@tanstack/react-query';
+import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 interface EnterQueueProps {
   userId: string;
   setIsUserAllowed: (value: boolean) => void;
-  setData: (data: QueueUser | null) => void;
   setSkipChecking: (skipChecking: boolean) => void;
 }
 
 export const EnterQueueForm: FC<EnterQueueProps> = ({
   userId,
   setIsUserAllowed,
-  setData,
   setSkipChecking,
 }) => {
-  const { refresh, push, replace } = useRouter();
+  const queryClient = useQueryClient();
+  const { toastSuccess } = useCommonToast();
+  const { push } = useRouter();
   const form = useForm<TEnterQueueForm>({
     resolver: zodResolver(enterQueueFormSchema),
     defaultValues: {
@@ -55,8 +56,10 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
   const onSubmit = async (data: TEnterQueueForm) => {
     try {
       await queueApi.addUser(userId, data);
-      setData((await queueApi.getUser(userId)).data);
-      refresh();
+      toastSuccess('Ви успішно увійшли в чергу');
+      await queryClient.refetchQueries({
+        queryKey: ['queue-user-by-id', userId],
+      });
     } catch (error) {
       if (isAxiosError(error)) {
         if (error.response?.status === 400) {

@@ -6,14 +6,12 @@ import { AskUserForGeolocation } from './ask-user-for-geolocation/AskUserForGeol
 import { Location, QueueErorr } from '../../types/QueueEntrant';
 import { vincentyDistance } from '../../utils/vincentyDistance ';
 import { useRouter } from 'next/navigation';
-import { QueueUser } from '@/lib/types/queue.types';
 
 interface EnteredQueueProps {
   userId: string;
-  setData: (data: QueueUser | null) => void;
 }
 
-export const EnterQueue: FC<EnteredQueueProps> = ({ userId, setData }) => {
+export const EnterQueue: FC<EnteredQueueProps> = ({ userId }) => {
   const { push } = useRouter();
   const [isUserAllowed, setIsUserAllowed] = useState(false);
   const [location, setLocation] = useState<Location | null>(null);
@@ -43,7 +41,6 @@ export const EnterQueue: FC<EnteredQueueProps> = ({ userId, setData }) => {
         <EnterQueueForm
           userId={userId}
           setIsUserAllowed={setIsUserAllowed}
-          setData={setData}
           setSkipChecking={setSkipChecking}
         />
       )}

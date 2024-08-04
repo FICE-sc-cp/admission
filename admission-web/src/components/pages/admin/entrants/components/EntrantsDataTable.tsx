@@ -28,17 +28,20 @@ import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import AdminAlertDialog from '../../common/components/AdminAlertDialog';
 import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
 import Link from 'next/link';
+import { RefetchOptions, QueryObserverResult } from '@tanstack/react-query';
 
 interface DataTableProps {
   columns: ColumnDef<AdminUser>[];
   data: AdminUser[];
-  fetchData: () => Promise<void>;
+  refetch: (
+    options?: RefetchOptions
+  ) => Promise<QueryObserverResult<AdminUser[], Error>>;
 }
 
 export function AdminEntrantDataTable({
   columns,
   data,
-  fetchData,
+  refetch,
 }: DataTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const table = useReactTable({
@@ -57,8 +60,8 @@ export function AdminEntrantDataTable({
   const handleDelete = async (id: string) => {
     try {
       await AdminEntrantsApi.deleteEntrant(id);
-      await fetchData();
       toastSuccess('Вступника успішно видалено!');
+      await refetch();
     } catch (error) {
       toastError(error, 'Не вдалося видалити вступника');
     }

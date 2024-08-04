@@ -60,23 +60,9 @@ export const QueueColumns: ColumnDef<PositionInQueue>[] = [
       return <AdminTableHeaderButton text='ПІБ' column={column} />;
     },
     cell: ({ row }) => {
-      return row.original.user.lastName;
-    },
-  },
-  {
-    accessorKey: 'firstName',
-    enableHiding: false,
-    header: '',
-    cell: ({ row }) => {
-      return row.original.user.firstName;
-    },
-  },
-  {
-    accessorKey: 'middleName',
-    enableHiding: false,
-    header: '',
-    cell: ({ row }) => {
-      return row.original.user.middleName;
+      const { lastName, firstName, middleName } = row.original.user;
+      const rowMiddleName = middleName || '';
+      return `${lastName} ${firstName} ${rowMiddleName}`;
     },
   },
   {

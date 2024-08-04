@@ -1,4 +1,10 @@
+export enum RegionExceptions {
+  Kyiv = 'м. Київ',
+  Sevastopol = 'м. Севастополь',
+}
 export const regions = [
+  RegionExceptions.Kyiv,
+  RegionExceptions.Sevastopol,
   'Вінницька область',
   'Волинська область',
   'Дніпропетровська область',
@@ -23,6 +29,4 @@ export const regions = [
   'Черкаська область',
   'Чернівецька область',
   'Чернігівська область',
-  'м. Київ',
-  'м. Севастополь',
 ];

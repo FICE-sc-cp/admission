@@ -22,7 +22,7 @@ import { Button } from '@/components/ui/button';
 import { UseFormReturn } from 'react-hook-form';
 import { TPersonalDataSchema } from '@/lib/schemas/personal-data.schemas';
 import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
-import { regions } from '@/lib/constants/regions';
+import { RegionExceptions, regions } from '@/lib/constants/regions';
 
 interface BaseFormProps {
   form: UseFormReturn<TPersonalDataSchema, any, undefined>;
@@ -299,26 +299,27 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
               </FormItem>
             )}
           />
-          {region !== 'м. Київ' && (
-            <FormField
-              control={form.control}
-              name='settlement'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Населений пункт</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='м. Київ'
-                      className='w-[320px] md:w-[360px]'
-                      value={field.value ?? ''}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+          {region !== RegionExceptions.Kyiv &&
+            region !== RegionExceptions.Sevastopol && (
+              <FormField
+                control={form.control}
+                name='settlement'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Населений пункт</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='м. Київ'
+                        className='w-[320px] md:w-[360px]'
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
           <FormField
             control={form.control}
             name='address'

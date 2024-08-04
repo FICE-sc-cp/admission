@@ -1,3 +1,4 @@
+import { RegionExceptions } from '@/lib/constants/regions';
 import { TPersonalDataSchema } from '@/lib/schemas/personal-data.schemas';
 import { PersonalData } from '@/lib/types/entrant.types';
 
@@ -7,8 +8,14 @@ export function convertToPersonalData(
   const region = data.region;
   return {
     ...data,
-    region: region === 'м. Київ' ? ' ' : region,
-    settlement: region === 'м. Київ' ? region : data.settlement,
+    region:
+      region === RegionExceptions.Kyiv || RegionExceptions.Sevastopol
+        ? null
+        : region,
+    settlement:
+      region === RegionExceptions.Kyiv || RegionExceptions.Sevastopol
+        ? region
+        : data.settlement,
     createdAt: new Date(),
     updatedAt: new Date(),
   };

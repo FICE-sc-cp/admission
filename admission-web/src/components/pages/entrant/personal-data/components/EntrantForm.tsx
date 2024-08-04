@@ -31,7 +31,7 @@ import {
   TEntrantSchema,
   EntrantSchema,
 } from '@/lib/schemas/personal-data.schemas';
-import { regions } from '@/lib/constants/regions';
+import { RegionExceptions, regions } from '@/lib/constants/regions';
 import { convertToEntrantData } from '../utils/convertToEntrantData';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
@@ -348,26 +348,27 @@ const EntrantForm: FC = () => {
               </FormItem>
             )}
           />
-          {region !== 'м. Київ' && (
-            <FormField
-              control={form.control}
-              name='settlement'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Населений пункт</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='м. Київ'
-                      className='w-[320px] md:w-[360px]'
-                      value={field.value ?? ''}
-                      onChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          )}
+          {region !== RegionExceptions.Kyiv &&
+            region !== RegionExceptions.Sevastopol && (
+              <FormField
+                control={form.control}
+                name='settlement'
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Населений пункт</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder='м. Київ'
+                        className='w-[320px] md:w-[360px]'
+                        value={field.value ?? ''}
+                        onChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
           <FormField
             control={form.control}
             name='address'

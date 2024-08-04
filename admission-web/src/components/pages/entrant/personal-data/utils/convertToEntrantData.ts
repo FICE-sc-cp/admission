@@ -1,3 +1,4 @@
+import { RegionExceptions } from '@/lib/constants/regions';
 import { TEntrantSchema } from '@/lib/schemas/personal-data.schemas';
 import { Entrant } from '@/lib/types/entrant.types';
 
@@ -13,8 +14,14 @@ export function convertToEntrantData(
     passportDate: data.passportDate,
     phoneNumber: data.phoneNumber,
     idCode: data.idCode,
-    region: region === 'м. Київ' ? ' ' : region,
-    settlement: region === 'м. Київ' ? region : data.settlement,
+    region:
+      region === RegionExceptions.Kyiv || RegionExceptions.Sevastopol
+        ? null
+        : region,
+    settlement:
+      region === RegionExceptions.Kyiv || RegionExceptions.Sevastopol
+        ? region
+        : data.settlement,
     address: data.address,
     index: data.index,
     createdAt: new Date(),

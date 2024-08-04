@@ -8,7 +8,7 @@ import { FileService } from 'src/globals/files/file.service';
 import { DocumentState, EducationalDegree, FundingSource } from '@prisma/client';
 import { PersonalDataDto } from './dto/personal-data.dto';
 import { FileDto } from './dto/file.dto';
-import { CONTRACT_FUNDING_SOURCE_IS_BUDGET_MSG } from './constants';
+import { CONTRACT_ALREADY_EXISTS_MSG, CONTRACT_FUNDING_SOURCE_IS_BUDGET_MSG } from './constants';
 import { TelegramAPI } from 'src/globals/telegram/telegram.api';
 
 @Injectable()
@@ -39,6 +39,10 @@ export class DocumentService {
 
   async createDocuments (data: CreateContractDto): Promise<ContractDto> {
     const { priorities, ...contract } = data;
+    const existingContract = await this.documentRepo.find(contract);
+    if (existingContract) {
+      throw new BadRequestException(CONTRACT_ALREADY_EXISTS_MSG);
+    }
     return this.documentRepo.create({
       ...contract,
       priorities: priorities ? {

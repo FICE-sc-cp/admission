@@ -204,8 +204,6 @@ export const ContractForm: FC<ContractFormProps> = ({
     setPrioritiesData(priorities as TPriorities[]);
   }, [priorities]);
 
-  console.log(priorities);
-
   return (
     <div className='flex flex-col gap-6'>
       {showDeletePopup && (
@@ -411,14 +409,16 @@ export const ContractForm: FC<ContractFormProps> = ({
               <Separator className='bg-slate-300' orientation='horizontal' />
             </>
           )}
-          {specialty === '121' && degree !== EducationalDegree.MASTER && (
-            //@ts-ignore
-            <PriorityForm
-              priorityState={data.priorityState}
-              educationalPrograms={IPeduPrograms}
-              form={form}
-            />
-          )}
+          {specialty === '121' &&
+            degree !== EducationalDegree.MASTER &&
+            studyForm !== StudyForm.PART_TIME && (
+              //@ts-ignore
+              <PriorityForm
+                priorityState={data.priorityState}
+                educationalPrograms={IPeduPrograms}
+                form={form}
+              />
+            )}
           {specialty === '126' && degree !== EducationalDegree.MASTER && (
             //@ts-ignore
             <PriorityForm

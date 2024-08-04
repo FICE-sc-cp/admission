@@ -297,7 +297,7 @@ export const PersonalForm: FC<PersonalFormProps> = ({
                   >
                     <FormControl>
                       <SelectTrigger className='w-[320px] md:w-[360px]'>
-                        <SelectValue placeholder='Вибери зі списку' />
+                        <SelectValue placeholder={field.value ?? ''} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

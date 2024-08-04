@@ -38,10 +38,6 @@ const Page = () => {
     select: (data) => data.data,
   });
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
-
   const entrantForm = useForm<TPersonalDataSchema>({
     resolver: zodResolver(PersonalDataSchema),
     defaultValues: {},
@@ -160,6 +156,10 @@ const Page = () => {
       toastError('Щось пішло не так!');
     }
   };
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <main className='flex flex-1 flex-col gap-3 p-6'>

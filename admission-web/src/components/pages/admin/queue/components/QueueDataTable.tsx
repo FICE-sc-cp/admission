@@ -30,17 +30,24 @@ import { AdminColumnSelect } from './AdminColumnSelect';
 import { AdminQueueCleanUp } from './AdminQueueCleanUp';
 import { OpenQueueButton } from './OpenQueueButton';
 import { QueueInitialColumnVisibility } from '../constants/QueueColumnVisibility';
+import { GetQueueUsersRes } from '@/app/api/queue/queue-api.types';
+import { RefetchOptions, QueryObserverResult } from '@tanstack/react-query';
+import { AxiosResponse } from 'axios';
 
 interface AdminQueueDataTableProps {
   columns: ColumnDef<PositionInQueue>[];
   data: PositionInQueue[];
-  fetchData: () => Promise<void>;
+  refetch: (
+    options?: RefetchOptions
+  ) => Promise<
+    QueryObserverResult<AxiosResponse<GetQueueUsersRes, any>, Error>
+  >;
 }
 
 export function AdminQueueDataTable({
   columns,
   data,
-  fetchData,
+  refetch,
 }: AdminQueueDataTableProps) {
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
     QueueInitialColumnVisibility
@@ -64,8 +71,8 @@ export function AdminQueueDataTable({
   const handleDelete = async (id: string) => {
     try {
       await adminQueueApi.deleteEntrant(id);
-      await fetchData();
       toastSuccess('Вступника успішно видалено з черги!');
+      await refetch();
     } catch (error) {
       toastError(error, 'Не вдалося видалити вступника з черги');
     }
@@ -74,8 +81,8 @@ export function AdminQueueDataTable({
   const handleMoveDown = async (id: string, delta: UpdateUser) => {
     try {
       await adminQueueApi.changePosition(id, delta);
-      await fetchData();
       toastSuccess('Вступника успішно перенесено на 5 позицій вниз!');
+      await refetch();
     } catch (error) {
       toastError(error, 'Не вдалося перенести вступника на 5 позицій вниз');
     }
@@ -87,7 +94,7 @@ export function AdminQueueDataTable({
         <h1 className='text-2xl font-medium'>Керування чергою</h1>
         <div className='flex items-center space-x-3'>
           <AdminColumnSelect table={table} />
-          <AdminQueueCleanUp fetchData={fetchData} />
+          <AdminQueueCleanUp refetch={refetch} />
           <OpenQueueButton />
         </div>
       </div>

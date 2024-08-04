@@ -1,38 +1,19 @@
 'use client';
-
 import { authApi } from '@/app/api/auth/auth-api';
-import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { Loader } from '@/components/common/components/Loader';
 import { StudentPersonalDataBlock } from '@/components/pages/entrant/main/components/StudentPersonalDataBlock';
+import { useSuspenseQuery } from '@tanstack/react-query';
 
 export default function Dashboard() {
-  const [role, setRole] = useState('');
-  const [userId, setUserId] = useState('');
-  const [loading, setLoading] = useState(true);
-  const { push } = useRouter();
+  const { data: user } = useSuspenseQuery({
+    queryKey: ['get-me'],
+    queryFn: authApi.getMe,
+    staleTime: Infinity,
+    retry: false,
+    select: (data) => data.data,
+  });
 
-  async function fetchData() {
-    try {
-      const { data } = await authApi.getMe();
-      setUserId(data.id);
-      setRole(data.role);
-    } finally {
-      setLoading(false);
-    }
-  }
+  if (user.role === 'ADMIN') useRouter().replace('/admin');
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return <Loader />;
-  }
-
-  if (role === 'ADMIN') {
-    push('/admin');
-  }
-
-  return <StudentPersonalDataBlock userId={userId} />;
+  return <StudentPersonalDataBlock userId={user.id} />;
 }

@@ -10,9 +10,8 @@ import {
 } from '@/app/api/queue/queue-api.types';
 
 class AdminQueueApi {
-  async getUsers(): Promise<GetQueueUsersRes> {
-    const { data } = await instance.get('/queue/users');
-    return data;
+  async getUsers() {
+    return await instance.get<GetQueueUsersRes>('/queue/users');
   }
 
   async changePosition(id: string, body: UpdateUser) {

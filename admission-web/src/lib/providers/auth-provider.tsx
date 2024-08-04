@@ -1,29 +1,31 @@
 'use client';
 
-import { createContext, PropsWithChildren, useEffect, useState } from 'react';
+import { createContext, PropsWithChildren } from 'react';
 import { authApi } from '@/app/api/auth/auth-api';
 
 import { useRouter } from 'next/navigation';
-import { Session, User } from '../types/auth.types';
+import { Session } from '../types/auth.types';
+import { useQuery } from '@tanstack/react-query';
 
 export const AuthContext = createContext<Session | null>(null);
 
 const AuthProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
+  const {
+    data: user,
+    isError,
+    isLoading,
+  } = useQuery({
+    queryKey: ['get-me'],
+    queryFn: authApi.getMe,
+    staleTime: Infinity,
+    retry: false,
+    select: (data) => data.data,
+  });
 
-  const router = useRouter();
-
-  useEffect(() => {
-    authApi
-      .getMe()
-      .then((res) => setUser(res.data))
-      .catch(() => router.replace('/auth/sign-up'))
-      .finally(() => setLoading(false));
-  }, []);
+  isError && useRouter().replace('/auth/sign-up');
 
   return (
-    <AuthContext.Provider value={{ user, loading }}>
+    <AuthContext.Provider value={{ user: user || null, loading: isLoading }}>
       {children}
     </AuthContext.Provider>
   );

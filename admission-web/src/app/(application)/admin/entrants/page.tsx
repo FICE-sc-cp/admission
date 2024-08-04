@@ -6,6 +6,7 @@ import { AdminEntrantDataTable } from '@/components/pages/admin/entrants/compone
 import { EntrantsColumns } from '@/components/pages/admin/entrants/components/EntrantsColumns';
 import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
 import { Loader } from '@/components/common/components/Loader';
+import { LoadingPage } from '@/components/common/components/LoadingPage';
 
 export default function AdminEntrantsPage() {
   const [data, setData] = useState<AdminUser[]>([]);
@@ -28,7 +29,7 @@ export default function AdminEntrantsPage() {
   }, []);
 
   if (loading) {
-    return <Loader />;
+    return <LoadingPage />;
   }
 
   return (

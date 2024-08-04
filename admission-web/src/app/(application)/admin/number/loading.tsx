@@ -1,12 +1,5 @@
-import { Loader2 } from 'lucide-react';
+import { LoadingPage } from '@/components/common/components/LoadingPage';
 
-const Loading = () => {
-  return (
-    <div className='flex h-screen items-center justify-center'>
-      <span>
-        <Loader2 className='text-clay-700 animate-spin' size={80} />
-      </span>
-    </div>
-  );
-};
-export default Loading;
+export default function Loading() {
+  return <LoadingPage />;
+}

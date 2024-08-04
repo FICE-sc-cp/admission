@@ -1,5 +1,5 @@
 'use client';
-import { Loader } from '@/components/common/components/Loader';
+import { LoadingPage } from '@/components/common/components/LoadingPage';
 import useAuth from '@/lib/hooks/useAuth';
 import { useRouter } from 'next/navigation';
 import { FC } from 'react';
@@ -13,7 +13,7 @@ const AdminLayout: FC<AuthLayoutProps> = ({ children }) => {
   const { user } = useAuth();
 
   if (!user) {
-    return <Loader />;
+    return <LoadingPage />;
   }
 
   if (user.role !== 'ADMIN') {

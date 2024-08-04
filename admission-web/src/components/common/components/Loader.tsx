@@ -1,11 +1,20 @@
 import { Loader2 } from 'lucide-react';
 
-export function Loader() {
+const sizeMapper = {
+  small: 75,
+  medium: 100,
+  large: 160,
+};
+
+export function Loader({
+  size = 'medium',
+}: {
+  size?: 'small' | 'medium' | 'large';
+}) {
   return (
-    <div className='flex min-h-96 min-w-96 items-center justify-center'>
-      <span>
-        <Loader2 className='text-clay-700 animate-spin' size={80} />
-      </span>
-    </div>
+    <Loader2
+      className='mb-7 animate-spin text-violet-700'
+      size={sizeMapper[size]}
+    />
   );
 }

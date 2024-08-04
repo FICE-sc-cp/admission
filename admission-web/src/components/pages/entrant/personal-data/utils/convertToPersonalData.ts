@@ -9,11 +9,11 @@ export function convertToPersonalData(
   return {
     ...data,
     region:
-      region === RegionExceptions.Kyiv || RegionExceptions.Sevastopol
+      region === RegionExceptions.Kyiv || region === RegionExceptions.Sevastopol
         ? null
         : region,
     settlement:
-      region === RegionExceptions.Kyiv || RegionExceptions.Sevastopol
+      region === RegionExceptions.Kyiv || region === RegionExceptions.Sevastopol
         ? region
         : data.settlement,
     createdAt: new Date(),

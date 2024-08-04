@@ -15,11 +15,11 @@ export function convertToEntrantData(
     phoneNumber: data.phoneNumber,
     idCode: data.idCode,
     region:
-      region === RegionExceptions.Kyiv || RegionExceptions.Sevastopol
+      region === RegionExceptions.Kyiv || region === RegionExceptions.Sevastopol
         ? null
         : region,
     settlement:
-      region === RegionExceptions.Kyiv || RegionExceptions.Sevastopol
+      region === RegionExceptions.Kyiv || region === RegionExceptions.Sevastopol
         ? region
         : data.settlement,
     address: data.address,

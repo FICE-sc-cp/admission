@@ -46,7 +46,8 @@ export const DocumentsSchema = z.object({
     .max(3, "Обов'язкове поле"),
   priorityDate: z
     .string({ required_error: "Обов'язкове поле" })
-    .regex(dateRegex),
+    .regex(dateRegex)
+    .optional(),
   programType: z
     .nativeEnum(EducationalProgramType, {
       required_error: "Обов'язкове поле",
@@ -63,12 +64,8 @@ export const AdminDocumentsSchema = DocumentsSchema.extend({
   date: z
     .string({ required_error: "Обов'язкове поле" })
     .regex(dateRegex)
-    .optional()
     .nullable(),
-  number: z
-    .string({ required_error: "Обов'язкове поле" })
-    .optional()
-    .nullable(),
+  number: z.string({ required_error: "Обов'язкове поле" }),
 });
 
 export type TAdminDocumentsSchema = z.infer<typeof AdminDocumentsSchema>;

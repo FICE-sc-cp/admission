@@ -90,7 +90,7 @@ const PriorityForm: FC<PriorityFormProps> = ({
             </FormLabel>
             <Input
               type='text'
-              value={field.value}
+              value={field.value ?? ''}
               className='w-[320px] md:w-[350px]'
               disabled={priorityState === DocumentState.APPROVED}
             />

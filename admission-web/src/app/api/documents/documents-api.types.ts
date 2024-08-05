@@ -21,7 +21,7 @@ export interface DocumentsApiBody {
   specialty: Specialities | null;
   studyForm: StudyForm;
   fundingSource: FundingSource;
-  priorityDate: string;
+  priorityDate?: string;
   userId: string;
   priorities: Priorities[];
 }

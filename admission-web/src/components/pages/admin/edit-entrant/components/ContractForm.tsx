@@ -82,43 +82,36 @@ export const ContractForm: FC<ContractFormProps> = ({
   const programType = form.watch('programType');
   const studyForm = form.watch('studyForm');
 
-  const { user } = useAuth();
-
   const [showDeletePopup, setShowDeletePopup] = useState(false);
 
-  const [prioritiesData, setPrioritiesData] = useState<TPriorities[] | null>(
-    null
-  );
+  const { user } = useAuth();
 
   const onSubmit = async (documents: TAdminDocumentsSchema) => {
-    if (
-      !isUniquePriorities(prioritiesData as TPriorities[]) ||
-      !data.priorities
-    ) {
-      if (prioritiesData) {
-        for (let i = 0; i < prioritiesData.length; i++) {
-          form.setError(`priorities.${i}`, {
-            type: 'required',
-            message: 'Приорітети мають бути унікальними!',
-          });
-        }
+    if (!isUniquePriorities(priorities)) {
+      for (let i = 0; i < priorities.length; i++) {
+        form.setError(`priorities.${i}`, {
+          type: 'required',
+          message: 'Приорітети мають бути унікальними!',
+        });
       }
       return;
     } else {
       try {
         await DocumentsApi.updateDocument(
           {
-            ...(documents as DocumentsApiBody),
+            ...documents,
+            userId: user!.id,
           },
-          data.id as string
+          data.id
         );
         toastSuccess(`Зміни збережено!`);
-        // location.reload();
       } catch {
         toastError('Щось пішло не так!');
       }
     }
   };
+
+  console.log(form.formState.errors);
 
   const deleteContract = async () => {
     try {
@@ -167,7 +160,7 @@ export const ContractForm: FC<ContractFormProps> = ({
   const approvePriority = async () => {
     try {
       await DocumentsApi.updateDocument(
-        { priorityState: 'APPROVED' } as DocumentsApiBody,
+        { priorityState: DocumentState.APPROVED },
         data.id as string
       );
       toastSuccess(`Пріоритети договору №${number} підтверджено!`);
@@ -199,10 +192,6 @@ export const ContractForm: FC<ContractFormProps> = ({
       form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
   }, [degree, fundingSource, educationalProgram, specialty]);
-
-  useEffect(() => {
-    setPrioritiesData(priorities as TPriorities[]);
-  }, [priorities]);
 
   return (
     <div className='flex flex-col gap-6'>
@@ -412,18 +401,18 @@ export const ContractForm: FC<ContractFormProps> = ({
           {specialty === '121' &&
             degree !== EducationalDegree.MASTER &&
             studyForm !== StudyForm.PART_TIME && (
-              //@ts-ignore
               <PriorityForm
                 priorityState={data.priorityState}
                 educationalPrograms={IPeduPrograms}
+                //@ts-ignore
                 form={form}
               />
             )}
           {specialty === '126' && degree !== EducationalDegree.MASTER && (
-            //@ts-ignore
             <PriorityForm
               priorityState={data.priorityState}
               educationalPrograms={ISTeduPrograms}
+              //@ts-ignore
               form={form}
             />
           )}

@@ -1,7 +1,4 @@
-import {
-  DocumentsApiBody,
-  DownloadDocument,
-} from '@/app/api/documents/documents-api.types';
+import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
 import { instance } from '@/app/api/instance';
 import { mimeType } from '@/lib/types/documents.types';
 
@@ -15,7 +12,7 @@ class DocumentsApi {
     return await instance.post<DocumentsApiBody>('/documents', body);
   }
 
-  async updateDocument(body: DocumentsApiBody, contractId: string) {
+  async updateDocument(body: Partial<DocumentsApiBody>, contractId: string) {
     return await instance.patch<DocumentsApiBody>(
       `/documents/${contractId}`,
       body

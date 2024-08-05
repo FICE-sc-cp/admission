@@ -7,7 +7,10 @@ import { mimeType } from '@/lib/types/documents.types';
 
 class DocumentsApi {
   async createDocument(
-    body: Omit<DocumentsApiBody, 'id' | 'state' | 'number' | 'date'>
+    body: Omit<
+      DocumentsApiBody,
+      'id' | 'priorityState' | 'state' | 'number' | 'date'
+    >
   ) {
     return await instance.post<DocumentsApiBody>('/documents', body);
   }

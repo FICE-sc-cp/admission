@@ -43,8 +43,7 @@ export const DocumentsSchema = z.object({
     .array(prioritySchema, {
       required_error: "Обов'язкове поле",
     })
-    .max(3, "Обов'язкове поле")
-    .nullable(),
+    .max(3, "Обов'язкове поле"),
   priorityDate: z
     .string({ required_error: "Обов'язкове поле" })
     .regex(dateRegex),

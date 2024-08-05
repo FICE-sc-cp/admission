@@ -14,7 +14,7 @@ import {
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
 import { getCurrentDate } from '@/lib/utils/getCurrentDate';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import DocumentsApi from '@/app/api/documents/documents-api';
 import useAuth from '@/lib/hooks/useAuth';
 import { useRouter } from 'next/navigation';
@@ -36,7 +36,6 @@ import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { isUniquePriorities } from '@/lib/utils/isUnique';
 import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
-import { DocumentsApiBody } from '@/app/api/documents/documents-api.types';
 
 export const DocumentsForm = () => {
   const { toastError, toastSuccess } = useCommonToast();
@@ -58,26 +57,17 @@ export const DocumentsForm = () => {
   const programType = form.watch('programType');
   const studyForm = form.watch('studyForm');
 
-  const [prioritiesData, setPrioritiesData] = useState<TPriorities[] | null>(
-    null
-  );
-
   const { push } = useRouter();
 
   const { user } = useAuth();
 
   const onSubmit = async (data: TDocumentsSchema) => {
-    if (
-      !isUniquePriorities(prioritiesData as TPriorities[]) ||
-      !data.priorities
-    ) {
-      if (prioritiesData) {
-        for (let i = 0; i < prioritiesData.length; i++) {
-          form.setError(`priorities.${i}`, {
-            type: 'required',
-            message: 'Пріоритети мають бути унікальними!',
-          });
-        }
+    if (!isUniquePriorities(priorities)) {
+      for (let i = 0; i < priorities.length; i++) {
+        form.setError(`priorities.${i}`, {
+          type: 'required',
+          message: 'Пріоритети мають бути унікальними!',
+        });
       }
       return;
     } else {
@@ -85,8 +75,8 @@ export const DocumentsForm = () => {
         await DocumentsApi.createDocument({
           ...data,
           userId: user!.id,
-          priorities: data.priorities,
-        } as DocumentsApiBody);
+          priorities,
+        });
         push('/');
         toastSuccess('Договір успішно створений!');
       } catch {
@@ -119,10 +109,6 @@ export const DocumentsForm = () => {
       form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
   }, [specialty, degree, fundingSource, studyForm, educationalProgram]);
-
-  useEffect(() => {
-    setPrioritiesData(priorities);
-  }, [form.getValues().priorities]);
 
   return (
     <Form {...form}>

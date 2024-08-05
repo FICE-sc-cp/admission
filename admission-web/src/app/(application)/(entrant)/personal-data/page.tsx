@@ -33,18 +33,14 @@ const PersonalDataPage = () => {
     setSteps(stepsArr);
   }, [isAdult, isAnotherPayer]);
 
-  if (!user) {
-    return <LoadingPage />;
-  }
-
   const { data: userData, isLoading } = useQuery({
-    queryKey: ['personal-data', user.id],
-    queryFn: () => PersonalDataApi.getPersonalData(user.id),
-    select: (data) => data.data,
+    queryKey: ['personal-data', user && user.id],
+    queryFn: () => user && PersonalDataApi.getPersonalData(user.id),
+    select: (data) => data?.data,
     throwOnError: false,
   });
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return <LoadingPage />;
   }
 

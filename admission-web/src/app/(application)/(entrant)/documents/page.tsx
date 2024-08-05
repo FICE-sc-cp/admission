@@ -10,18 +10,14 @@ import { LoadingPage } from '@/components/common/components/LoadingPage';
 export default function Page() {
   const { user } = useAuth();
 
-  if (!user) {
-    return <LoadingPage />;
-  }
-
   const { data: userData, isLoading } = useQuery({
-    queryKey: ['personal-data', user.id],
-    queryFn: () => PersonalDataApi.getPersonalData(user.id),
-    select: (data) => data.data,
+    queryKey: ['personal-data', user && user.id],
+    queryFn: () => user && PersonalDataApi.getPersonalData(user.id),
+    select: (data) => data?.data,
     throwOnError: true,
   });
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return <LoadingPage />;
   }
 

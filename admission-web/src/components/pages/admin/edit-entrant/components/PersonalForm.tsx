@@ -24,15 +24,10 @@ import { RegionExceptions, regions } from '@/lib/constants/regions';
 
 interface PersonalFormProps {
   title: string;
-  onSubmit: () => void;
   form: UseFormReturn<TPersonalDataSchema, any, undefined>;
 }
 
-export const PersonalForm: FC<PersonalFormProps> = ({
-  title,
-  onSubmit,
-  form,
-}) => {
+export const PersonalForm: FC<PersonalFormProps> = ({ title, form }) => {
   const isOldPassport = form.watch('oldPassportTemplate');
   const region = form.watch('region');
 
@@ -40,10 +35,7 @@ export const PersonalForm: FC<PersonalFormProps> = ({
     <div className='flex flex-col gap-3'>
       <p className='text-xl font-semibold'>{title}</p>
       <Form {...form}>
-        <form
-          onSubmit={form.handleSubmit(onSubmit)}
-          className='flex w-full max-w-[360px] flex-col items-center gap-6 md:items-start'
-        >
+        <form className='flex w-full max-w-[360px] flex-col items-center gap-6 md:items-start'>
           <div className='flex flex-col items-center gap-4 md:items-start'>
             <div className='flex flex-col gap-2'>
               <FormField

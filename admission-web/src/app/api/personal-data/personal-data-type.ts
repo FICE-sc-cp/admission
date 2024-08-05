@@ -6,10 +6,9 @@ export interface PersonalDataBody {
   firstName: string;
   middleName: string | null;
   lastName: string;
-  role: string;
-  entrantData: Omit<Entrant, 'userId'> | null;
-  representativeData: Omit<PersonalData, 'userId'> | null;
-  customerData: Omit<PersonalData, 'userId'> | null;
+  entrantData: Omit<Entrant, 'userId' | 'createdAt'> | null;
+  representativeData: Omit<PersonalData, 'userId' | 'createdAt'> | null;
+  customerData: Omit<PersonalData, 'userId' | 'createdAt'> | null;
 }
 
 export interface GetPersonalData {

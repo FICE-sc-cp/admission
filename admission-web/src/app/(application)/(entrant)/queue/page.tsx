@@ -9,19 +9,15 @@ import { useQuery } from '@tanstack/react-query';
 export default function Page() {
   const { user } = useAuth();
 
-  if (!user) {
-    return <LoadingPage />;
-  }
-
   const { data: userData, isLoading } = useQuery({
-    queryKey: ['queue-user-by-id', user.id],
-    queryFn: () => queueApi.getUser(user.id),
-    select: (data) => data.data,
+    queryKey: ['queue-user-by-id', user && user.id],
+    queryFn: () => user && queueApi.getUser(user.id),
+    select: (data) => data?.data,
     throwOnError: true,
     refetchInterval: 15000,
   });
 
-  if (isLoading) {
+  if (isLoading || !user) {
     return <LoadingPage />;
   }
 

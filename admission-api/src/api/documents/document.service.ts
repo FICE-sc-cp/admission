@@ -136,7 +136,7 @@ export class DocumentService {
     const currentContract = await this.documentRepo.find({ id });
     const user = await this.userRepo.find({ id: currentContract.userId });
 
-    if (contract.number && contract.date) {
+    if (contract.number && contract.date && currentContract.state !== DocumentState.APPROVED) {
       contract.state = DocumentState.APPROVED;
       TelegramAPI.sendContract({
         firstName: user.firstName,

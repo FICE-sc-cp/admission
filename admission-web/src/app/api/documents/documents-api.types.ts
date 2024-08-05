@@ -12,7 +12,7 @@ export interface DocumentsApiBody {
   id: string;
   priorityState: DocumentState;
   state?: DocumentState;
-  number: string;
+  number: string | null;
   date: string | null;
   degree: EducationalDegree;
   educationalProgram: string | null;

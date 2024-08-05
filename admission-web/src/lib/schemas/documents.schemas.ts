@@ -65,7 +65,7 @@ export const AdminDocumentsSchema = DocumentsSchema.extend({
     .string({ required_error: "Обов'язкове поле" })
     .regex(dateRegex)
     .nullable(),
-  number: z.string({ required_error: "Обов'язкове поле" }),
+  number: z.string({ required_error: "Обов'язкове поле" }).nullable(),
 });
 
 export type TAdminDocumentsSchema = z.infer<typeof AdminDocumentsSchema>;

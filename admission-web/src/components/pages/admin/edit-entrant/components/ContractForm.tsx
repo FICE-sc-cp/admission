@@ -46,7 +46,6 @@ import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
 import { isUniquePriorities } from '@/lib/utils/isUnique';
-import { TPriorities } from '@/lib/types/documents.types';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 
 interface ContractFormProps {
@@ -110,8 +109,6 @@ export const ContractForm: FC<ContractFormProps> = ({
       }
     }
   };
-
-  console.log(form.formState.errors);
 
   const deleteContract = async () => {
     try {

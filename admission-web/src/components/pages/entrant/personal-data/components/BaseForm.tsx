@@ -23,6 +23,7 @@ import { UseFormReturn } from 'react-hook-form';
 import { TPersonalDataSchema } from '@/lib/schemas/personal-data.schemas';
 import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
 import { RegionExceptions, regions } from '@/lib/constants/regions';
+import { instructorCode } from '@/lib/constants/instructor-code';
 
 interface BaseFormProps {
   form: UseFormReturn<TPersonalDataSchema, any, undefined>;
@@ -373,7 +374,7 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
           <Button
             className='w-[160px] md:w-[180px]'
             onClick={() => {
-              if (adminCode === '714') {
+              if (adminCode === instructorCode) {
                 onSubmit(form.getValues());
                 setAdminCode('');
               } else {

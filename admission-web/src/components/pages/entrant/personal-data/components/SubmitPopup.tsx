@@ -3,6 +3,7 @@
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { FC } from 'react';
+import { instructorCode } from '@/lib/constants/instructor-code';
 
 interface SubmitPopupProps {
   onSubmit: () => void;
@@ -38,7 +39,7 @@ const SubmitPopup: FC<SubmitPopupProps> = ({
           <Button variant='outline' onClick={() => popupController(false)}>
             Скасувати
           </Button>
-          <Button onClick={onSubmit} disabled={adminCode !== '714'}>
+          <Button onClick={onSubmit} disabled={adminCode !== instructorCode}>
             Надіслати
           </Button>
         </div>

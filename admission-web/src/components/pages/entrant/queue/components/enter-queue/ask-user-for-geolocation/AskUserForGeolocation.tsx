@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { QueueErorr } from '../../../types/QueueEntrant';
 import { Input } from '@/components/ui/input';
+import { instructorCode } from '@/lib/constants/instructor-code';
 
 interface Props {
   setIsUserAllowed: (isUserAllowed: boolean) => void;
@@ -17,7 +18,10 @@ export const AskUserForGeolocation: FC<Props> = ({
   const [adminCode, setAdminCode] = useState('');
 
   useEffect(() => {
-    const timer = setTimeout(() => setSkipChecking(adminCode === '714'), 300);
+    const timer = setTimeout(
+      () => setSkipChecking(adminCode === instructorCode),
+      300
+    );
 
     return () => clearTimeout(timer);
   }, [adminCode]);

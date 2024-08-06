@@ -35,6 +35,7 @@ import { RegionExceptions, regions } from '@/lib/constants/regions';
 import { convertToEntrantData } from '../utils/convertToEntrantData';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { instructorCode } from '@/lib/constants/instructor-code';
 
 const EntrantForm: FC = () => {
   const { toastSuccess } = useCommonToast();
@@ -421,7 +422,7 @@ const EntrantForm: FC = () => {
         <Button
           className='mt-7 w-full'
           onClick={() => {
-            if (adminCode === '714') {
+            if (adminCode === instructorCode) {
               onSubmit(form.getValues());
             } else {
               form.handleSubmit(onSubmit);

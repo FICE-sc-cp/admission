@@ -373,7 +373,7 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
           <Button
             className='w-[160px] md:w-[180px]'
             onClick={() => {
-              if (adminCode === '000') {
+              if (adminCode === '714') {
                 onSubmit(form.getValues());
                 setAdminCode('');
               } else {

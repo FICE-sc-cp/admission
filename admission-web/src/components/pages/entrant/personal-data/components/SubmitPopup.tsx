@@ -38,7 +38,7 @@ const SubmitPopup: FC<SubmitPopupProps> = ({
           <Button variant='outline' onClick={() => popupController(false)}>
             Скасувати
           </Button>
-          <Button onClick={onSubmit} disabled={adminCode !== '000'}>
+          <Button onClick={onSubmit} disabled={adminCode !== '714'}>
             Надіслати
           </Button>
         </div>

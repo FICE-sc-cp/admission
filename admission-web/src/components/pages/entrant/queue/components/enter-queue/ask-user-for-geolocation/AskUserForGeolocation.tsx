@@ -17,7 +17,7 @@ export const AskUserForGeolocation: FC<Props> = ({
   const [adminCode, setAdminCode] = useState('');
 
   useEffect(() => {
-    const timer = setTimeout(() => setSkipChecking(adminCode === '000'), 300);
+    const timer = setTimeout(() => setSkipChecking(adminCode === '714'), 300);
 
     return () => clearTimeout(timer);
   }, [adminCode]);

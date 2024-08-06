@@ -421,7 +421,7 @@ const EntrantForm: FC = () => {
         <Button
           className='mt-7 w-full'
           onClick={() => {
-            if (adminCode === '000') {
+            if (adminCode === '714') {
               onSubmit(form.getValues());
             } else {
               form.handleSubmit(onSubmit);

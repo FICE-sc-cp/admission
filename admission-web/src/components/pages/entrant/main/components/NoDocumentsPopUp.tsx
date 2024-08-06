@@ -21,36 +21,38 @@ export function NoDocumentsPopUp({
 }) {
   const { user } = useAuth();
 
-  const downloadDocument = async (contract: DocumentsApiBody) => {
-    const res = await DocumentsApi.downloadContract(contract.id as string);
+  const downloadDocument = async (contract: DocumentsApiBody, type: string) => {
+    switch (type) {
+      case 'contract': {
+        const res = await DocumentsApi.downloadContract(contract.id as string);
 
-    downloadFile(
-      res.data,
-      `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
-      contract,
-      'Навчання'
-    );
+        return downloadFile(
+          res.data,
+          `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
+          contract,
+          'Навчання'
+        );
+      }
+      case 'payment': {
+        const res = await DocumentsApi.downloadPayment(contract.id as string);
 
-    if (contract.fundingSource === 'CONTRACT') {
-      const res = await DocumentsApi.downloadPayment(contract.id as string);
+        return downloadFile(
+          res.data,
+          `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
+          contract,
+          'Оплата'
+        );
+      }
+      case 'priority': {
+        const res = await DocumentsApi.downloadPriority(contract.id as string);
 
-      downloadFile(
-        res.data,
-        `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
-        contract,
-        'Оплата'
-      );
-    }
-
-    if (contract.specialty === '121' || contract.specialty === '126') {
-      const res = await DocumentsApi.downloadPriority(contract.id as string);
-
-      downloadFile(
-        res.data,
-        `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
-        contract,
-        'Пріоритети'
-      );
+        return downloadFile(
+          res.data,
+          `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
+          contract,
+          'Пріоритети'
+        );
+      }
     }
   };
 
@@ -61,18 +63,38 @@ export function NoDocumentsPopUp({
         <div key={contract.number} className='mb-5 flex flex-col'>
           <div className='flex w-auto flex-col rounded-lg bg-violet-100 p-5'>
             <div className='flex flex-col-reverse border-b border-violet-600 sm:flex-row sm:justify-between'>
-              <h2 className='m-2 ml-0 whitespace-nowrap text-xl font-normal'>
+              <h2 className='m-2 ml-0 text-xl font-normal'>
                 Договір{' '}
                 {contract.number
                   ? `№ ${contract.number}`
-                  : '(не зареєстровано)'}
+                  : '(не зареєстровано)'}{' '}
+                {contract.date ? `від ${contract.date}` : ''}
               </h2>
-              <Button
-                className='mb-2 w-fit'
-                onClick={() => downloadDocument(contract)}
-              >
-                Завантажити
-              </Button>
+              <div className='flex flex-col gap-2 sm:flex-row'>
+                <Button
+                  className='w-fit'
+                  onClick={() => downloadDocument(contract, 'contract')}
+                >
+                  Договір про навчання
+                </Button>
+                {contract.fundingSource === 'CONTRACT' ? (
+                  <Button
+                    className='w-fit'
+                    onClick={() => downloadDocument(contract, 'payment')}
+                  >
+                    Договір про оплату
+                  </Button>
+                ) : null}
+                {contract.specialty === '121' ||
+                contract.specialty === '126' ? (
+                  <Button
+                    className='w-fit'
+                    onClick={() => downloadDocument(contract, 'priority')}
+                  >
+                    Пріоритети
+                  </Button>
+                ) : null}
+              </div>
             </div>
             <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
               <h6>

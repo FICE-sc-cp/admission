@@ -19,8 +19,7 @@ export function StudentPayerBlock({ payerData }: { payerData: PersonalData }) {
             <h6>РНОКПП: {payerData.idCode}</h6>
             <h6>
               Місце реєстрації:{' '}
-              {payerData.region +
-                ', ' +
+              {(payerData.region === null ? '' : payerData.region + ', ') +
                 payerData.settlement +
                 ', ' +
                 payerData.address +

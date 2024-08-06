@@ -42,8 +42,9 @@ export function StudentPersonalDataBlock({ userId }: { userId: string }) {
               <h6>РНОКПП: {userData.entrantData.idCode}</h6>
               <h6>
                 Місце реєстрації:{' '}
-                {userData.entrantData.region +
-                  ', ' +
+                {(userData.entrantData.region === null
+                  ? ''
+                  : userData.entrantData.region + ', ') +
                   userData.entrantData.settlement +
                   ', ' +
                   userData.entrantData.address +

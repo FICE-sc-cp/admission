@@ -23,8 +23,9 @@ export function StudentRepresentativeBlock({
             <h6>РНОКПП: {representativeData.idCode}</h6>
             <h6>
               Місце реєстрації:{' '}
-              {representativeData.region +
-                ', ' +
+              {(representativeData.region === null
+                ? ''
+                : representativeData.region + ', ') +
                 representativeData.settlement +
                 ', ' +
                 representativeData.address +

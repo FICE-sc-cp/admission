@@ -121,19 +121,24 @@ export const ContractForm: FC<ContractFormProps> = ({
     }
   };
 
-  const downloadDocuments = async () => {
-    const res = await DocumentsApi.downloadContract(data.id as string);
+  const downloadDocuments = async (
+    documentType?: 'contract' | 'payment' | 'priority'
+  ) => {
+    if (!documentType || documentType === 'contract') {
+      const res = await DocumentsApi.downloadContract(data.id as string);
+      downloadFile(
+        res.data,
+        `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ?? ''}`,
+        data,
+        'Навчання'
+      );
+    }
 
-    downloadFile(
-      res.data,
-      `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ?? ''}`,
-      data,
-      'Навчання'
-    );
-
-    if (data.fundingSource === 'CONTRACT') {
+    if (
+      (!documentType && data.fundingSource === 'CONTRACT') ||
+      documentType === 'payment'
+    ) {
       const res = await DocumentsApi.downloadPayment(data.id as string);
-
       downloadFile(
         res.data,
         `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ?? ''}`,
@@ -142,14 +147,17 @@ export const ContractForm: FC<ContractFormProps> = ({
       );
     }
 
-    if (data.specialty === '121' || data.specialty === '126') {
+    if (
+      (!documentType &&
+        (data.specialty === '121' || data.specialty === '126')) ||
+      documentType === 'priority'
+    ) {
       const res = await DocumentsApi.downloadPriority(data.id as string);
-
       downloadFile(
         res.data,
         `${entrantLastName} ${entrantFirstName} ${entrantMiddleName ? entrantMiddleName : ''}`,
         data,
-        'Приорітети'
+        'Пріоритети'
       );
     }
   };
@@ -501,10 +509,35 @@ export const ContractForm: FC<ContractFormProps> = ({
             <Button
               className='w-[350px]'
               type='button'
-              onClick={downloadDocuments}
+              onClick={() => downloadDocuments()}
             >
-              Завантажити
+              Завантажити всі
             </Button>
+            <Button
+              className='w-[350px]'
+              type='button'
+              onClick={() => downloadDocuments('contract')}
+            >
+              Договір про навчання
+            </Button>
+            {data.fundingSource === 'CONTRACT' ? (
+              <Button
+                className='w-[350px]'
+                type='button'
+                onClick={() => downloadDocuments('payment')}
+              >
+                Договір про оплату
+              </Button>
+            ) : null}
+            {data.specialty === '121' || data.specialty === '126' ? (
+              <Button
+                className='w-[350px]'
+                type='button'
+                onClick={() => downloadDocuments('priority')}
+              >
+                Пріоритети
+              </Button>
+            ) : null}
             <Button
               onClick={approvePriority}
               type='button'

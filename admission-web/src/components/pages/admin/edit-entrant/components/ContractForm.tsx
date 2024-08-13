@@ -148,9 +148,10 @@ export const ContractForm: FC<ContractFormProps> = ({
     }
 
     if (
-      (!documentType &&
+      ((!documentType &&
         (data.specialty === '121' || data.specialty === '126')) ||
-      documentType === 'priority'
+        documentType === 'priority') &&
+      data.priorities.length > 0
     ) {
       const res = await DocumentsApi.downloadPriority(data.id as string);
       downloadFile(
@@ -529,7 +530,8 @@ export const ContractForm: FC<ContractFormProps> = ({
                 Договір про оплату
               </Button>
             ) : null}
-            {data.specialty === '121' || data.specialty === '126' ? (
+            {(data.specialty === '121' || data.specialty === '126') &&
+            data.priorities.length > 0 ? (
               <Button
                 className='w-[350px]'
                 type='button'
@@ -543,7 +545,7 @@ export const ContractForm: FC<ContractFormProps> = ({
               type='button'
               className={`w-[350px] ${
                 data.priorityState === DocumentState.APPROVED ||
-                !data.priorities ||
+                data.priorities.length === 0 ||
                 data.specialty === '123'
                   ? 'hidden'
                   : ''

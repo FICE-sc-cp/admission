@@ -38,7 +38,7 @@ export function StudentPersonalDataBlock({ userId }: { userId: string }) {
               <h6>Електронна пошта: {userData.entrantData.email}</h6>
               <h6>Номер паспорту: {userData.entrantData.passportNumber}</h6>
               <h6>Дата видачі: {userData.entrantData.passportDate}</h6>
-              <h6>Орган видачі: {userData.entrantData.passportInstitute}</h6>
+              <h6>Ким видано: {userData.entrantData.passportInstitute}</h6>
               <h6>РНОКПП: {userData.entrantData.idCode}</h6>
               <h6>
                 Місце реєстрації:{' '}

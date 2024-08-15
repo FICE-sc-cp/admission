@@ -33,6 +33,16 @@ export function NoDocumentsPopUp({
           'Навчання'
         );
       }
+      case 'payment': {
+        const res = await DocumentsApi.downloadPayment(contract.id as string);
+
+        return downloadFile(
+          res.data,
+          `${user?.lastName} ${user?.firstName} ${user?.middleName ? user?.middleName : ''}`,
+          contract,
+          'Оплата'
+        );
+      }
       case 'priority': {
         const res = await DocumentsApi.downloadPriority(contract.id as string);
 
@@ -67,6 +77,14 @@ export function NoDocumentsPopUp({
                 >
                   Договір про навчання
                 </Button>
+                {contract.fundingSource === 'CONTRACT' ? (
+                  <Button
+                    className='w-fit'
+                    onClick={() => downloadDocument(contract, 'payment')}
+                  >
+                    Договір про оплату
+                  </Button>
+                ) : null}
                 {contract.specialty === '121' ||
                 contract.specialty === '126' ? (
                   <Button

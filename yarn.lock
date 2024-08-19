@@ -729,6 +729,17 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@fig/complete-commander@npm:^3.0.0":
+  version: 3.2.0
+  resolution: "@fig/complete-commander@npm:3.2.0"
+  dependencies:
+    prettier: "npm:^3.2.5"
+  peerDependencies:
+    commander: ^11.1.0
+  checksum: 10c0/feca2fd780486ef8acd3a5f231b07304b9c8d61a1dd5f3fa75568295fd39122239893ca8178c80200c5d5336a0f9e4a0d898bd286dfc65ad192e50f7a80f3b3b
+  languageName: node
+  linkType: hard
+
 "@floating-ui/core@npm:^1.6.0":
   version: 1.6.5
   resolution: "@floating-ui/core@npm:1.6.5"
@@ -764,6 +775,18 @@ __metadata:
   version: 0.2.5
   resolution: "@floating-ui/utils@npm:0.2.5"
   checksum: 10c0/9e1c7330433c3a8f226c5a44ed1dcdda13b313c4126ce3281f970d1e471b1c9fd9e1559cc76a0592af25d55a3f81afe1a5778aa7b80e51c9fa01930cd1d5557e
+  languageName: node
+  linkType: hard
+
+"@golevelup/nestjs-discovery@npm:4.0.1":
+  version: 4.0.1
+  resolution: "@golevelup/nestjs-discovery@npm:4.0.1"
+  dependencies:
+    lodash: "npm:^4.17.21"
+  peerDependencies:
+    "@nestjs/common": ^10.x
+    "@nestjs/core": ^10.x
+  checksum: 10c0/232de5f8f051eab1ed0a4b54e3cbb1532ce0311ed7a3abaa1f2e86b6189ecf17b8b01c8faff318d058cbed3daf6bc93c50bf64a30d382581e8176555619c12c8
   languageName: node
   linkType: hard
 
@@ -2760,6 +2783,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/node-xlsx@npm:^0.21.0":
+  version: 0.21.0
+  resolution: "@types/node-xlsx@npm:0.21.0"
+  dependencies:
+    node-xlsx: "npm:*"
+  checksum: 10c0/351dcb820d5cdc9ad0b060e5a8e6e9ab2f4567b12001c4a71e8e8d4c228cdb5dc0845b8702779d7c6c1ecf8a789039690f6baf59de15a3656d4f2bb6047e9e9d
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*":
   version: 22.0.0
   resolution: "@types/node@npm:22.0.0"
@@ -3440,6 +3472,7 @@ __metadata:
     "@types/jest": "npm:^29.5.2"
     "@types/multer": "npm:^1.4.11"
     "@types/node": "npm:^20.3.1"
+    "@types/node-xlsx": "npm:^0.21.0"
     "@types/nodemailer": "npm:^6.4.15"
     "@types/supertest": "npm:^6.0.0"
     "@typescript-eslint/eslint-plugin": "npm:^6.0.0"
@@ -3448,10 +3481,13 @@ __metadata:
     class-transformer: "npm:^0.5.1"
     class-validator: "npm:^0.14.1"
     docxtemplater: "npm:^3.48.0"
+    dotenv: "npm:^16.4.5"
     eslint: "npm:^8.42.0"
     eslint-config-prettier: "npm:^9.0.0"
     eslint-plugin-prettier: "npm:^5.0.0"
     jest: "npm:^29.5.0"
+    nest-commander: "npm:^3.15.0"
+    node-xlsx: "npm:^0.24.0"
     nodemailer: "npm:^6.9.14"
     pizzip: "npm:^3.1.7"
     prettier: "npm:^3.0.0"
@@ -4613,6 +4649,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"commander@npm:11.1.0":
+  version: 11.1.0
+  resolution: "commander@npm:11.1.0"
+  checksum: 10c0/13cc6ac875e48780250f723fb81c1c1178d35c5decb1abb1b628b3177af08a8554e76b2c0f29de72d69eef7c864d12613272a71fabef8047922bc622ab75a179
+  languageName: node
+  linkType: hard
+
 "commander@npm:4.1.1, commander@npm:^4.0.0":
   version: 4.1.1
   resolution: "commander@npm:4.1.1"
@@ -4775,7 +4818,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cosmiconfig@npm:^8.2.0":
+"cosmiconfig@npm:8.3.6, cosmiconfig@npm:^8.2.0":
   version: 8.3.6
   resolution: "cosmiconfig@npm:8.3.6"
   dependencies:
@@ -5261,7 +5304,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dotenv@npm:16.4.5":
+"dotenv@npm:16.4.5, dotenv@npm:^16.4.5":
   version: 16.4.5
   resolution: "dotenv@npm:16.4.5"
   checksum: 10c0/48d92870076832af0418b13acd6e5a5a3e83bb00df690d9812e94b24aff62b88ade955ac99a05501305b8dc8f1b0ee7638b18493deb6fe93d680e5220936292f
@@ -9453,6 +9496,23 @@ __metadata:
   languageName: node
   linkType: hard
 
+"nest-commander@npm:^3.15.0":
+  version: 3.15.0
+  resolution: "nest-commander@npm:3.15.0"
+  dependencies:
+    "@fig/complete-commander": "npm:^3.0.0"
+    "@golevelup/nestjs-discovery": "npm:4.0.1"
+    commander: "npm:11.1.0"
+    cosmiconfig: "npm:8.3.6"
+    inquirer: "npm:8.2.6"
+  peerDependencies:
+    "@nestjs/common": ^8.0.0 || ^9.0.0 || ^10.0.0
+    "@nestjs/core": ^8.0.0 || ^9.0.0 || ^10.0.0
+    "@types/inquirer": ^8.1.3
+  checksum: 10c0/5c1f78d19592b6280acd10004ea54b08d42c7a545d69b5b639d85239d2fcab5aa46e71a6a256da0f5f6618aa35baeac97c6791432b96e2cbc5462585f32a9250
+  languageName: node
+  linkType: hard
+
 "next@npm:14.2.4":
   version: 14.2.4
   resolution: "next@npm:14.2.4"
@@ -9588,6 +9648,17 @@ __metadata:
   version: 2.0.18
   resolution: "node-releases@npm:2.0.18"
   checksum: 10c0/786ac9db9d7226339e1dc84bbb42007cb054a346bd9257e6aa154d294f01bc6a6cddb1348fa099f079be6580acbb470e3c048effd5f719325abd0179e566fd27
+  languageName: node
+  linkType: hard
+
+"node-xlsx@npm:*, node-xlsx@npm:^0.24.0":
+  version: 0.24.0
+  resolution: "node-xlsx@npm:0.24.0"
+  dependencies:
+    xlsx: "https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
+  bin:
+    node-xlsx: dist/bin/cli.js
+  checksum: 10c0/df1b85e7f00f4c849574287f02571593a37800e805db85cb1e38b04759fa9f2bc88c766fe0ed13aae61b27b4a84a126fd58534312f002759abf7e23abc60ce19
   languageName: node
   linkType: hard
 
@@ -10348,7 +10419,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prettier@npm:^3.0.0":
+"prettier@npm:^3.0.0, prettier@npm:^3.2.5":
   version: 3.3.3
   resolution: "prettier@npm:3.3.3"
   bin:
@@ -12945,6 +13016,15 @@ __metadata:
     imurmurhash: "npm:^0.1.4"
     signal-exit: "npm:^3.0.7"
   checksum: 10c0/a2c282c95ef5d8e1c27b335ae897b5eca00e85590d92a3fd69a437919b7b93ff36a69ea04145da55829d2164e724bc62202cdb5f4b208b425aba0807889375c7
+  languageName: node
+  linkType: hard
+
+"xlsx@https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz":
+  version: 0.20.2
+  resolution: "xlsx@https://cdn.sheetjs.com/xlsx-0.20.2/xlsx-0.20.2.tgz"
+  bin:
+    xlsx: ./bin/xlsx.njs
+  checksum: 10c0/664dff22e5ecd83d595f34e00ac90ee852d16e45b72385ada54291551b808c6848b166fb395f5e35249ca976a5b5d514e793ccbcc0a611b87a600ae4024d605a
   languageName: node
   linkType: hard
 

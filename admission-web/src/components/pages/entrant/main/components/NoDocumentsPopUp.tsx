@@ -114,12 +114,7 @@ export function NoDocumentsPopUp({
                     }`}
               </h6>
               <h2 className='font-medium'>
-                {contracts.some(
-                  (contract) =>
-                    (contract.specialty === '121' &&
-                      contract.studyForm === 'PART_TIME') ||
-                    contract.specialty === '123'
-                )
+                {contract.priorities.length === 0
                   ? ''
                   : 'Пріоритети освітніх програм'}
               </h2>

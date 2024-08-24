@@ -28,7 +28,7 @@ import {
   SCIENTIFIC,
   IPeduPrograms,
   ISTeduPrograms,
-  ABBREVIATION_TO_PROGRAM,
+  PROGRAM_TO_ABBREVIATION,
 } from '@/lib/constants/educational-programs';
 import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
@@ -78,7 +78,7 @@ export const DocumentsForm = () => {
           priorities,
           educationalProgram:
             data.degree === EducationalDegree.MASTER
-              ? (ABBREVIATION_TO_PROGRAM[
+              ? (PROGRAM_TO_ABBREVIATION[
                   data.educationalProgram as string
                 ] as string)
               : null,

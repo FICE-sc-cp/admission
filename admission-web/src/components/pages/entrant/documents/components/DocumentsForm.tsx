@@ -27,11 +27,10 @@ import {
   PROFESSIONAL,
   SCIENTIFIC,
   IPeduPrograms,
-  ISTeduPrograms,
+  ISTeduPrograms, PROGRAM_TO_ABBREVIATION,
 } from '@/lib/constants/educational-programs';
 import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
-import { TPriorities } from '@/lib/types/documents.types';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { isUniquePriorities } from '@/lib/utils/isUnique';
 import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
@@ -76,6 +75,7 @@ export const DocumentsForm = () => {
           ...data,
           userId: user!.id,
           priorities,
+          educationalProgram: data.degree === EducationalDegree.MASTER ? PROGRAM_TO_ABBREVIATION[data.educationalProgram as string] as string : null,
         });
         push('/');
         toastSuccess('Договір успішно створений!');

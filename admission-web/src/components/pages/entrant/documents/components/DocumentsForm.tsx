@@ -378,7 +378,10 @@ export const DocumentsForm = () => {
         {specialty === '126' && degree !== EducationalDegree.MASTER && (
           <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
         )}
-        <Button type='submit' className='w-full md:w-[185px]'>
+        <Button
+          onClick={() => form.handleSubmit(onSubmit)()}
+          className='w-full md:w-[185px]'
+        >
           Надіслати договір
         </Button>
       </form>

@@ -28,6 +28,7 @@ import {
   SCIENTIFIC,
   IPeduPrograms,
   ISTeduPrograms,
+  ABBREVIATION_TO_PROGRAM,
 } from '@/lib/constants/educational-programs';
 import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
@@ -75,6 +76,12 @@ export const DocumentsForm = () => {
           ...data,
           userId: user!.id,
           priorities,
+          educationalProgram:
+            data.degree === EducationalDegree.MASTER
+              ? (ABBREVIATION_TO_PROGRAM[
+                  data.educationalProgram as string
+                ] as string)
+              : null,
         });
         push('/');
         toastSuccess(
@@ -380,10 +387,7 @@ export const DocumentsForm = () => {
         {specialty === '126' && degree !== EducationalDegree.MASTER && (
           <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
         )}
-        <Button
-          onClick={() => form.handleSubmit(onSubmit)()}
-          className='w-full md:w-[185px]'
-        >
+        <Button type='submit' className='w-full md:w-[185px]'>
           Надіслати договір
         </Button>
       </form>

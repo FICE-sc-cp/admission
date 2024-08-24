@@ -564,10 +564,7 @@ export const ContractForm: FC<ContractFormProps> = ({
             >
               Схвалити пріоритети
             </Button>
-            <Button
-              onClick={() => form.handleSubmit(onSubmit)()}
-              className='w-[350px]'
-            >
+            <Button type='submit' className='w-[350px]'>
               Зберегти зміни
             </Button>
             <Button

@@ -75,7 +75,6 @@ export const DocumentsForm = () => {
           ...data,
           userId: user!.id,
           priorities,
-          educationalProgram: data.degree,
         });
         push('/');
         toastSuccess(

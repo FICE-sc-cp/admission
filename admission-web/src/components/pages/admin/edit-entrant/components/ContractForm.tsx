@@ -34,10 +34,13 @@ import {
 import { DeletePopup } from './DeletePopup';
 import PriorityForm from '@/components/pages/entrant/documents/components/PriorityForm';
 import {
+  ABBREVIATION_TO_PROGRAM,
   IPeduPrograms,
   ISTeduPrograms,
   PROFESSIONAL,
+  PROFESSIONAL_PROGRAMS,
   SCIENTIFIC,
+  SCIENTIFIC_PROGRAMS,
 } from '@/lib/constants/educational-programs';
 import { Separator } from '@/components/ui/separator';
 import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
@@ -82,7 +85,6 @@ export const ContractForm: FC<ContractFormProps> = ({
   const studyForm = form.watch('studyForm');
 
   const [showDeletePopup, setShowDeletePopup] = useState(false);
-
   const { user } = useAuth();
 
   const onSubmit = async (documents: TAdminDocumentsSchema) => {
@@ -184,7 +186,10 @@ export const ContractForm: FC<ContractFormProps> = ({
       if (educationalProgram) {
         form.setValue(
           'specialty',
-          educationalProgram.split(' ')[0] as '121' | '123' | '126'
+          ABBREVIATION_TO_PROGRAM[educationalProgram].split(' ')[0] as
+            | '121'
+            | '123'
+            | '126'
         );
       }
 
@@ -483,16 +488,22 @@ export const ContractForm: FC<ContractFormProps> = ({
                             <SelectContent>
                               {programType ===
                                 EducationalProgramType.PROFESSIONAL &&
-                                PROFESSIONAL.map((program) => (
-                                  <SelectItem key={program} value={program}>
-                                    {program}
+                                PROFESSIONAL_PROGRAMS.map((program) => (
+                                  <SelectItem
+                                    key={program.value}
+                                    value={program.value}
+                                  >
+                                    {program.label}
                                   </SelectItem>
                                 ))}
                               {programType ===
                                 EducationalProgramType.SCIENTIFIC &&
-                                SCIENTIFIC.map((program) => (
-                                  <SelectItem key={program} value={program}>
-                                    {program}
+                                SCIENTIFIC_PROGRAMS.map((program) => (
+                                  <SelectItem
+                                    key={program.value}
+                                    value={program.value}
+                                  >
+                                    {program.label}
                                   </SelectItem>
                                 ))}
                             </SelectContent>

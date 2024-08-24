@@ -27,7 +27,7 @@ import {
   PROFESSIONAL,
   SCIENTIFIC,
   IPeduPrograms,
-  ISTeduPrograms, PROGRAM_TO_ABBREVIATION,
+  ISTeduPrograms,
 } from '@/lib/constants/educational-programs';
 import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
@@ -75,7 +75,7 @@ export const DocumentsForm = () => {
           ...data,
           userId: user!.id,
           priorities,
-          educationalProgram: data.degree === EducationalDegree.MASTER ? PROGRAM_TO_ABBREVIATION[data.educationalProgram as string] as string : null,
+          educationalProgram: data.degree,
         });
         push('/');
         toastSuccess(

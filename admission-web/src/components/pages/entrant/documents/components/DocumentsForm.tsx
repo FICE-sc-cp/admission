@@ -78,7 +78,10 @@ export const DocumentsForm = () => {
           educationalProgram: data.degree === EducationalDegree.MASTER ? PROGRAM_TO_ABBREVIATION[data.educationalProgram as string] as string : null,
         });
         push('/');
-        toastSuccess('Договір успішно створений!');
+        toastSuccess(
+          'Договір успішно створений!',
+          'Ви можете переглянути його в профілі'
+        );
       } catch {
         toastError('Щось пішло не так!');
       }

@@ -85,8 +85,9 @@ export function NoDocumentsPopUp({
                     Договір про оплату
                   </Button>
                 ) : null}
-                {contract.specialty === '121' ||
-                contract.specialty === '126' ? (
+                {contract.priorities.length !== 0 &&
+                (contract.specialty === '121' ||
+                  contract.specialty === '126') ? (
                   <Button
                     className='w-fit'
                     onClick={() => downloadDocument(contract, 'priority')}

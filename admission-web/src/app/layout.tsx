@@ -5,7 +5,7 @@ import './globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'ФІОТ 2024 | Подання заяв на вступ',
+  title: `ФІОТ ${new Date().getFullYear()} | Подання заяв на вступ`,
   description:
     'Сайт, створений для спрощення життя абітурієнта. На цьому сайті вступника ФІОТ КПІ зможуть подавати документи на вступ',
 };

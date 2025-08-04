@@ -249,7 +249,7 @@ export const ContractForm: FC<ContractFormProps> = ({
                 <FormLabel>Дата реєстрації договору</FormLabel>
                 <FormControl>
                   <Input
-                    placeholder='01.08.2024'
+                    placeholder={`01.08.${new Date().getFullYear()}`}
                     className='w-[320px] md:w-[350px]'
                     value={field.value as string}
                     onChange={field.onChange}

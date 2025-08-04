@@ -27,26 +27,29 @@ COPY --from=pruner /app/out/yarn.lock ./yarn.lock
 COPY --from=pruner /app/out/json/ .
 
 # First install the dependencies (as they change less often)
+RUN yarn config set nodeLinker node-modules
 RUN yarn install
 
 # Copy source code of isolated subworkspace
 COPY --from=pruner /app/out/full/ .
 
+ENV NEXT_PUBLIC_API_URL=https://admission-api.fictadvisor.com
+
 RUN turbo build --filter=admission-web
-RUN yarn workspaces focus --all --production
+#RUN yarn workspaces focus --all --production
 
 # Final image
 FROM alpine AS runner
 ARG PROJECT
 
 RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 nodejs
-USER nodejs
+RUN adduser --system --uid 1001 nextjs
+USER nextjs
 
 WORKDIR /app
-COPY --from=builder /app/admission-web/.next ./.next
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/admission-web/public ./public
-COPY --from=builder /app/admission-web/package.json ./package.json
+COPY --from=builder --chown=nextjs:nodejs /app/admission-web/.next ./.next
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules ./node_modules
+COPY --from=builder --chown=nextjs:nodejs /app/admission-web/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/admission-web/package.json ./package.json
 
 CMD ["yarn", "start"]

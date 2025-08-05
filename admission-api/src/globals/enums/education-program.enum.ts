@@ -2,6 +2,8 @@ export enum EducationProgramEnum {
   CSSE = 'CSSE',
   ISSE = 'ISSE',
   IIS = 'IIS',
-  ISRS = 'ISRS',
-  IMST = 'IMST'
+  IMST = 'IMST',
+  CGP = 'CGP',
+  DRS = 'DRS',
+  CSN = 'CSN'
 }

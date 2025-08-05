@@ -1,4 +1,4 @@
-import { DocumentState, EducationalDegree, EducationalProgramType, FundingSource, PaymentType, StudyForm } from '@prisma/client';
+import { DocumentState, EducationalDegree, EducationalProgramType, EducationProgram, FundingSource, PaymentType, Specialty, StudyForm } from '@prisma/client';
 import { Optional } from 'src/globals/decorators';
 import { CreatePriorityDto } from './create-priority.dto';
 
@@ -21,8 +21,11 @@ export class UpdateContractDto {
   })
     degree?: EducationalDegree;
   
-  @Optional()
-    educationalProgram?: string;
+  @Optional({
+    type: 'enum',
+    enum: EducationProgram,
+  })
+    educationalProgram?: EducationProgram;
   
   @Optional({
     type: 'enum',
@@ -36,8 +39,11 @@ export class UpdateContractDto {
   })
     paymentType?: PaymentType;
   
-  @Optional()
-    specialty?: string;
+  @Optional({
+    type: 'enum',
+    enum: Specialty,
+  })
+    specialty?: Specialty;
   
   @Optional({
     type: 'enum',

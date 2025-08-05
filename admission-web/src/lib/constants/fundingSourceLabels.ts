@@ -8,6 +8,6 @@ export const FundingSourceLabels: Record<FundingSource, string> = {
 
 export const PaymentTypeLabels: Record<PaymentType, string> = {
   [PaymentType.MONTHLY]: 'Щомісячно',
-  [PaymentType.QUARTERLY]: 'Щорічно',
+  [PaymentType.ANNUALLY]: 'Щорічно',
   [PaymentType.SEMESTERLY]: 'Щосеместрово',
 };

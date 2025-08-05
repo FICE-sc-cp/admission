@@ -1,3 +1,4 @@
+import { Specialty } from '@prisma/client';
 import { Optional, Required } from '../../../globals/decorators';
 
 export class SendContractTelegramDto {
@@ -10,8 +11,11 @@ export class SendContractTelegramDto {
   @Optional()
     middleName?: string;
 
-  @Required()
-    specialty: string;
+  @Required({
+    type: 'enum',
+    enum: Specialty,
+  })
+    specialty: Specialty;
   
   @Required()
     contractNumber: string;

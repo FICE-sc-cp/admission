@@ -1,5 +1,5 @@
 export enum PaymentTypeEnum {
-  QUARTERLY = 'Щороку',
+  ANNUALLY = 'Щороку',
   SEMESTERLY = 'Щосеместрово',
   MONTHLY = 'Щомісяця',
 }

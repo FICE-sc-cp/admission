@@ -2,11 +2,9 @@ import { Command, CommandRunner } from 'nest-commander';
 import { PrismaService } from '../database/prisma.service';
 import axios from 'axios';
 import xlsx from 'node-xlsx';
-import { first } from 'rxjs';
+import { Specialty } from '@prisma/client';
 
 const id = '1298104';
-const speciality = '123';
-const studyForm = 'FULL_TIME';
 
 @Command({
   name: 'parse-edbo',
@@ -26,7 +24,7 @@ export class ParseEdboCommand extends CommandRunner {
       where: {
         contracts: {
           some: {
-            specialty: '126',
+            specialty: Specialty.F6,
             fundingSource: 'CONTRACT',
             studyForm: 'FULL_TIME',
           },
@@ -55,13 +53,13 @@ export class ParseEdboCommand extends CommandRunner {
     console.log(result.length);
 
     for (const u of result) {
-      const c = u.contracts.find((c) => c.number && c.specialty === '126' && c.fundingSource === 'CONTRACT');
+      const c = u.contracts.find((c) => c.number && c.specialty === Specialty.F6 && c.fundingSource === 'CONTRACT');
       if (!c) {
         console.log(`user ${u.lastName} ${u.firstName} has no registered contract, create one`);
         await this.prisma.contract.updateMany({
           where: {
             userId: u.id,
-            specialty: '126',
+            specialty: Specialty.F6,
             fundingSource: 'CONTRACT',
           },
           data: {

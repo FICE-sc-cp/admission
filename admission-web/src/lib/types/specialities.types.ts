@@ -1,7 +1,8 @@
-export type Specialities = '121' | '123' | '126';
+export type Specialities = 'F2' | 'F2G' | 'F7' | 'F6';
 
 export const SpecialitiesArray: Readonly<Specialities[]> = [
-  '121',
-  '123',
-  '126',
+  'F2',
+  'F2G',
+  'F7',
+  'F6',
 ] as const;

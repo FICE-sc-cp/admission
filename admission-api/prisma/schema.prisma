@@ -26,9 +26,18 @@ enum DocumentState {
 enum EducationProgram {
   CSSE
   ISSE
+  CGP
+  DRS
+  CSN
   IIS
-  ISRS
   IMST
+}
+
+enum Specialty {
+  F2
+  F2G
+  F6
+  F7
 }
 
 enum EducationalDegree {
@@ -45,6 +54,7 @@ enum EducationalProgramType {
 enum StudyForm {
   FULL_TIME
   PART_TIME
+  REMOTE
 }
 
 enum FundingSource {
@@ -54,7 +64,7 @@ enum FundingSource {
 
 enum PaymentType {
   MONTHLY
-  QUARTERLY
+  ANNUALLY
   SEMESTERLY
 }
 
@@ -173,10 +183,10 @@ model Contract {
   number             String?
   date               String?
   degree             EducationalDegree       @default(BACHELOR) @map("educational_degree")
-  educationalProgram String?                 @map("educational_program")
+  educationalProgram EducationProgram?       @map("educational_program")
   programType        EducationalProgramType? @default(PROFESSIONAL) @map("program_type")
   paymentType        PaymentType?            @map("payment_type")
-  specialty          String
+  specialty          Specialty
   studyForm          StudyForm               @default(FULL_TIME) @map("study_form")
   fundingSource      FundingSource           @map("funding_source")
   priorityState      DocumentState?          @map("priority_state")

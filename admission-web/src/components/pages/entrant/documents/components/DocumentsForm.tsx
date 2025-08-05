@@ -36,6 +36,8 @@ import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { isUniquePriorities } from '@/lib/utils/isUnique';
 import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
+import { Specialty } from '$/utils/src/enums/SpecialtyEnum';
+import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
 
 export const DocumentsForm = () => {
   const { toastError, toastSuccess } = useCommonToast();
@@ -96,9 +98,9 @@ export const DocumentsForm = () => {
 
   useEffect(() => {
     if (
-      specialty === '123' ||
+      specialty === Specialty.F7 ||
       degree === EducationalDegree.MASTER ||
-      (specialty === '121' && studyForm === StudyForm.PART_TIME)
+      (specialty === Specialty.F2 && studyForm === StudyForm.PART_TIME)
     ) {
       form.setValue('priorities', []);
     }
@@ -106,7 +108,7 @@ export const DocumentsForm = () => {
       if (educationalProgram) {
         form.setValue(
           'specialty',
-          educationalProgram.split(' ')[0] as '121' | '123' | '126'
+          educationalProgram.split(' ')[0] as Specialty
         );
       }
     }
@@ -160,7 +162,7 @@ export const DocumentsForm = () => {
           name='fundingSource'
           render={({ field }) => (
             <FormItem className='space-y-3'>
-              <FormLabel>Джелело фінансування</FormLabel>
+              <FormLabel>Джерело фінансування</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -190,7 +192,7 @@ export const DocumentsForm = () => {
           name='studyForm'
           render={({ field }) => (
             <FormItem className='space-y-3'>
-              <FormLabel>Форма навчання (денна/заочна)</FormLabel>
+              <FormLabel>Форма навчання (денна/заочна/дистанційна)</FormLabel>
               <FormControl>
                 <RadioGroup
                   onValueChange={field.onChange}
@@ -203,11 +205,20 @@ export const DocumentsForm = () => {
                     </FormControl>
                     <FormLabel>Денна</FormLabel>
                   </FormItem>
+                  {
+                    specialty !== Specialty.F2G &&
+                    <FormItem className='flex items-center space-x-3 space-y-0'>
+                      <FormControl>
+                        <RadioGroupItem value={StudyForm.PART_TIME} />
+                      </FormControl>
+                      <FormLabel>Заочна</FormLabel>
+                    </FormItem>
+                  }
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
-                      <RadioGroupItem value={StudyForm.PART_TIME} />
+                      <RadioGroupItem value={StudyForm.REMOTE} />
                     </FormControl>
-                    <FormLabel>Заочна</FormLabel>
+                    <FormLabel>Дистанційна</FormLabel>
                   </FormItem>
                 </RadioGroup>
               </FormControl>
@@ -230,13 +241,13 @@ export const DocumentsForm = () => {
                   >
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='QUARTERLY' />
+                        <RadioGroupItem value={PaymentType.ANNUALLY} />
                       </FormControl>
                       <FormLabel>Щорічно</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='SEMESTERLY' />
+                        <RadioGroupItem value={PaymentType.SEMESTERLY} />
                       </FormControl>
                       <FormLabel>Щосеместрово</FormLabel>
                     </FormItem>
@@ -244,7 +255,7 @@ export const DocumentsForm = () => {
                       className={`${studyForm === StudyForm.PART_TIME ? 'hidden' : 'flex'} items-center space-x-3 space-y-0`}
                     >
                       <FormControl>
-                        <RadioGroupItem value='MONTHLY' />
+                        <RadioGroupItem value={PaymentType.MONTHLY} />
                       </FormControl>
                       <FormLabel>Щомісячно</FormLabel>
                     </FormItem>
@@ -352,24 +363,35 @@ export const DocumentsForm = () => {
                   >
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='121' />
+                        <RadioGroupItem value={Specialty.F2} />
                       </FormControl>
                       <FormLabel>
-                        121 Інженерія програмного забезпечення
+                        F2 Інженерія програмного забезпечення
                       </FormLabel>
                     </FormItem>
+                    {
+                      studyForm !== StudyForm.PART_TIME &&
+                      <FormItem className='flex items-center space-x-3 space-y-0'>
+                        <FormControl>
+                          <RadioGroupItem value={Specialty.F2G} />
+                        </FormControl>
+                        <FormLabel>
+                          F2 Інженерія програмного забезпечення (Програмування комп'ютерних ігор)
+                        </FormLabel>
+                      </FormItem>
+                    }
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='123' />
+                        <RadioGroupItem value={Specialty.F7} />
                       </FormControl>
-                      <FormLabel>123 Комп’ютерна інженерія</FormLabel>
+                      <FormLabel>F7 Комп’ютерна інженерія</FormLabel>
                     </FormItem>
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
-                        <RadioGroupItem value='126' />
+                        <RadioGroupItem value={Specialty.F6} />
                       </FormControl>
                       <FormLabel>
-                        126 Інформаційні системи та технології
+                        F6 Інформаційні системи та технології
                       </FormLabel>
                     </FormItem>
                   </RadioGroup>
@@ -379,12 +401,12 @@ export const DocumentsForm = () => {
             )}
           />
         )}
-        {specialty === '121' &&
+        {specialty === Specialty.F2 &&
           degree !== EducationalDegree.MASTER &&
           studyForm !== StudyForm.PART_TIME && (
             <PriorityForm educationalPrograms={IPeduPrograms} form={form} />
           )}
-        {specialty === '126' && degree !== EducationalDegree.MASTER && (
+        {specialty === Specialty.F6 && degree !== EducationalDegree.MASTER && (
           <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
         )}
         <Button type='submit' className='w-full md:w-[185px]'>

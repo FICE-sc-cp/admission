@@ -5,6 +5,7 @@ import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
 import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
 import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
+import { Specialty } from '$/utils/src/enums/SpecialtyEnum';
 import { dateRegex } from '@/lib/constants/regex';
 
 export const prioritySchema = z.object(
@@ -30,7 +31,7 @@ export const DocumentsSchema = z.object({
     required_error: "Обов'язкове поле",
   }),
   specialty: z
-    .enum(['121', '123', '126'], {
+    .nativeEnum(Specialty, {
       required_error: "Обов'язкове поле",
     })
     .nullable(),
@@ -54,7 +55,7 @@ export const DocumentsSchema = z.object({
     })
     .nullable(),
   educationalProgram: z
-    .string({
+    .nativeEnum(EducationProgram, {
       required_error: "Обов'язкове поле",
     })
     .nullable(),

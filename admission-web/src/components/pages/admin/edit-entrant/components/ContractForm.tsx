@@ -50,6 +50,8 @@ import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
 import { isUniquePriorities } from '@/lib/utils/isUnique';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
+import { Specialty } from '$/utils/src/enums/SpecialtyEnum';
+import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
 
 interface ContractFormProps {
   data: DocumentsApiBody;
@@ -137,7 +139,7 @@ export const ContractForm: FC<ContractFormProps> = ({
     }
 
     if (
-      (!documentType && data.fundingSource === 'CONTRACT') ||
+      (!documentType && data.fundingSource === FundingSource.CONTRACT) ||
       documentType === 'payment'
     ) {
       const res = await DocumentsApi.downloadPayment(data.id as string);
@@ -151,7 +153,7 @@ export const ContractForm: FC<ContractFormProps> = ({
 
     if (
       ((!documentType &&
-        (data.specialty === '121' || data.specialty === '126')) ||
+        (data.specialty === Specialty.F2 || data.specialty === Specialty.F6)) ||
         documentType === 'priority') &&
       data.priorities.length > 0
     ) {
@@ -179,26 +181,23 @@ export const ContractForm: FC<ContractFormProps> = ({
   };
 
   useEffect(() => {
-    if (specialty === '123') {
+    if (specialty === 'F7') {
       form.setValue('priorities', []);
     }
     if (degree === EducationalDegree.MASTER) {
       if (educationalProgram) {
         form.setValue(
           'specialty',
-          ABBREVIATION_TO_PROGRAM[educationalProgram].split(' ')[0] as
-            | '121'
-            | '123'
-            | '126'
+          ABBREVIATION_TO_PROGRAM[educationalProgram].split(' ')[0] as Specialty
         );
       }
 
       form.setValue('priorities', []);
     }
-    if (fundingSource === 'BUDGET') {
+    if (fundingSource === FundingSource.BUDGET) {
       form.setValue('paymentType', null);
     }
-    if (degree === 'BACHELOR') {
+    if (degree === EducationalDegree.BACHELOR) {
       form.setValue('educationalProgram', null);
       form.setValue('programType', EducationalProgramType.PROFESSIONAL);
     }
@@ -322,7 +321,7 @@ export const ContractForm: FC<ContractFormProps> = ({
             name='studyForm'
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Форма навчання (денна/заочна)</FormLabel>
+                <FormLabel>Форма навчання (денна/заочна/дистанційна)</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   value={field.value}
@@ -335,7 +334,8 @@ export const ContractForm: FC<ContractFormProps> = ({
                   </FormControl>
                   <SelectContent>
                     <SelectItem value={StudyForm.FULL_TIME}>Денна</SelectItem>
-                    <SelectItem value={StudyForm.PART_TIME}>Заочна</SelectItem>
+                    {specialty !== Specialty.F2G && <SelectItem value={StudyForm.PART_TIME}>Заочна</SelectItem>}
+                    <SelectItem value={StudyForm.REMOTE}>Дистанційна</SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -360,10 +360,10 @@ export const ContractForm: FC<ContractFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value='QUARTERLY'>Щорічно</SelectItem>
-                      <SelectItem value='SEMESTERLY'>Щосеместрово</SelectItem>
+                      <SelectItem value={PaymentType.ANNUALLY}>Щорічно</SelectItem>
+                      <SelectItem value={PaymentType.SEMESTERLY}>Щосеместрово</SelectItem>
                       {studyForm !== StudyForm.PART_TIME && (
-                        <SelectItem value='MONTHLY'>Щомісячно</SelectItem>
+                        <SelectItem value={PaymentType.MONTHLY}>Щомісячно</SelectItem>
                       )}
                     </SelectContent>
                   </Select>
@@ -391,14 +391,20 @@ export const ContractForm: FC<ContractFormProps> = ({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='121'>
-                          121 Інженерія програмного забезпечення
+                        <SelectItem value={Specialty.F2}>
+                          F2 Інженерія програмного забезпечення
                         </SelectItem>
-                        <SelectItem value='123'>
-                          123 Комп’ютерна інженерія
+                        {
+                          studyForm !== StudyForm.PART_TIME &&
+                          <SelectItem value={Specialty.F2G}>
+                            F2 Інженерія програмного забезпечення (Програмування комп'ютерних ігор)
+                          </SelectItem>
+                        }
+                        <SelectItem value={Specialty.F7}>
+                          F7 Комп’ютерна інженерія
                         </SelectItem>
-                        <SelectItem value='126'>
-                          126 Інформаційні системи та технології
+                        <SelectItem value={Specialty.F6}>
+                          F6 Інформаційні системи та технології
                         </SelectItem>
                       </SelectContent>
                     </Select>
@@ -409,7 +415,7 @@ export const ContractForm: FC<ContractFormProps> = ({
               <Separator className='bg-slate-300' orientation='horizontal' />
             </>
           )}
-          {specialty === '121' &&
+          {specialty === Specialty.F2 &&
             degree !== EducationalDegree.MASTER &&
             studyForm !== StudyForm.PART_TIME && (
               <PriorityForm
@@ -419,7 +425,7 @@ export const ContractForm: FC<ContractFormProps> = ({
                 form={form}
               />
             )}
-          {specialty === '126' && degree !== EducationalDegree.MASTER && (
+          {specialty === Specialty.F6 && degree !== EducationalDegree.MASTER && (
             <PriorityForm
               priorityState={data.priorityState}
               educationalPrograms={ISTeduPrograms}
@@ -541,7 +547,7 @@ export const ContractForm: FC<ContractFormProps> = ({
                 Договір про оплату
               </Button>
             ) : null}
-            {(data.specialty === '121' || data.specialty === '126') &&
+            {(data.specialty === Specialty.F2 || data.specialty === Specialty.F6) &&
             data.priorities.length > 0 ? (
               <Button
                 className='w-[350px]'
@@ -557,7 +563,7 @@ export const ContractForm: FC<ContractFormProps> = ({
               className={`w-[350px] ${
                 data.priorityState === DocumentState.APPROVED ||
                 data.priorities.length === 0 ||
-                data.specialty === '123'
+                data.specialty === Specialty.F7
                   ? 'hidden'
                   : ''
               } `}

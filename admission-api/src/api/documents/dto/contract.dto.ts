@@ -3,8 +3,10 @@ import {
   DocumentState,
   EducationalDegree,
   EducationalProgramType,
+  EducationProgram,
   FundingSource,
   PaymentType,
+  Specialty,
   StudyForm,
 } from '@prisma/client';
 import { PriorityDto } from './priority.dto';
@@ -31,8 +33,11 @@ export class ContractDto {
   })
     degree: EducationalDegree;
   
-  @Optional()
-    educationalProgram?: string;
+  @Optional({
+    type: 'enum',
+    enum: EducationProgram,
+  })
+    educationalProgram?: EducationProgram;
   
   @Optional({
     type: 'enum',
@@ -46,8 +51,11 @@ export class ContractDto {
   })
     paymentType?: PaymentType;
   
-  @Required()
-    specialty: string;
+  @Required({
+    type: 'enum',
+    enum: Specialty,
+  })
+    specialty: Specialty;
   
   @Required({
     type: 'enum',

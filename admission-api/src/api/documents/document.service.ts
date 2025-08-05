@@ -5,7 +5,7 @@ import { UpdateContractDto } from './dto/update-contract.dto';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { UserRepo } from 'src/database/repo/user.repo';
 import { FileService } from 'src/globals/files/file.service';
-import { DocumentState, EducationalDegree, FundingSource } from '@prisma/client';
+import { DocumentState, EducationalDegree, FundingSource, StudyForm } from '@prisma/client';
 import { PersonalDataDto } from './dto/personal-data.dto';
 import { FileDto } from './dto/file.dto';
 import { CONTRACT_ALREADY_EXISTS_MSG, CONTRACT_FUNDING_SOURCE_IS_BUDGET_MSG } from './constants';
@@ -65,7 +65,7 @@ export class DocumentService {
     });
     const representativeData = user.representativeData ? this.formatPersonalData(user.representativeData) : {};
 
-    const contractTemplateName = contract.degree === EducationalDegree.BACHELOR ? `${contract.degree}_${contract.specialty}_${contract.programType}_${contract.studyForm}_${contract.fundingSource}.docx` : `${contract.degree}_${contract.specialty}_${contract.educationalProgram}_${contract.programType}_${contract.studyForm}_${contract.fundingSource}.docx`;
+    const contractTemplateName = contract.degree === EducationalDegree.BACHELOR ? `${contract.degree}_${contract.specialty}_${contract.programType}_${contract.studyForm}${contract.studyForm !== StudyForm.REMOTE ? `_${contract.fundingSource}` : ''}.docx` : `${contract.degree}_${contract.specialty}_${contract.educationalProgram}_${contract.programType}_${contract.studyForm}_${contract.fundingSource}.docx`;
     const contractFile = this.fileService.fillTemplate(contractTemplateName, {
       entrant: entrantData,
       representative: representativeData,

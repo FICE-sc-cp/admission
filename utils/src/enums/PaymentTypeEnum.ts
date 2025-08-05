@@ -1,5 +1,5 @@
 export enum PaymentType {
   MONTHLY = "MONTHLY",
-  QUARTERLY = "QUARTERLY",
+  ANNUALLY = "ANNUALLY",
   SEMESTERLY = "SEMESTERLY",
 }

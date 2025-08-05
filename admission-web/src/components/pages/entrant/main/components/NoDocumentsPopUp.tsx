@@ -13,6 +13,8 @@ import {
   PaymentTypeLabels,
 } from '@/lib/constants/fundingSourceLabels';
 import { EducationProgramAbbreviation } from '@/lib/constants/educational-programs';
+import { Specialty } from '$/utils/src/enums/SpecialtyEnum';
+import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 
 export function NoDocumentsPopUp({
   contracts,
@@ -77,7 +79,7 @@ export function NoDocumentsPopUp({
                 >
                   Договір про навчання
                 </Button>
-                {contract.fundingSource === 'CONTRACT' ? (
+                {contract.fundingSource === FundingSource.CONTRACT ? (
                   <Button
                     className='w-fit'
                     onClick={() => downloadDocument(contract, 'payment')}
@@ -86,8 +88,8 @@ export function NoDocumentsPopUp({
                   </Button>
                 ) : null}
                 {contract.priorities.length !== 0 &&
-                (contract.specialty === '121' ||
-                  contract.specialty === '126') ? (
+                (contract.specialty === Specialty.F2 ||
+                  contract.specialty === Specialty.F6) ? (
                   <Button
                     className='w-fit'
                     onClick={() => downloadDocument(contract, 'priority')}
@@ -105,7 +107,7 @@ export function NoDocumentsPopUp({
               <h6>Форма навчання: {studyFormLabels[contract.studyForm]}</h6>
               <h6>
                 Джерело фінансування:{' '}
-                {contract.fundingSource === 'BUDGET'
+                {contract.fundingSource === FundingSource.BUDGET
                   ? FundingSourceLabels[contract.fundingSource]
                   : `${FundingSourceLabels[contract.fundingSource] || ''}${
                       contract.paymentType != null

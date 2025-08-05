@@ -108,7 +108,7 @@ export const EnterQueueForm: FC<EnterQueueProps> = ({
                 <FormLabel className='text-sm font-normal'>
                   Спеціальності
                 </FormLabel>
-                <Input type='text' placeholder='121, 123, 126' {...field} />
+                <Input type='text' placeholder='F2, F7, F6' {...field} />
                 <FormMessage />
               </FormItem>
             )}

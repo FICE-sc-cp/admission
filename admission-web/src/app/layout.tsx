@@ -8,6 +8,9 @@ export const metadata: Metadata = {
   title: `ФІОТ ${new Date().getFullYear()} | Подання заяв на вступ`,
   description:
     'Сайт, створений для спрощення життя абітурієнта. На цьому сайті вступника ФІОТ КПІ зможуть подавати документи на вступ',
+  icons: {
+    icon: '/icon.png',
+  },
 };
 
 export default function RootLayout({

@@ -44,6 +44,7 @@ const Page = () => {
       lastName: personalData.lastName,
       middleName: personalData.middleName,
       oldPassportTemplate: !!personalData.entrantData.passportSeries,
+      agreed: true,
     },
     mode: 'onChange',
     defaultValues: personalDataEmptyValues,
@@ -54,6 +55,7 @@ const Page = () => {
     values: personalData?.representativeData && {
       ...personalData.representativeData,
       oldPassportTemplate: !!personalData.representativeData.passportSeries,
+      agreed: true,
     },
     defaultValues: personalDataEmptyValues,
     mode: 'onChange',
@@ -64,6 +66,7 @@ const Page = () => {
     values: personalData?.customerData && {
       ...personalData.customerData,
       oldPassportTemplate: !!personalData.customerData.passportSeries,
+      agreed: true,
     },
     defaultValues: personalDataEmptyValues,
     mode: 'onChange',

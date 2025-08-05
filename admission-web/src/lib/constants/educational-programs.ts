@@ -81,7 +81,10 @@ export const PROFESSIONAL_PROGRAMS = [
     value: EducationProgram.CGP,
   },
   { label: 'F7 Комп’ютерні системи та мережі', value: EducationProgram.CSN },
-  { label: 'F6 Інформаційні управляючі системи та технології', value: EducationProgram.IMST },
+  {
+    label: 'F6 Інформаційні управляючі системи та технології',
+    value: EducationProgram.IMST,
+  },
   { label: 'F6 Інтегровані інформаційні системи', value: EducationProgram.IIS },
   {
     label: 'F6 Інформаційне забезпечення робототехнічних систем',
@@ -90,8 +93,10 @@ export const PROFESSIONAL_PROGRAMS = [
 ];
 
 export const ABBREVIATION_TO_PROGRAM: Record<EducationProgram, string> = {
-  [EducationProgram.ISSE]: 'F2 Інженерія програмного забезпечення інформаційних систем',
-  [EducationProgram.CSSE]: 'F2 Інженерія програмного забезпечення комп’ютерних систем',
+  [EducationProgram.ISSE]:
+    'F2 Інженерія програмного забезпечення інформаційних систем',
+  [EducationProgram.CSSE]:
+    'F2 Інженерія програмного забезпечення комп’ютерних систем',
   [EducationProgram.CGP]: "F2 Програмування комп'ютерних ігор",
   [EducationProgram.CSN]: 'F7 Комп’ютерні системи та мережі',
   [EducationProgram.IMST]: 'F6 Інформаційні управляючі системи та технології',
@@ -100,8 +105,10 @@ export const ABBREVIATION_TO_PROGRAM: Record<EducationProgram, string> = {
 };
 
 export const PROGRAM_TO_ABBREVIATION: Record<string, EducationProgram> = {
-  'F2 Інженерія програмного забезпечення інформаційних систем': EducationProgram.ISSE,
-  'F2 Інженерія програмного забезпечення комп’ютерних систем': EducationProgram.CSSE,
+  'F2 Інженерія програмного забезпечення інформаційних систем':
+    EducationProgram.ISSE,
+  'F2 Інженерія програмного забезпечення комп’ютерних систем':
+    EducationProgram.CSSE,
   "F2 Програмування комп'ютерних ігор": EducationProgram.CGP,
   'F7 Комп’ютерні системи та мережі': EducationProgram.CSN,
   'F6 Інформаційні управляючі системи та технології': EducationProgram.IMST,

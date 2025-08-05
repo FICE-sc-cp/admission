@@ -14,8 +14,8 @@ export const SideSection = () => {
       <div className='relative flex h-full flex-1 flex-col items-start justify-end gap-4 px-8 pb-24 text-white'>
         <h2 className='text-5xl font-semibold'>Привіт, вступник!</h2>
         <p>
-          Цей сайт створений для абітурієнтів Факультету інформаційно
-          обчислювальної техніки при КПІ ім. Сікорського
+          Цей сайт створений для абітурієнтів Факультету інформатики та
+          обчислювальної техніки КПІ ім. Ігоря Сікорського
         </p>
       </div>
     </section>

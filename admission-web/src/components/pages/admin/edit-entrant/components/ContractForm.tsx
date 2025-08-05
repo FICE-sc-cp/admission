@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useMemo, useState } from 'react';
 import {
   DocumentsApiBody,
   Priorities,
@@ -334,8 +334,14 @@ export const ContractForm: FC<ContractFormProps> = ({
                   </FormControl>
                   <SelectContent>
                     <SelectItem value={StudyForm.FULL_TIME}>Денна</SelectItem>
-                    {specialty !== Specialty.F2G && <SelectItem value={StudyForm.PART_TIME}>Заочна</SelectItem>}
-                    <SelectItem value={StudyForm.REMOTE}>Дистанційна</SelectItem>
+                    {specialty !== Specialty.F2G && (
+                      <SelectItem value={StudyForm.PART_TIME}>
+                        Заочна
+                      </SelectItem>
+                    )}
+                    <SelectItem value={StudyForm.REMOTE}>
+                      Дистанційна
+                    </SelectItem>
                   </SelectContent>
                 </Select>
                 <FormMessage />
@@ -360,10 +366,16 @@ export const ContractForm: FC<ContractFormProps> = ({
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      <SelectItem value={PaymentType.ANNUALLY}>Щорічно</SelectItem>
-                      <SelectItem value={PaymentType.SEMESTERLY}>Щосеместрово</SelectItem>
+                      <SelectItem value={PaymentType.ANNUALLY}>
+                        Щорічно
+                      </SelectItem>
+                      <SelectItem value={PaymentType.SEMESTERLY}>
+                        Щосеместрово
+                      </SelectItem>
                       {studyForm !== StudyForm.PART_TIME && (
-                        <SelectItem value={PaymentType.MONTHLY}>Щомісячно</SelectItem>
+                        <SelectItem value={PaymentType.MONTHLY}>
+                          Щомісячно
+                        </SelectItem>
                       )}
                     </SelectContent>
                   </Select>
@@ -394,12 +406,12 @@ export const ContractForm: FC<ContractFormProps> = ({
                         <SelectItem value={Specialty.F2}>
                           F2 Інженерія програмного забезпечення
                         </SelectItem>
-                        {
-                          studyForm !== StudyForm.PART_TIME &&
+                        {studyForm !== StudyForm.PART_TIME && (
                           <SelectItem value={Specialty.F2G}>
-                            F2 Інженерія програмного забезпечення (Програмування комп'ютерних ігор)
+                            F2 Інженерія програмного забезпечення (Програмування
+                            комп’ютерних ігор)
                           </SelectItem>
-                        }
+                        )}
                         <SelectItem value={Specialty.F7}>
                           F7 Комп’ютерна інженерія
                         </SelectItem>
@@ -425,14 +437,15 @@ export const ContractForm: FC<ContractFormProps> = ({
                 form={form}
               />
             )}
-          {specialty === Specialty.F6 && degree !== EducationalDegree.MASTER && (
-            <PriorityForm
-              priorityState={data.priorityState}
-              educationalPrograms={ISTeduPrograms}
-              //@ts-ignore
-              form={form}
-            />
-          )}
+          {specialty === Specialty.F6 &&
+            degree !== EducationalDegree.MASTER && (
+              <PriorityForm
+                priorityState={data.priorityState}
+                educationalPrograms={ISTeduPrograms}
+                //@ts-ignore
+                form={form}
+              />
+            )}
           {degree === EducationalDegree.MASTER && (
             <>
               <FormField
@@ -547,7 +560,8 @@ export const ContractForm: FC<ContractFormProps> = ({
                 Договір про оплату
               </Button>
             ) : null}
-            {(data.specialty === Specialty.F2 || data.specialty === Specialty.F6) &&
+            {(data.specialty === Specialty.F2 ||
+              data.specialty === Specialty.F6) &&
             data.priorities.length > 0 ? (
               <Button
                 className='w-[350px]'

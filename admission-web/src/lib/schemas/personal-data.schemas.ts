@@ -70,6 +70,14 @@ export const indexSchema = z
   })
   .transform((value) => value.trim());
 
+export const agreedDataProcessingSchema = z
+  .boolean()
+  .default(false)
+  .refine((value) => value, {
+    message:
+      'Підтвердьте згоду на обробку персональних даних, щоб перейти далі',
+  });
+
 export const oldPassportNumberTemplate = z
   .string({ required_error: "Обов'язкове поле" })
   .refine((value) => /^[0-9]{6}$/.test(value), {
@@ -94,6 +102,7 @@ export const commonSchema = {
   settlement: settlementSchema,
   address: addressSchema,
   index: indexSchema,
+  agreed: agreedDataProcessingSchema,
 };
 
 export const commonEntrantSchema = {

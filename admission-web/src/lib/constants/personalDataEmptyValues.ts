@@ -16,4 +16,5 @@ export const personalDataEmptyValues: TPersonalDataSchema = {
   index: '',
   passportNumber: '',
   passportInstitute: '',
+  agreed: false,
 };

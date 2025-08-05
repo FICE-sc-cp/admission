@@ -103,7 +103,12 @@ export function NoDocumentsPopUp({
               <h6>
                 Освітній рівень: {educationalDegreeLabels[contract.degree]}
               </h6>
-              <h6>Спеціальність: {contract.specialty}</h6>
+              <h6>
+                Спеціальність:{' '}
+                {contract.specialty === Specialty.F2G
+                  ? Specialty.F2
+                  : contract.specialty}
+              </h6>
               <h6>Форма навчання: {studyFormLabels[contract.studyForm]}</h6>
               <h6>
                 Джерело фінансування:{' '}

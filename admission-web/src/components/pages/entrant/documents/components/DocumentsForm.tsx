@@ -205,15 +205,14 @@ export const DocumentsForm = () => {
                     </FormControl>
                     <FormLabel>Денна</FormLabel>
                   </FormItem>
-                  {
-                    specialty !== Specialty.F2G &&
+                  {specialty !== Specialty.F2G && (
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
                         <RadioGroupItem value={StudyForm.PART_TIME} />
                       </FormControl>
                       <FormLabel>Заочна</FormLabel>
                     </FormItem>
-                  }
+                  )}
                   <FormItem className='flex items-center space-x-3 space-y-0'>
                     <FormControl>
                       <RadioGroupItem value={StudyForm.REMOTE} />
@@ -369,17 +368,17 @@ export const DocumentsForm = () => {
                         F2 Інженерія програмного забезпечення
                       </FormLabel>
                     </FormItem>
-                    {
-                      studyForm !== StudyForm.PART_TIME &&
+                    {studyForm !== StudyForm.PART_TIME && (
                       <FormItem className='flex items-center space-x-3 space-y-0'>
                         <FormControl>
                           <RadioGroupItem value={Specialty.F2G} />
                         </FormControl>
                         <FormLabel>
-                          F2 Інженерія програмного забезпечення (Програмування комп'ютерних ігор)
+                          F2 Інженерія програмного забезпечення (Програмування
+                          комп’ютерних ігор)
                         </FormLabel>
                       </FormItem>
-                    }
+                    )}
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
                         <RadioGroupItem value={Specialty.F7} />

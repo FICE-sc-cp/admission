@@ -24,6 +24,7 @@ const CustomerPage: FC = () => {
     defaultValues: {
       ...(customerData ?? {}),
       oldPassportTemplate: false,
+      agreed: !!customerData,
     },
     mode: 'onChange',
   });

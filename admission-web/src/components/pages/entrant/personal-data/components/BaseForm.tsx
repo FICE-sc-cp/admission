@@ -312,8 +312,8 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
                       <Input
                         placeholder='м. Київ'
                         className='w-[320px] md:w-[360px]'
+                        {...field}
                         value={field.value ?? ''}
-                        onChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />
@@ -369,6 +369,26 @@ export const BaseForm: FC<BaseFormProps> = ({ form, onSubmit }) => {
             </FormDescription>
             <FormMessage />
           </FormItem>
+          <FormField
+            control={form.control}
+            name='agreed'
+            render={({ field }) => (
+              <FormItem className='space-y-2'>
+                <div className='flex flex-row items-center gap-2'>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel>
+                    Я погоджуюсь на обробку персональних даних
+                  </FormLabel>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <div className='flex gap-4'>
           <Button

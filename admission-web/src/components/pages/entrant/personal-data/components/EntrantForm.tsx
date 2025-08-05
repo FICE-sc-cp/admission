@@ -58,6 +58,7 @@ const EntrantForm: FC = () => {
     defaultValues: {
       ...(entrantData ?? {}),
       oldPassportTemplate: false,
+      agreed: !!entrantData,
     },
     mode: 'onChange',
   });
@@ -361,8 +362,8 @@ const EntrantForm: FC = () => {
                       <Input
                         placeholder='м. Київ'
                         className='w-[320px] md:w-[360px]'
+                        {...field}
                         value={field.value ?? ''}
-                        onChange={field.onChange}
                       />
                     </FormControl>
                     <FormMessage />
@@ -418,6 +419,26 @@ const EntrantForm: FC = () => {
             </FormDescription>
             <FormMessage className='text-center' />
           </FormItem>
+          <FormField
+            control={form.control}
+            name='agreed'
+            render={({ field }) => (
+              <FormItem className='space-y-2'>
+                <div className='flex flex-row items-center gap-2'>
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormLabel>
+                    Я погоджуюсь на обробку персональних даних
+                  </FormLabel>
+                </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
         </div>
         <Button
           className='mt-7 w-full'

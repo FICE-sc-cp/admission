@@ -24,6 +24,7 @@ const RepresentativePage: FC = () => {
     defaultValues: {
       ...(representativeData ?? {}),
       oldPassportTemplate: false,
+      agreed: !!representativeData,
     },
     mode: 'onChange',
   });

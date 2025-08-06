@@ -21,7 +21,7 @@ import { EmailService } from './email.service';
             },
           },
           defaults: {
-            from: '"FICE Advisor" <admission.ficeadvisor@gmail.com>',
+            from: `"FICE Advisor" <${smtpConfiguration.username}>`,
           },
           template: {
             dir: resolve(process.env.LAMBDA_TASK_ROOT, 'admission-api/email/templates'),

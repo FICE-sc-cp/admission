@@ -38,6 +38,8 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/admission-api:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/admission-api:latest
+          cache-to: type=inline
   web:
     runs-on: ubuntu-latest
     steps:
@@ -57,4 +59,6 @@ jobs:
           file: "./frontend.Dockerfile"
           push: true
           tags: ${{ secrets.DOCKER_HUB_USERNAME }}/admission-web:latest
+          cache-from: type=registry,ref=${{ secrets.DOCKER_HUB_USERNAME }}/admission-web:latest
+          cache-to: type=inline
 

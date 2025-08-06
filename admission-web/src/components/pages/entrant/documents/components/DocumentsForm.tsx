@@ -38,6 +38,8 @@ import { EducationalDegree } from '$/utils/src/enums/EducationalDegreeEnum';
 import { StudyForm } from '$/utils/src/enums/StudyFormEnum';
 import { Specialty } from '$/utils/src/enums/SpecialtyEnum';
 import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
+import { Loader } from '@/components/common/components/Loader';
+import { useQueryClient } from '@tanstack/react-query';
 
 export const DocumentsForm = () => {
   const { toastError, toastSuccess } = useCommonToast();
@@ -60,6 +62,7 @@ export const DocumentsForm = () => {
   const studyForm = form.watch('studyForm');
 
   const { push } = useRouter();
+  const queryClient = useQueryClient();
 
   const { user } = useAuth();
 
@@ -84,6 +87,9 @@ export const DocumentsForm = () => {
                   data.educationalProgram as string
                 ] as string)
               : null,
+        });
+        await queryClient.refetchQueries({
+          queryKey: ['personal-data', user!.id],
         });
         push('/');
         toastSuccess(
@@ -412,8 +418,16 @@ export const DocumentsForm = () => {
         {specialty === Specialty.F6 && degree !== EducationalDegree.MASTER && (
           <PriorityForm educationalPrograms={ISTeduPrograms} form={form} />
         )}
-        <Button type='submit' className='w-full md:w-[185px]'>
-          Надіслати договір
+        <Button
+          type='submit'
+          className='w-full md:w-[185px]'
+          disabled={form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting ? (
+            <Loader size='tiny' className='mb-0 text-violet-950' />
+          ) : (
+            'Надіслати договір'
+          )}
         </Button>
       </form>
     </Form>

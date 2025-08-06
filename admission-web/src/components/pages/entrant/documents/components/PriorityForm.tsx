@@ -64,7 +64,9 @@ const PriorityForm: FC<PriorityFormProps> = ({
               >
                 <FormControl>
                   <SelectTrigger className='w-[320px] md:w-[350px]'>
-                    <SelectValue placeholder='Вибери зі списку' />
+                    <div className='line-clamp-1 break-words text-start'>
+                      <SelectValue placeholder='Вибери зі списку' />
+                    </div>
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent className='w-[320px] md:w-auto'>

@@ -17,7 +17,10 @@ export function StudentRepresentativeBlock({
           <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
             <h6>Номер телефону: {representativeData.phoneNumber}</h6>
             <h6>Електронна пошта: {representativeData.email}</h6>
-            <h6>Номер паспорту: {representativeData.passportNumber}</h6>
+            <h6>
+              Номер паспорту: {representativeData.passportSeries}{' '}
+              {representativeData.passportNumber}
+            </h6>
             <h6>Дата видачі: {representativeData.passportDate}</h6>
             <h6>Орган видачі: {representativeData.passportInstitute}</h6>
             <h6>РНОКПП: {representativeData.idCode}</h6>

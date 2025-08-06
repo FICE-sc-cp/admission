@@ -13,7 +13,10 @@ export function StudentPayerBlock({ payerData }: { payerData: PersonalData }) {
           <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
             <h6>Номер телефону: {payerData.phoneNumber}</h6>
             <h6>Електронна пошта: {payerData.email}</h6>
-            <h6>Номер паспорту: {payerData.passportNumber}</h6>
+            <h6>
+              Номер паспорту: {payerData?.passportSeries}{' '}
+              {payerData.passportNumber}
+            </h6>
             <h6>Дата видачі: {payerData.passportDate}</h6>
             <h6>Орган видачі: {payerData.passportInstitute}</h6>
             <h6>РНОКПП: {payerData.idCode}</h6>

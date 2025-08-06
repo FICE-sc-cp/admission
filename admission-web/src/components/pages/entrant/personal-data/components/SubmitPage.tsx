@@ -11,6 +11,7 @@ import { usePersonalDataContext } from '@/lib/contexts/PersonalDataContext';
 import { FundingSourceLabels } from '@/lib/constants/fundingSourceLabels';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
 import { useToast } from '@/components/ui/toast/use-toast';
+import { useQueryClient } from '@tanstack/react-query';
 
 const SubmitPage: FC = () => {
   const { toast } = useToast();
@@ -29,6 +30,7 @@ const SubmitPage: FC = () => {
   const [adminCode, setAdminCode] = useState('');
   const { user } = useAuth();
   const { push } = useRouter();
+  const queryClient = useQueryClient();
 
   const onSubmit = async () => {
     if (isSubmittingInCorpus) {
@@ -44,6 +46,9 @@ const SubmitPage: FC = () => {
         },
         user!.id
       );
+      await queryClient.refetchQueries({
+        queryKey: ['personal-data', user!.id],
+      });
       toast({
         title: 'Особисті дані оновлено!',
         variant: 'success',
@@ -58,6 +63,7 @@ const SubmitPage: FC = () => {
       });
     }
   };
+
   return (
     <div className='flex flex-col gap-8'>
       {showPopup && (

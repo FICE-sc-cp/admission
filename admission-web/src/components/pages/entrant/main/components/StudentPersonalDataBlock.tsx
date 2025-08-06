@@ -36,7 +36,10 @@ export function StudentPersonalDataBlock({ userId }: { userId: string }) {
             <div className='mt-3 flex flex-col gap-3 text-sm font-light'>
               <h6>Номер телефону: {userData.entrantData.phoneNumber}</h6>
               <h6>Електронна пошта: {userData.entrantData.email}</h6>
-              <h6>Номер паспорту: {userData.entrantData.passportNumber}</h6>
+              <h6>
+                Номер паспорту: {userData.entrantData.passportSeries}{' '}
+                {userData.entrantData.passportNumber}
+              </h6>
               <h6>Дата видачі: {userData.entrantData.passportDate}</h6>
               <h6>Ким видано: {userData.entrantData.passportInstitute}</h6>
               <h6>РНОКПП: {userData.entrantData.idCode}</h6>

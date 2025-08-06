@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation';
 import { isAxiosError } from 'axios';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { TSignIn, SignInSchema } from '@/lib/schemas/auth.schemas';
+import { Loader } from '@/components/common/components/Loader';
 
 export const LoginForm = () => {
   const { toastError } = useCommonToast();
@@ -68,7 +69,11 @@ export const LoginForm = () => {
           className='w-full'
           disabled={form.formState.isSubmitting}
         >
-          Увійти
+          {form.formState.isSubmitting ? (
+            <Loader size='tiny' className='mb-0 text-violet-950' />
+          ) : (
+            'Увійти'
+          )}
         </Button>
       </form>
     </Form>

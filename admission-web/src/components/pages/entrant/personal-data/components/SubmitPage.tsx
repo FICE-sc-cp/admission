@@ -85,6 +85,10 @@ const SubmitPage: FC = () => {
           </div>
           <div className='flex flex-col gap-[5px]'>
             <p className='text-base'>
+              ПІБ:{' '}
+              {`${user?.lastName} ${user?.firstName} ${user?.middleName || ''}`}
+            </p>
+            <p className='text-base'>
               Форма навчання:{' '}
               {
                 FundingSourceLabels[

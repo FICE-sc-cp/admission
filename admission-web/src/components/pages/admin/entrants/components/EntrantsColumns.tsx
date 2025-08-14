@@ -18,8 +18,20 @@ export const EntrantsColumns: ColumnDef<AdminUser>[] = [
     },
   },
   {
-    accessorKey: 'contracts',
+    accessorKey: 'degree',
     header: 'Освітній ступінь',
+    sortingFn: (rowA, rowB) => {
+      const getEntrantDegree = ({ contracts }: AdminUser) => {
+        if (contracts.length === 0) return '-';
+        return educationalDegreeLabels[
+          contracts[0].degree as EducationalDegree
+        ];
+      };
+
+      return getEntrantDegree(rowA.original).localeCompare(
+        getEntrantDegree(rowB.original)
+      );
+    },
     cell: ({ row }) => {
       return row.original.contracts.length
         ? educationalDegreeLabels[
@@ -31,6 +43,16 @@ export const EntrantsColumns: ColumnDef<AdminUser>[] = [
   {
     accessorKey: 'fundingSource',
     header: 'Форма фінансування',
+    sortingFn: (rowA, rowB) => {
+      const getEntrantFundingSource = ({ contracts }: AdminUser) => {
+        if (contracts.length === 0) return '-';
+        return FundingSourceLabels[contracts[0].fundingSource as FundingSource];
+      };
+
+      return getEntrantFundingSource(rowA.original).localeCompare(
+        getEntrantFundingSource(rowB.original)
+      );
+    },
     cell: ({ row }) => {
       return row.original.contracts.length > 0
         ? FundingSourceLabels[
@@ -42,6 +64,24 @@ export const EntrantsColumns: ColumnDef<AdminUser>[] = [
   {
     accessorKey: 'expectedSpecialities',
     header: 'Спеціальність',
+    sortingFn: (rowA, rowB) => {
+      const getEntrantSpecialities = ({
+        contracts,
+        expectedSpecialities,
+      }: AdminUser) => {
+        if (contracts.length === 0) return '-';
+        return (
+          contracts.find((contract) => contract.state === 'APPROVED')
+            ?.specialty ||
+          expectedSpecialities ||
+          contracts[0].specialty
+        );
+      };
+
+      return getEntrantSpecialities(rowA.original).localeCompare(
+        getEntrantSpecialities(rowB.original)
+      );
+    },
     cell: ({ row }) => {
       const { contracts, expectedSpecialities } = row.original;
       if (contracts.length > 0) {
@@ -61,8 +101,21 @@ export const EntrantsColumns: ColumnDef<AdminUser>[] = [
     },
   },
   {
-    accessorKey: 'contracts',
+    accessorKey: 'status',
     header: 'Статус',
+    sortingFn: (rowA, rowB) => {
+      const getEntrantStatus = ({ role, contracts }: AdminUser) => {
+        if (role === 'ADMIN') return 'Відсутній';
+        if (contracts.length === 0) return 'Не подано';
+        if (contracts.some((contract) => contract.state === 'APPROVED'))
+          return 'Зареєстровано';
+        return 'Подано';
+      };
+
+      return getEntrantStatus(rowA.original).localeCompare(
+        getEntrantStatus(rowB.original)
+      );
+    },
     cell: ({ row }) => {
       const { contracts, role } = row.original;
 
@@ -91,6 +144,60 @@ export const EntrantsColumns: ColumnDef<AdminUser>[] = [
           {isApproved ? 'Зареєстровано' : 'Подано'}
         </Badge>
       );
+    },
+  },
+  {
+    accessorKey: 'contractNumber',
+    header: 'Номер',
+    sortingFn: (rowA, rowB) => {
+      const contractADate =
+        rowA.original.contracts.find(
+          (contract) => contract.state === 'APPROVED'
+        )?.number || '-';
+      const contractBDate =
+        rowB.original.contracts.find(
+          (contract) => contract.state === 'APPROVED'
+        )?.number || '-';
+
+      return contractADate.localeCompare(contractBDate);
+    },
+    cell: ({ row }) => {
+      const { contracts } = row.original;
+
+      const approvedContract = contracts.find(
+        (contract) => contract.state === 'APPROVED'
+      );
+
+      return approvedContract?.number || '-';
+    },
+  },
+  {
+    accessorKey: 'contractDate',
+    header: 'Дата',
+    sortingFn: (rowA, rowB) => {
+      const contractADate =
+        rowA.original.contracts.find(
+          (contract) => contract.state === 'APPROVED'
+        )?.date || '-';
+      const contractBDate =
+        rowB.original.contracts.find(
+          (contract) => contract.state === 'APPROVED'
+        )?.date || '-';
+
+      return contractADate
+        .split('.')
+        .reverse()
+        .join('.')
+        .localeCompare(contractBDate.split('.').reverse().join('.'));
+    },
+    cell: ({ row }) => {
+      const { contracts } = row.original;
+
+      const approvedContract = contracts.find(
+        (contract) => contract.state === 'APPROVED'
+      );
+
+      return approvedContract?.date || '-';
     },
   },
 ];

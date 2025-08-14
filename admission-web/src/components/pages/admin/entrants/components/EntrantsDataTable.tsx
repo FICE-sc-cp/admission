@@ -7,6 +7,8 @@ import {
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
+  SortingState,
   useReactTable,
 } from '@tanstack/react-table';
 
@@ -22,13 +24,14 @@ import React, { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { AdminEntrantTablePagination } from '@/components/pages/admin/entrants/components/AdminEntrantTablePagination';
 import { Button } from '@/components/ui/button';
-import { Trash2Icon } from 'lucide-react';
+import { ChevronDown, ChevronUp, Trash2Icon } from 'lucide-react';
 import AdminEntrantsApi from '@/app/api/admin-entrants/admin-entrants-api';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import AdminAlertDialog from '../../common/components/AdminAlertDialog';
 import { AdminUser } from '@/app/api/admin-entrants/admin-entrants-api.types';
 import Link from 'next/link';
 import { RefetchOptions, QueryObserverResult } from '@tanstack/react-query';
+import { cn } from '@/lib/utils/cn';
 
 interface DataTableProps {
   columns: ColumnDef<AdminUser>[];
@@ -44,6 +47,8 @@ export function AdminEntrantDataTable({
   refetch,
 }: DataTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
+  const [sorting, setSorting] = useState<SortingState>([]);
+
   const table = useReactTable({
     data,
     columns,
@@ -51,8 +56,11 @@ export function AdminEntrantDataTable({
     getPaginationRowModel: getPaginationRowModel(),
     onColumnFiltersChange: setColumnFilters,
     getFilteredRowModel: getFilteredRowModel(),
+    onSortingChange: setSorting,
+    getSortedRowModel: getSortedRowModel(),
     state: {
       columnFilters,
+      sorting,
     },
   });
   const { toastSuccess, toastError } = useCommonToast();
@@ -89,13 +97,38 @@ export function AdminEntrantDataTable({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
+                    <TableHead
+                      key={header.id}
+                      onClick={header.column.getToggleSortingHandler()}
+                      className={cn(
+                        header.column.getCanSort() &&
+                          'cursor-pointer select-none'
+                      )}
+                    >
+                      {header.isPlaceholder ? null : (
+                        <div className='flex items-center gap-2'>
+                          {flexRender(
                             header.column.columnDef.header,
                             header.getContext()
                           )}
+                          {{
+                            asc: (
+                              <ChevronUp
+                                className='min-w-5'
+                                height={20}
+                                width={20}
+                              />
+                            ),
+                            desc: (
+                              <ChevronDown
+                                className='min-w-5'
+                                height={20}
+                                width={20}
+                              />
+                            ),
+                          }[header.column.getIsSorted() as string] ?? null}
+                        </div>
+                      )}
                     </TableHead>
                   );
                 })}

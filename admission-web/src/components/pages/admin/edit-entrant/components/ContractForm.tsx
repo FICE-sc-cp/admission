@@ -52,6 +52,7 @@ import { isUniquePriorities } from '@/lib/utils/isUnique';
 import { useCommonToast } from '@/components/ui/toast/use-common-toast';
 import { Specialty } from '$/utils/src/enums/SpecialtyEnum';
 import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface ContractFormProps {
   data: DocumentsApiBody;
@@ -69,6 +70,7 @@ export const ContractForm: FC<ContractFormProps> = ({
   entrantLastName,
 }) => {
   const { toastSuccess, toastError } = useCommonToast();
+  const queryClient = useQueryClient();
 
   const form = useForm<TAdminDocumentsSchema>({
     resolver: zodResolver(AdminDocumentsSchema),
@@ -107,6 +109,9 @@ export const ContractForm: FC<ContractFormProps> = ({
           },
           data.id
         );
+        queryClient.invalidateQueries({
+          queryKey: ['all-entrants'],
+        });
         toastSuccess(`Зміни збережено!`);
       } catch {
         toastError('Щось пішло не так!');

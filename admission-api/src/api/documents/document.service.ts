@@ -5,7 +5,13 @@ import { UpdateContractDto } from './dto/update-contract.dto';
 import { CreateContractDto } from './dto/create-contract.dto';
 import { UserRepo } from 'src/database/repo/user.repo';
 import { FileService } from 'src/globals/files/file.service';
-import { DocumentState, EducationalDegree, FundingSource, StudyForm } from '@prisma/client';
+import {
+  DocumentState,
+  EducationalDegree,
+  FundingSource,
+  Specialty,
+  StudyForm,
+} from '@prisma/client';
 import { PersonalDataDto } from './dto/personal-data.dto';
 import { FileDto } from './dto/file.dto';
 import { CONTRACT_ALREADY_EXISTS_MSG, CONTRACT_FUNDING_SOURCE_IS_BUDGET_MSG } from './constants';
@@ -94,10 +100,12 @@ export class DocumentService {
     });
     const representativeData = user.representativeData ? this.formatPersonalData(user.representativeData) : {};
 
-    const paymentFile = this.fileService.fillTemplate(`${contract.degree}_${contract.specialty}_${contract.programType}_${contract.studyForm}_${contract.paymentType}.docx`, {
+    const paymentFile = this.fileService.fillTemplate(`${contract.degree}_${contract.specialty === Specialty.F2G ? Specialty.F2 : contract.specialty }_${contract.programType}_${contract.studyForm === StudyForm.REMOTE ? StudyForm.FULL_TIME : contract.studyForm}_${contract.paymentType}.docx`, {
       entrant: entrantData,
       representative: representativeData,
       customer: user.customerData ? this.formatPersonalData(user.customerData) : user.representativeData ? representativeData : entrantData,
+      number: contract.number,
+      date: contract.date,
     });
 
     return {

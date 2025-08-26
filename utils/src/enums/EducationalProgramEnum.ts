@@ -6,4 +6,6 @@ export enum EducationProgram {
   CSN = "CSN",
   IIS = "IIS",
   IMST = "IMST",
+  IST = "IST",
+  QSE = "QSE",
 }

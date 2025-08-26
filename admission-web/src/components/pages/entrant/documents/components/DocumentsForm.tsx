@@ -24,11 +24,10 @@ import {
 } from '@/lib/schemas/documents.schemas';
 import PriorityForm from './PriorityForm';
 import {
-  PROFESSIONAL,
-  SCIENTIFIC,
   IPeduPrograms,
   ISTeduPrograms,
-  PROGRAM_TO_ABBREVIATION,
+  PROFESSIONAL_PROGRAMS,
+  SCIENTIFIC_PROGRAMS, ABBREVIATION_TO_PROGRAM,
 } from '@/lib/constants/educational-programs';
 import { EducationalProgramType } from '$/utils/src/enums/EducationalProgramTypeEnum';
 import { FundingSource } from '$/utils/src/enums/FundingSourceEnum';
@@ -40,6 +39,7 @@ import { Specialty } from '$/utils/src/enums/SpecialtyEnum';
 import { PaymentType } from '$/utils/src/enums/PaymentTypeEnum';
 import { Loader } from '@/components/common/components/Loader';
 import { useQueryClient } from '@tanstack/react-query';
+import { EducationProgram } from '$/utils/src/enums/EducationalProgramEnum';
 
 export const DocumentsForm = () => {
   const { toastError, toastSuccess } = useCommonToast();
@@ -83,9 +83,7 @@ export const DocumentsForm = () => {
           priorities,
           educationalProgram:
             data.degree === EducationalDegree.MASTER
-              ? (PROGRAM_TO_ABBREVIATION[
-                  data.educationalProgram as string
-                ] as string)
+              ? (data.educationalProgram as string)
               : null,
         });
         await queryClient.refetchQueries({
@@ -114,7 +112,7 @@ export const DocumentsForm = () => {
       if (educationalProgram) {
         form.setValue(
           'specialty',
-          educationalProgram.split(' ')[0] as Specialty
+          ABBREVIATION_TO_PROGRAM[educationalProgram].split(' ')[0] as Specialty
         );
       }
     }
@@ -213,7 +211,7 @@ export const DocumentsForm = () => {
                     </FormControl>
                     <FormLabel>Денна</FormLabel>
                   </FormItem>
-                  {specialty !== Specialty.F2G && (
+                  {specialty !== Specialty.F2G && programType !== EducationalProgramType.SCIENTIFIC && (
                     <FormItem className='flex items-center space-x-3 space-y-0'>
                       <FormControl>
                         <RadioGroupItem value={StudyForm.PART_TIME} />
@@ -297,14 +295,16 @@ export const DocumentsForm = () => {
                         </FormControl>
                         <FormLabel>Професійна</FormLabel>
                       </FormItem>
-                      <FormItem className='flex items-center space-x-3 space-y-0'>
-                        <FormControl>
-                          <RadioGroupItem
-                            value={EducationalProgramType.SCIENTIFIC}
-                          />
-                        </FormControl>
-                        <FormLabel>Наукова</FormLabel>
-                      </FormItem>
+                      { studyForm !== StudyForm.PART_TIME && (
+                        <FormItem className='flex items-center space-x-3 space-y-0'>
+                          <FormControl>
+                            <RadioGroupItem
+                              value={EducationalProgramType.SCIENTIFIC}
+                            />
+                          </FormControl>
+                          <FormLabel>Наукова</FormLabel>
+                        </FormItem>
+                      )}
                     </RadioGroup>
                   </FormControl>
                   <FormMessage />
@@ -325,27 +325,34 @@ export const DocumentsForm = () => {
                         className='flex flex-col space-y-1'
                       >
                         {programType === EducationalProgramType.PROFESSIONAL &&
-                          PROFESSIONAL.map((program) => (
+                          PROFESSIONAL_PROGRAMS
+                            .filter((item) =>
+                              (studyForm === StudyForm.FULL_TIME ||
+                                ![
+                                  EducationProgram.CSSE,
+                                  EducationProgram.QSE,
+                                ].includes(item.value)))
+                            .map((program) => (
                             <FormItem
-                              key={program}
+                              key={program.value}
                               className='flex items-center space-x-3 space-y-0'
                             >
                               <FormControl>
-                                <RadioGroupItem value={program} />
+                                <RadioGroupItem value={program.value} />
                               </FormControl>
-                              <FormLabel>{program}</FormLabel>
+                              <FormLabel>{program.label}</FormLabel>
                             </FormItem>
                           ))}
                         {programType === EducationalProgramType.SCIENTIFIC &&
-                          SCIENTIFIC.map((program) => (
+                          SCIENTIFIC_PROGRAMS.map((program) => (
                             <FormItem
-                              key={program}
+                              key={program.value}
                               className='flex items-center space-x-3 space-y-0'
                             >
                               <FormControl>
-                                <RadioGroupItem value={program} />
+                                <RadioGroupItem value={program.value} />
                               </FormControl>
-                              <FormLabel>{program}</FormLabel>
+                              <FormLabel>{program.label}</FormLabel>
                             </FormItem>
                           ))}
                       </RadioGroup>

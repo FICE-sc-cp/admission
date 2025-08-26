@@ -10,6 +10,8 @@ export const EducationProgramAbbreviation: Record<EducationProgram, string> = {
   [EducationProgram.CSN]: "Комп'ютерні системи та мережі",
   [EducationProgram.DRS]: 'Інформаційне забезпечення робототехнічних систем',
   [EducationProgram.IMST]: 'Інформаційні управляючі системи та технології',
+  [EducationProgram.IST]: 'Інформаційні системи та технології',
+  [EducationProgram.QSE]: 'Інженерія квантового програмного забезпечення'
 };
 
 export const IPeduPrograms = [
@@ -57,14 +59,14 @@ export const PROFESSIONAL = [
 export const SCIENTIFIC_PROGRAMS = [
   {
     label: 'F2 Інженерія програмного забезпечення інформаційних систем',
-    value: 'ISSE',
+    value: EducationProgram.ISSE,
   },
   {
     label: 'F2 Інженерія програмного забезпечення комп’ютерних систем',
-    value: 'CSSE',
+    value: EducationProgram.CSSE,
   },
-  { label: 'F7 Комп’ютерні системи та мережі', value: 'CSN' },
-  { label: 'F6 Інформаційні системи та технології', value: 'IST' },
+  { label: 'F7 Комп’ютерні системи та мережі', value: EducationProgram.CSN },
+  { label: 'F6 Інформаційні системи та технології', value: EducationProgram.IST },
 ];
 
 export const PROFESSIONAL_PROGRAMS = [
@@ -77,8 +79,8 @@ export const PROFESSIONAL_PROGRAMS = [
     value: EducationProgram.CSSE,
   },
   {
-    label: "F2 Програмування комп'ютерних ігор",
-    value: EducationProgram.CGP,
+    label: "F2 Інженерія квантового програмного забезпечення",
+    value: EducationProgram.QSE,
   },
   { label: 'F7 Комп’ютерні системи та мережі', value: EducationProgram.CSN },
   {
@@ -102,6 +104,8 @@ export const ABBREVIATION_TO_PROGRAM: Record<EducationProgram, string> = {
   [EducationProgram.IMST]: 'F6 Інформаційні управляючі системи та технології',
   [EducationProgram.IIS]: 'F6 Інтегровані інформаційні системи',
   [EducationProgram.DRS]: 'F6 Інформаційне забезпечення робототехнічних систем',
+  [EducationProgram.IST]: 'F6 Інформаційні системи та технології',
+  [EducationProgram.QSE]: 'F2 Інженерія квантового програмного забезпечення'
 };
 
 export const PROGRAM_TO_ABBREVIATION: Record<string, EducationProgram> = {
